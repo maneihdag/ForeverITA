@@ -57,6 +57,18 @@ Potrebbero esserci:
 * problemi di compatibilità;
 * cambiamenti frequenti nella struttura dell'addon.
 
+### Stato tecnico attuale
+
+Dati rilevati sul client beta al 17 settembre 2026:
+
+* WoW Forever Beta: 1.60.1
+* Build: 69893
+* Interface: 16001
+* ForeverITA: prototipo diagnostico non ancora validato direttamente sul client Forever
+
+La disponibilità delle singole API e il comportamento dell’interfaccia devono ancora essere verificati direttamente in gioco.
+
+
 ---
 
 ## 🧩 Come dovrebbe funzionare
