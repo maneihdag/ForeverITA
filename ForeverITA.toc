@@ -1,0 +1,9 @@
+## Interface: 16001
+## Title: ForeverITA
+## Notes: Traduzione italiana sperimentale per World of Warcraft: Forever
+## Author: Maneihdag
+## Version: 0.0.1-alpha
+## DefaultState: Enabled
+
+Core.lua
+Modules\QuestDebug.lua
