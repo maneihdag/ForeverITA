@@ -82,7 +82,13 @@ Il collector deve:
 - salvare solo dati utili alla localizzazione;
 - usare limiti di crescita;
 - evitare dati personali non necessari;
-- distinguere quest senza traduzione da quest Classic da verificare su Forever;
+- distinguere quest senza traduzione, quest Classic da verificare su Forever e sorgenti modificate;
+- lavorare in silenzio durante il normale gameplay;
+- non stampare conteggi o notifiche di raccolta in chat;
+- salvare un formato record versionato;
+- usare ID + hash per evitare duplicati e reinvii futuri;
+- raccogliere solo dati indispensabili alla localizzazione;
+- non salvare nome personaggio, account/BattleTag, chat, inventario, lista amici o altri dati personali non necessari;
 - non dare per scontata la persistenza SavedVariables finché il bug della beta non è verificato come risolto.
 
 ## Test
@@ -141,3 +147,25 @@ Se una tecnica è poco chiara o non documentata:
 4. non procedere finché il dubbio non è risolto.
 
 Vedere anche `docs/BLIZZARD_COMPLIANCE.md`.
+
+## Companion futuro
+
+Il Companion è una fase separata e non va implementato durante il prototipo salvo richiesta esplicita.
+
+Requisiti già fissati:
+
+- opzionale;
+- ForeverITA deve funzionare senza Companion;
+- nessuna connessione Internet diretta dall'addon WoW;
+- il Companion può leggere soltanto i SavedVariables ForeverITA necessari;
+- consenso esplicito al primo avvio prima di qualunque upload;
+- rifiuto sempre possibile;
+- scelta modificabile in seguito;
+- upload solo di record nuovi/modificati;
+- deduplicazione tramite Quest ID + hash;
+- nessun popup continuo dopo la configurazione;
+- nessun dato personale non necessario;
+- nessun accesso a memoria, traffico di rete WoW o altri file non necessari;
+- nuova verifica delle regole Blizzard prima di implementazione/distribuzione.
+
+Vedere `docs/COMPANION_DESIGN.md` e `docs/PRIVACY.md`.
