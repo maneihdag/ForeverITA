@@ -353,7 +353,7 @@ Può salvare, quando disponibili:
 * versione client e addon;
 * hash/versione del record per evitare duplicati.
 
-Non è progettato per raccogliere nome del personaggio, account/BattleTag, chat, inventario, lista amici o altri dati personali non necessari.
+Se il gioco inserisce il nome del personaggio dentro il testo di una quest, ForeverITA lo sostituisce con `<PLAYER>` prima di salvarlo. Non raccoglie intenzionalmente nome del personaggio, account/BattleTag, chat, inventario, lista amici o altri dati personali non necessari.
 
 Durante il normale gioco il collector **non mostra messaggi in chat**.
 
