@@ -11,7 +11,7 @@ end
 FIT.Compat = FIT.Compat or {}
 
 local Storage = {
-    schema = 1,
+    schema = 2,
     ready = false,
 }
 
@@ -20,9 +20,13 @@ FIT.Compat.Storage = Storage
 local function newDatabase()
     return {
         schema = Storage.schema,
+        recordSchema = 1,
+        addonVersion = FIT.version,
         missing = {},
         verifyClassic = {},
+        modified = {},
         dropped = 0,
+        diagnostics = {},
         tests = {},
     }
 end
@@ -34,8 +38,12 @@ function Storage:Initialize()
         db = newDatabase()
     end
 
+    db.recordSchema = 1
+    db.addonVersion = FIT.version
     db.missing = type(db.missing) == "table" and db.missing or {}
     db.verifyClassic = type(db.verifyClassic) == "table" and db.verifyClassic or {}
+    db.modified = type(db.modified) == "table" and db.modified or {}
+    db.diagnostics = type(db.diagnostics) == "table" and db.diagnostics or {}
     db.tests = type(db.tests) == "table" and db.tests or {}
     db.dropped = tonumber(db.dropped) or 0
 
@@ -57,6 +65,15 @@ function Storage:GetCollectorDB()
     end
 
     return _G.ForeverITA_CollectorDB
+end
+
+function Storage:RecordDiagnostic(code)
+    local db = self:GetCollectorDB()
+    if not db or type(code) ~= "string" then
+        return
+    end
+
+    db.diagnostics[code] = (db.diagnostics[code] or 0) + 1
 end
 
 function Storage:StartPersistenceProbe()
