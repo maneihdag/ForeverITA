@@ -60,9 +60,13 @@ function Quest:Read(eventName)
         read(snapshot, "completion", "GetRewardText")
     end
 
-    if eventName == "QUEST_DETAIL" or eventName == "QUEST_COMPLETE" or eventName == nil then
-        read(snapshot, "npcGUID", "UnitGUID", "npc")
-        read(snapshot, "npcName", "UnitName", "npc")
+    read(snapshot, "zone", "GetZoneText")
+
+    if _G.C_Map and type(_G.C_Map.GetBestMapForUnit) == "function" then
+        local ok, mapID = pcall(_G.C_Map.GetBestMapForUnit, "player")
+        if ok and type(mapID) == "number" then
+            snapshot.mapID = mapID
+        end
     end
 
     if FIT.Compat.Client and FIT.Compat.Client.GetBuildSnapshot then
@@ -91,8 +95,8 @@ function Quest:RegisterListener(callback)
     frame:SetScript("OnEvent", function(_, event)
         for _, listener in ipairs(Quest.listeners) do
             local ok = pcall(listener, event)
-            if not ok then
-                FIT:Print("Errore nel listener quest.")
+            if not ok and FIT.Compat.Storage and FIT.Compat.Storage.RecordDiagnostic then
+                FIT.Compat.Storage:RecordDiagnostic("quest_listener_error")
             end
         end
     end)
