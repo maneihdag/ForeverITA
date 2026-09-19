@@ -202,10 +202,10 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 * [x] Preparare collector e SavedVariables
 * [x] Rendere il collector silenzioso e versionare i record
 * [x] Preparare hash/deduplicazione per un futuro Companion
-* [ ] Verificare il caricamento reale su Classic Era
-* [ ] Verificare una piccola UI su Classic Era
-* [ ] Verificare SavedVariables su Classic Era
-* [ ] Leggere 2-3 quest Vanilla reali su Classic Era
+* [x] Verificare il caricamento reale su Classic Era
+* [x] Verificare una piccola UI su Classic Era
+* [x] Verificare SavedVariables su Classic Era
+* [x] Leggere 2-3 quest Vanilla reali su Classic Era
 * [ ] Ripetere i test principali su WoW Forever
 
 ### Fase 2 — Prima traduzione
@@ -213,10 +213,11 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 * [x] Intercettare una missione su Classic Era
 * [x] Identificare la missione tramite ID
 * [x] Preparare la prima traduzione reale di prova (Quest 757)
-* [ ] Verificare in gioco il pannello italiano della Quest 757
+* [x] Verificare in gioco il pannello italiano della Quest 757
 * [ ] Sostituire titolo e descrizione
 * [ ] Tradurre obiettivi e testo narrativo
-* [ ] Testare il comportamento dell'interfaccia
+* [x] Testare apertura/chiusura automatica dell'interfaccia
+* [ ] Testare i testi diversi per dettaglio/progresso/completamento
 
 ### Fase 3 — Sistema di localizzazione
 
