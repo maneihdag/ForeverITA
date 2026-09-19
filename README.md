@@ -210,8 +210,10 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 
 ### Fase 2 — Prima traduzione
 
-* [ ] Intercettare una missione
-* [ ] Identificare la missione tramite ID
+* [x] Intercettare una missione su Classic Era
+* [x] Identificare la missione tramite ID
+* [x] Preparare la prima traduzione reale di prova (Quest 757)
+* [ ] Verificare in gioco il pannello italiano della Quest 757
 * [ ] Sostituire titolo e descrizione
 * [ ] Tradurre obiettivi e testo narrativo
 * [ ] Testare il comportamento dell'interfaccia
