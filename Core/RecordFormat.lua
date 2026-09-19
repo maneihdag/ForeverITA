@@ -23,8 +23,12 @@ local CONTENT_FIELDS = {
     "objectives",
     "progress",
     "completion",
+}
+
+local CONTEXT_FIELDS = {
     "zone",
     "mapID",
+    "category",
 }
 
 local function appendPart(parts, name, value)
@@ -51,6 +55,18 @@ function RecordFormat:BuildContent(snapshot)
     end
 
     return content
+end
+
+function RecordFormat:BuildContext(snapshot)
+    local context = {}
+
+    for _, field in ipairs(CONTEXT_FIELDS) do
+        if snapshot[field] ~= nil then
+            context[field] = snapshot[field]
+        end
+    end
+
+    return context
 end
 
 function RecordFormat:Fingerprint(questID, content)
@@ -86,6 +102,7 @@ function RecordFormat:BuildRecord(snapshot, reason, sourceAtCapture)
         reason = reason,
         sourceAtCapture = sourceAtCapture,
         content = content,
+        context = self:BuildContext(snapshot),
         contentHash = self:Fingerprint(snapshot.id, content),
         addonVersion = FIT.version,
         client = snapshot.build,
