@@ -89,6 +89,23 @@ function SelfTest:Run()
 
         check("Hash uguale se cambia solo la zona", hashA == hashB)
         check("Hash cambia se cambia il testo", hashA ~= hashC)
+
+        local firstEvent = FIT.RecordFormat:BuildRecord({
+            id = 990000011,
+            title = "Quest test",
+            description = "Descrizione iniziale",
+            objectives = "Obiettivi iniziali",
+        }, "translation_missing", "missing")
+
+        local secondEvent = FIT.RecordFormat:BuildRecord({
+            id = 990000011,
+            title = "Quest test",
+            completion = "Testo finale",
+        }, "translation_missing", "missing", firstEvent)
+
+        check("Merge conserva descrizione", secondEvent.content.description == "Descrizione iniziale")
+        check("Merge conserva obiettivi", secondEvent.content.objectives == "Obiettivi iniziali")
+        check("Merge aggiunge completion", secondEvent.content.completion == "Testo finale")
     else
         check("RecordFormat disponibile", false)
     end
