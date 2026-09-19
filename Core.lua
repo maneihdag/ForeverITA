@@ -20,6 +20,7 @@ local function printHelp()
     FIT:Print("/fit status - stato client")
     FIT:Print("/fit quest - ultima quest letta")
     FIT:Print("/fit data <QuestID> - controlla i dati italiani")
+    FIT:Print("/fit show <QuestID> - apre la traduzione di prova")
     FIT:Print("/fit selftest - test logica Classic/Forever")
     FIT:Print("/fit classictest - controlli per Classic Era")
     FIT:Print("/fit ui - apre/chiude una finestra di test")
@@ -81,6 +82,25 @@ local function handleSlash(message)
             FIT:Print("Titolo IT: " .. tostring(record.title or "<mancante>"))
         else
             FIT:Print("Quest " .. questID .. " -> nessuna traduzione (" .. tostring(source) .. ")")
+        end
+        return
+    end
+
+
+    if command == "show" then
+        local questID = tonumber(rest)
+        if not questID then
+            FIT:Print("Uso: /fit show <QuestID>")
+            return
+        end
+
+        if FIT.QuestTranslation and FIT.QuestTranslation.ShowByID then
+            local ok = FIT.QuestTranslation:ShowByID(questID)
+            if not ok then
+                FIT:Print("Nessuna traduzione disponibile per la quest " .. tostring(questID) .. ".")
+            end
+        else
+            FIT:Print("Modulo traduzione non disponibile.")
         end
         return
     end
