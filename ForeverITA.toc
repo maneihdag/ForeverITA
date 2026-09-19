@@ -15,6 +15,7 @@ Compat\Quest.lua
 Compat\UI.lua
 
 Core\DataRegistry.lua
+Core\RecordFormat.lua
 
 Data\Classic_it\Quests.lua
 Data\Forever_it\Quests.lua
