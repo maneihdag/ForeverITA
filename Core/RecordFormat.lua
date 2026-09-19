@@ -69,6 +69,29 @@ function RecordFormat:BuildContext(snapshot)
     return context
 end
 
+
+function RecordFormat:FingerprintField(field, value)
+    if type(field) ~= "string" or value == nil then
+        return nil
+    end
+
+    value = tostring(value)
+
+    local canonical =
+        "ForeverITAQuestField|schema:" .. tostring(self.schema) ..
+        "|field:" .. field ..
+        "|len:" .. tostring(#value) ..
+        "|" .. value
+
+    local hash = 7
+
+    for i = 1, #canonical do
+        hash = (hash * HASH_MULTIPLIER + string.byte(canonical, i)) % HASH_MOD
+    end
+
+    return "f" .. tostring(self.schema) .. "-" .. tostring(hash)
+end
+
 function RecordFormat:Fingerprint(questID, content)
     local parts = {
         "ForeverITAQuestRecord|schema:",
