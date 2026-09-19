@@ -80,7 +80,7 @@ function QuestDebug:PrintSnapshot(snapshot)
     FIT:Print("-----------------------")
 end
 
-function QuestDebug:Capture(eventName)
+function QuestDebug:Capture(eventName, snapshot)
     local Quest = FIT.Compat.Quest
     if not Quest or not Quest.Read then
         if FIT.Compat.Storage and FIT.Compat.Storage.RecordDiagnostic then
@@ -89,13 +89,9 @@ function QuestDebug:Capture(eventName)
         return nil
     end
 
-    local snapshot = Quest:Read(eventName)
+    snapshot = snapshot or Quest:Read(eventName)
     self.lastSnapshot = snapshot
     self.seenEvents = self.seenEvents + 1
-
-    if FIT.MissingQuestCollector and FIT.MissingQuestCollector.Observe then
-        FIT.MissingQuestCollector:Observe(snapshot)
-    end
 
     if self.autoPrint then
         self:PrintSnapshot(snapshot)
@@ -122,7 +118,9 @@ function QuestDebug:DumpCurrent()
 end
 
 if FIT.Compat.Quest and FIT.Compat.Quest.RegisterListener then
-    FIT.Compat.Quest:RegisterListener(function(event)
-        QuestDebug:Capture(event)
+    FIT.Compat.Quest:RegisterListener(function(event, snapshot)
+        if event ~= "QUEST_FINISHED" then
+            QuestDebug:Capture(event, snapshot)
+        end
     end)
 end
