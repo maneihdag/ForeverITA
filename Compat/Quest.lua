@@ -73,6 +73,10 @@ function Quest:Read(eventName)
         snapshot.build = FIT.Compat.Client:GetBuildSnapshot()
     end
 
+    if FIT.Compat.Privacy and FIT.Compat.Privacy.SanitizeSnapshot then
+        FIT.Compat.Privacy:SanitizeSnapshot(snapshot)
+    end
+
     return snapshot
 end
 
