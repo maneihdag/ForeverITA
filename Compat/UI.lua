@@ -67,6 +67,7 @@ function UI:CreateTestWindow()
         frame:Hide()
     end)
 
+    frame:Hide()
     self.testWindow = frame
     return frame
 end
