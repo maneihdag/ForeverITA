@@ -121,3 +121,21 @@ Gli ID `990000001` e `990000002` sono test sintetici interni.
 Non sono quest Blizzard.
 
 Servono solo per provare il sistema Classic -> Forever override.
+
+
+## Confine tecnico del progetto
+
+La cartella `Compat/` non è un ponte verso strumenti esterni: serve soltanto a isolare differenze tra API addon ufficialmente esposte dai vari client WoW.
+
+ForeverITA deve funzionare esclusivamente come addon installato in `Interface/AddOns/ForeverITA`.
+
+Nessun modulo può richiedere:
+
+- DLL;
+- programmi residenti esterni;
+- injection;
+- accesso alla memoria di WoW;
+- modifica dei file del client;
+- automazione del gameplay.
+
+Se una funzione non è ottenibile tramite le API addon disponibili, viene marcata come **non disponibile / da verificare**, non aggirata con strumenti esterni.
