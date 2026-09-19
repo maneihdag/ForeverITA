@@ -11,7 +11,6 @@ end
 local Collector = {}
 FIT.MissingQuestCollector = Collector
 
-local SCHEMA = 1
 local MAX_QUESTS_PER_BUCKET = 2000
 local TEXT_FIELDS = {
     "title",
@@ -23,24 +22,6 @@ local TEXT_FIELDS = {
     "npcName",
 }
 
-local function now()
-    if type(GetServerTime) == "function" then
-        local ok, value = pcall(GetServerTime)
-        if ok and type(value) == "number" then
-            return value
-        end
-    end
-
-    if type(time) == "function" then
-        local ok, value = pcall(time)
-        if ok and type(value) == "number" then
-            return value
-        end
-    end
-
-    return 0
-end
-
 local function countEntries(tbl)
     local count = 0
     for _ in pairs(tbl or {}) do
@@ -49,28 +30,11 @@ local function countEntries(tbl)
     return count
 end
 
-local function ensureDB()
-    local db = _G.ForeverITA_CollectorDB
-
-    if type(db) ~= "table" or db.schema ~= SCHEMA then
-        db = {
-            schema = SCHEMA,
-            missing = {},
-            verifyClassic = {},
-            dropped = 0,
-        }
+local function getDB()
+    if FIT.Compat.Storage and FIT.Compat.Storage.GetCollectorDB then
+        return FIT.Compat.Storage:GetCollectorDB()
     end
-
-    db.missing = type(db.missing) == "table" and db.missing or {}
-    db.verifyClassic = type(db.verifyClassic) == "table" and db.verifyClassic or {}
-    db.dropped = tonumber(db.dropped) or 0
-
-    if FIT.Environment and FIT.Environment.GetBuildSnapshot then
-        db.lastBuild = FIT.Environment:GetBuildSnapshot()
-    end
-
-    _G.ForeverITA_CollectorDB = db
-    return db
+    return nil
 end
 
 local function mergeSnapshot(record, snapshot)
@@ -83,7 +47,6 @@ local function mergeSnapshot(record, snapshot)
         end
     end
 
-    record.lastSeen = now()
     record.lastBuild = snapshot.build or record.lastBuild
 end
 
@@ -92,7 +55,16 @@ function Collector:Observe(snapshot)
         return
     end
 
-    local flavor = FIT.Environment and FIT.Environment:GetDataFlavor() or "unknown"
+    local db = getDB()
+    if not db then
+        return
+    end
+
+    local flavor = "unknown"
+    if FIT.Compat.Client and FIT.Compat.Client.GetDataFlavor then
+        flavor = FIT.Compat.Client:GetDataFlavor()
+    end
+
     local translated, source = nil, "missing"
 
     if FIT.Data and FIT.Data.ResolveQuest then
@@ -106,30 +78,27 @@ function Collector:Observe(snapshot)
         bucketName = "missing"
         reason = "translation_missing"
     elseif flavor == "forever" and source == "classic" then
-        -- Una traduzione Classic non viene considerata automaticamente valida su Forever.
-        -- Conserviamo il testo osservato per un confronto successivo.
         bucketName = "verifyClassic"
         reason = "classic_translation_needs_forever_verification"
     else
         return
     end
 
-    local db = ensureDB()
     local bucket = db[bucketName]
-
     local record = bucket[snapshot.id]
+
     if not record then
         if countEntries(bucket) >= MAX_QUESTS_PER_BUCKET then
-            db.dropped = db.dropped + 1
+            db.dropped = (db.dropped or 0) + 1
             return
         end
 
         record = {
             id = snapshot.id,
-            firstSeen = now(),
             reason = reason,
             sourceAtCapture = source,
         }
+
         bucket[snapshot.id] = record
     end
 
@@ -137,12 +106,17 @@ function Collector:Observe(snapshot)
 end
 
 function Collector:GetCounts()
-    local db = ensureDB()
-    return countEntries(db.missing), countEntries(db.verifyClassic), db.dropped
+    local db = getDB()
+    if not db then
+        return 0, 0, 0
+    end
+
+    return countEntries(db.missing), countEntries(db.verifyClassic), db.dropped or 0
 end
 
 function Collector:PrintStatus()
     local missing, verifyClassic, dropped = self:GetCounts()
+
     FIT:Print(
         string.format(
             "Collector: missing=%d verifyClassic=%d dropped=%d",
@@ -152,7 +126,10 @@ function Collector:PrintStatus()
         )
     )
 
-    if FIT.Environment then
-        FIT:Print("Flavor: " .. tostring(FIT.Environment:GetDataFlavor()))
+    local flavor = "unknown"
+    if FIT.Compat.Client and FIT.Compat.Client.GetDataFlavor then
+        flavor = FIT.Compat.Client:GetDataFlavor()
     end
+
+    FIT:Print("Ambiente dati: " .. flavor)
 end
