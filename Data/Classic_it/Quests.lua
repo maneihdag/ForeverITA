@@ -51,3 +51,37 @@ Dimostra il tuo valore eliminando questi nemici e torna da Chief Hawkwind a Camp
         terminologyNote = "Picco del Tuono verificato; altri nomi propri lasciati in inglese finché non verificati.",
     },
 })
+
+
+-- Seconda quest reale di prova.
+-- Testa la stessa traduzione in fasi diverse: dettaglio e completamento.
+FIT.Data:RegisterQuest("classic", 755, {
+    title = "Riti della Madre Terra",
+
+    description = [[La tua disponibilità a svolgere un compito umile per i tauren di Narache e il tuo desiderio di imparare sono qualità nobili, <PLAYER>. Credo che un giorno verrai acclamato a Picco del Tuono come uno sciamano di grande valore.
+
+Prima di allora dovrai intraprendere i Riti della Madre Terra, che sono tre.
+
+La prima prova è il Rito della Forza. Raggiungi Seer Graytongue e digli che ti manda Chief Hawkwind.
+
+Troverai la dimora del veggente direttamente a sud di Camp Narache, nascosta tra le colline.]],
+
+    objectives = "Raggiungi Seer Graytongue, che vive sulle colline direttamente a sud di Camp Narache.",
+
+    completion = "Ti manda Chief Hawkwind? Intraprendere i Riti della Madre Terra non è cosa da poco...",
+
+    _sourceHashes = {
+        title = "f2-529049881",
+        description = "f2-96613098",
+        objectives = "f2-338062873",
+        completion = "f2-1229479040",
+    },
+
+    _meta = {
+        synthetic = false,
+        status = "manual_test_translation",
+        sourceClient = "Classic Era 1.15.9",
+        sourceBuild = "69722",
+        terminologyNote = "Picco del Tuono verificato; gli altri nomi propri restano in inglese finché non verificati.",
+    },
+})
