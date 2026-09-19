@@ -7,11 +7,20 @@
 ## SavedVariables: ForeverITA_CollectorDB
 
 Core.lua
-Core\Environment.lua
+
+Compat\API.lua
+Compat\Client.lua
+Compat\Storage.lua
+Compat\Quest.lua
+Compat\UI.lua
+
 Core\DataRegistry.lua
-Core\QuestAPI.lua
+
 Data\Classic_it\Quests.lua
 Data\Forever_it\Quests.lua
+
 Modules\MissingQuestCollector.lua
 Modules\QuestDebug.lua
+
 Dev\SelfTest.lua
+Dev\ClassicSmokeTest.lua
