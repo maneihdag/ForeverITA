@@ -92,3 +92,20 @@ Passare dalla sola raccolta alla prima prova reale del motore di traduzione con 
 ## Forever
 
 Tutto quanto sopra resta **DA TESTARE SU FOREVER**.
+
+
+### Prima UI di traduzione
+
+**TESTATO SU CLASSIC**
+
+Screenshot in-game della quest 757 conferma che:
+
+- il pannello ForeverITA viene renderizzato correttamente accanto alla QuestFrame;
+- titolo, descrizione e obiettivi italiani sono leggibili;
+- la QuestFrame Blizzard resta separata e non viene modificata;
+- lo scroll frame e il testo funzionano su Classic Era;
+- il self-test riportava 13 pass e 0 fail durante la prova.
+
+Dallo screenshot è emerso molto spazio vuoto nella parte inferiore del pannello. La UI è stata quindi resa più compatta e con altezza adattiva al contenuto.
+
+Resta da verificare separatamente l'apertura automatica del pannello senza usare il comando manuale `/fit show 757`, e la chiusura automatica con `QUEST_FINISHED`.
