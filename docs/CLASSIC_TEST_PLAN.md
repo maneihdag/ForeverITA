@@ -24,17 +24,15 @@ World of Warcraft/
 
 ### 1. Caricamento
 
-Entrare in gioco e verificare che compaia:
+Entrare in gioco. ForeverITA non deve stampare messaggi automatici in chat.
 
-```text
-[ForeverITA] Addon caricato. Versione 0.0.2-alpha
-```
-
-Poi:
+Usare:
 
 ```text
 /fit status
 ```
+
+Se il comando risponde, l'addon è caricato.
 
 Il client deve essere riconosciuto come `classic`.
 
@@ -78,26 +76,31 @@ Obiettivo su Classic: PASS.
 
 Aprire normalmente 2 o 3 quest disponibili sul personaggio.
 
-ForeverITA deve stampare in chat almeno:
-
-- evento;
-- QuestID;
-- titolo;
-- descrizione/obiettivi quando disponibili;
-- progress quando si parla con un NPC durante una quest;
-- completion quando si consegna una quest.
+ForeverITA deve raccogliere queste quest **senza stampare messaggi automatici in chat**.
 
 Non serve cercare quest specifiche: usiamo quelle che il personaggio incontra normalmente.
 
-### 6. Collector
-
-Dopo aver aperto alcune quest:
+Per controllare manualmente l'ultima quest letta si può usare:
 
 ```text
-/fit collector
+/fit quest
 ```
 
-Il numero `missing` dovrebbe aumentare per le quest che non sono ancora nel database italiano.
+Questo comando è diagnostico e viene eseguito solo quando richiesto.
+
+### 6. Collector
+
+Dopo aver aperto alcune quest, eseguire:
+
+```text
+/reload
+```
+
+Poi controllare il file SavedVariables di ForeverITA.
+
+Il collector non deve mostrare conteggi o notifiche in chat.
+
+Nel file devono comparire soltanto record utili, con Quest ID, testi disponibili, versione client/addon e `contentHash`.
 
 ### 7. Controllo generale
 
