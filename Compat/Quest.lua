@@ -39,6 +39,13 @@ function Quest:Read(eventName)
         errors = {},
     }
 
+    if eventName == "QUEST_FINISHED" then
+        if FIT.Compat.Client and FIT.Compat.Client.GetBuildSnapshot then
+            snapshot.build = FIT.Compat.Client:GetBuildSnapshot()
+        end
+        return snapshot
+    end
+
     read(snapshot, "id", "GetQuestID")
 
     if eventName == "QUEST_DETAIL" or eventName == nil then
@@ -95,10 +102,13 @@ function Quest:RegisterListener(callback)
     frame:RegisterEvent("QUEST_DETAIL")
     frame:RegisterEvent("QUEST_PROGRESS")
     frame:RegisterEvent("QUEST_COMPLETE")
+    frame:RegisterEvent("QUEST_FINISHED")
 
     frame:SetScript("OnEvent", function(_, event)
+        local snapshot = Quest:Read(event)
+
         for _, listener in ipairs(Quest.listeners) do
-            local ok = pcall(listener, event)
+            local ok = pcall(listener, event, snapshot)
             if not ok and FIT.Compat.Storage and FIT.Compat.Storage.RecordDiagnostic then
                 FIT.Compat.Storage:RecordDiagnostic("quest_listener_error")
             end
