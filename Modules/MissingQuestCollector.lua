@@ -88,6 +88,7 @@ function Collector:Observe(snapshot)
 
     if current and current.contentHash == nextRecord.contentHash then
         current.client = nextRecord.client
+        current.context = nextRecord.context
         current.addonVersion = FIT.version
         return
     end
