@@ -68,6 +68,15 @@ Dati rilevati sul client beta al 17 settembre 2026:
 
 La disponibilità delle singole API e il comportamento dell’interfaccia devono ancora essere verificati direttamente in gioco.
 
+
+### Modalità di sviluppo attuale
+
+Per non interrompere continuamente lo sviluppo, i test manuali vengono ora accumulati e svolti in una sessione dedicata.
+
+Le funzioni non ancora provate restano marcate **DA TESTARE SU CLASSIC** o **DA TESTARE SU FOREVER** e non vengono considerate verificate solo perché il codice è stato scritto.
+
+Il backlog dei controlli è in `docs/DEFERRED_TESTS.md`.
+
 ### Ambiente di sviluppo temporaneo: WoW Classic Era
 
 Finché non avremo accesso diretto a WoW Forever, useremo **WoW Classic Era** come banco di prova reale.
@@ -213,11 +222,13 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 * [x] Intercettare una missione su Classic Era
 * [x] Identificare la missione tramite ID
 * [x] Preparare la prima traduzione reale di prova (Quest 757)
+* [x] Creare un primo piccolo gruppo di 4 quest reali di Mulgore
+* [x] Separare i dati reali per zona (`Data/Classic_it/Mulgore.lua`)
 * [x] Verificare in gioco il pannello italiano della Quest 757
 * [ ] Sostituire titolo e descrizione
 * [ ] Tradurre obiettivi e testo narrativo
 * [x] Testare apertura/chiusura automatica dell'interfaccia
-* [ ] Testare i testi diversi per dettaglio/progresso/completamento
+* [ ] Testare in batch dettaglio/progresso/completamento e le nuove quest
 
 ### Fase 3 — Sistema di localizzazione
 
