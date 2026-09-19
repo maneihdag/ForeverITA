@@ -16,6 +16,11 @@ local TranslationUI = {
 
 FIT.Compat.TranslationUI = TranslationUI
 
+local FRAME_WIDTH = 410
+local MIN_HEIGHT = 230
+local MAX_HEIGHT = 520
+local TEXT_WIDTH = 344
+
 local function addSection(parts, heading, text)
     if type(text) ~= "string" or text == "" then
         return
@@ -32,13 +37,39 @@ local function addSection(parts, heading, text)
     parts[#parts + 1] = text
 end
 
+local function addBorder(frame)
+    local top = frame:CreateTexture(nil, "BORDER")
+    top:SetPoint("TOPLEFT")
+    top:SetPoint("TOPRIGHT")
+    top:SetHeight(1)
+    top:SetColorTexture(0.45, 0.37, 0.12, 0.75)
+
+    local bottom = frame:CreateTexture(nil, "BORDER")
+    bottom:SetPoint("BOTTOMLEFT")
+    bottom:SetPoint("BOTTOMRIGHT")
+    bottom:SetHeight(1)
+    bottom:SetColorTexture(0.45, 0.37, 0.12, 0.75)
+
+    local left = frame:CreateTexture(nil, "BORDER")
+    left:SetPoint("TOPLEFT")
+    left:SetPoint("BOTTOMLEFT")
+    left:SetWidth(1)
+    left:SetColorTexture(0.45, 0.37, 0.12, 0.75)
+
+    local right = frame:CreateTexture(nil, "BORDER")
+    right:SetPoint("TOPRIGHT")
+    right:SetPoint("BOTTOMRIGHT")
+    right:SetWidth(1)
+    right:SetColorTexture(0.45, 0.37, 0.12, 0.75)
+end
+
 function TranslationUI:Create()
     if self.frame then
         return self.frame
     end
 
     local frame = CreateFrame("Frame", nil, UIParent)
-    frame:SetSize(470, 520)
+    frame:SetSize(FRAME_WIDTH, 360)
     frame:SetFrameStrata("DIALOG")
     frame:EnableMouse(true)
     frame:SetMovable(true)
@@ -54,22 +85,30 @@ function TranslationUI:Create()
 
     local bg = frame:CreateTexture(nil, "BACKGROUND")
     bg:SetAllPoints()
-    bg:SetColorTexture(0.035, 0.035, 0.035, 0.96)
+    bg:SetColorTexture(0.025, 0.025, 0.025, 0.94)
+
+    addBorder(frame)
 
     local heading = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-    heading:SetPoint("TOPLEFT", 20, -16)
-    heading:SetText("ForeverITA — Traduzione italiana")
+    heading:SetPoint("TOPLEFT", 18, -15)
+    heading:SetText("ForeverITA")
     frame.heading = heading
 
+    local subtitle = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    subtitle:SetPoint("LEFT", heading, "RIGHT", 8, 0)
+    subtitle:SetText("· Traduzione italiana")
+    frame.subtitle = subtitle
+
     local source = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    source:SetPoint("TOPLEFT", 20, -42)
-    source:SetPoint("TOPRIGHT", -45, -42)
+    source:SetPoint("TOPLEFT", 18, -40)
+    source:SetPoint("TOPRIGHT", -42, -40)
     source:SetJustifyH("LEFT")
+    source:SetTextColor(0.65, 0.65, 0.65)
     frame.source = source
 
     local close = CreateFrame("Button", nil, frame)
     close:SetSize(28, 28)
-    close:SetPoint("TOPRIGHT", -10, -10)
+    close:SetPoint("TOPRIGHT", -7, -7)
 
     local closeText = close:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     closeText:SetAllPoints()
@@ -80,19 +119,20 @@ function TranslationUI:Create()
     end)
 
     local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-    scroll:SetPoint("TOPLEFT", 20, -68)
-    scroll:SetPoint("BOTTOMRIGHT", -34, 20)
+    scroll:SetPoint("TOPLEFT", 18, -58)
+    scroll:SetPoint("BOTTOMRIGHT", -31, 18)
 
     local child = CreateFrame("Frame", nil, scroll)
-    child:SetSize(400, 1)
+    child:SetSize(TEXT_WIDTH, 1)
     scroll:SetScrollChild(child)
 
     local text = child:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     text:SetPoint("TOPLEFT", 0, 0)
-    text:SetPoint("TOPRIGHT", 0, 0)
+    text:SetWidth(TEXT_WIDTH)
     text:SetJustifyH("LEFT")
     text:SetJustifyV("TOP")
     text:SetSpacing(4)
+    text:SetWordWrap(true)
 
     frame.scroll = scroll
     frame.child = child
@@ -107,9 +147,9 @@ function TranslationUI:Anchor(frame)
     frame:ClearAllPoints()
 
     if _G.QuestFrame and _G.QuestFrame.IsShown and _G.QuestFrame:IsShown() then
-        frame:SetPoint("TOPLEFT", _G.QuestFrame, "TOPRIGHT", 12, 0)
+        frame:SetPoint("TOPLEFT", _G.QuestFrame, "TOPRIGHT", 10, 0)
     else
-        frame:SetPoint("CENTER", UIParent, "CENTER", 260, 0)
+        frame:SetPoint("CENTER", UIParent, "CENTER", 220, 0)
     end
 end
 
@@ -122,17 +162,14 @@ function TranslationUI:ShowQuest(questID, record, sourceName)
     self:Anchor(frame)
 
     local flavor = FIT.Compat.Client and FIT.Compat.Client:GetDataFlavor() or "unknown"
-    local sourceText
 
     if flavor == "forever" and sourceName == "classic" then
-        sourceText = "Quest " .. tostring(questID) .. " · Base Classic — da verificare su Forever"
+        frame.source:SetText("Base Classic · DA VERIFICARE SU FOREVER")
     elseif sourceName == "forever" or sourceName == "forever_override" or sourceName == "forever_replace" then
-        sourceText = "Quest " .. tostring(questID) .. " · Dati Forever"
+        frame.source:SetText("Dati verificati per Forever")
     else
-        sourceText = "Quest " .. tostring(questID) .. " · Base Classic"
+        frame.source:SetText("")
     end
-
-    frame.source:SetText(sourceText)
 
     local parts = {}
     addSection(parts, nil, record.title)
@@ -141,10 +178,16 @@ function TranslationUI:ShowQuest(questID, record, sourceName)
     addSection(parts, "In corso", record.progress)
     addSection(parts, "Completamento", record.completion)
 
+    frame.text:SetHeight(2000)
     frame.text:SetText(table.concat(parts))
 
-    local height = math.max(frame.text:GetStringHeight() + 24, frame.scroll:GetHeight())
-    frame.child:SetHeight(height)
+    local textHeight = frame.text:GetStringHeight()
+    local contentHeight = math.max(textHeight + 16, 80)
+    local targetHeight = math.max(MIN_HEIGHT, math.min(MAX_HEIGHT, contentHeight + 86))
+
+    frame:SetHeight(targetHeight)
+    frame.child:SetHeight(math.max(contentHeight, frame.scroll:GetHeight()))
+    frame.text:SetHeight(contentHeight)
 
     frame.scroll:SetVerticalScroll(0)
     frame:Show()
