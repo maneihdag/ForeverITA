@@ -11,7 +11,7 @@ end
 local QuestDebug = {
     lastSnapshot = nil,
     seenEvents = 0,
-    autoPrint = true,
+    autoPrint = false,
 }
 
 FIT.QuestDebug = QuestDebug
@@ -83,7 +83,9 @@ end
 function QuestDebug:Capture(eventName)
     local Quest = FIT.Compat.Quest
     if not Quest or not Quest.Read then
-        FIT:Print("Compat/Quest non disponibile.")
+        if FIT.Compat.Storage and FIT.Compat.Storage.RecordDiagnostic then
+            FIT.Compat.Storage:RecordDiagnostic("quest_compat_missing")
+        end
         return nil
     end
 
