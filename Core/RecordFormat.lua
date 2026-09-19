@@ -9,7 +9,7 @@ if type(FIT) ~= "table" then
 end
 
 local RecordFormat = {
-    schema = 1,
+    schema = 2,
 }
 
 FIT.RecordFormat = RecordFormat
@@ -92,8 +92,30 @@ function RecordFormat:Fingerprint(questID, content)
     return "q" .. tostring(self.schema) .. "-" .. tostring(hash)
 end
 
-function RecordFormat:BuildRecord(snapshot, reason, sourceAtCapture)
-    local content = self:BuildContent(snapshot)
+local function mergeTables(base, patch)
+    local merged = {}
+
+    if type(base) == "table" then
+        for key, value in pairs(base) do
+            merged[key] = value
+        end
+    end
+
+    if type(patch) == "table" then
+        for key, value in pairs(patch) do
+            merged[key] = value
+        end
+    end
+
+    return merged
+end
+
+function RecordFormat:BuildRecord(snapshot, reason, sourceAtCapture, previous)
+    local observedContent = self:BuildContent(snapshot)
+    local observedContext = self:BuildContext(snapshot)
+
+    local content = mergeTables(previous and previous.content, observedContent)
+    local context = mergeTables(previous and previous.context, observedContext)
 
     return {
         schema = self.schema,
@@ -102,10 +124,10 @@ function RecordFormat:BuildRecord(snapshot, reason, sourceAtCapture)
         reason = reason,
         sourceAtCapture = sourceAtCapture,
         content = content,
-        context = self:BuildContext(snapshot),
+        context = context,
         contentHash = self:Fingerprint(snapshot.id, content),
         addonVersion = FIT.version,
-        client = snapshot.build,
-        revision = 1,
+        client = snapshot.build or (previous and previous.client),
+        revision = previous and (tonumber(previous.revision) or 1) or 1,
     }
 end
