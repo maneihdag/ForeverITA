@@ -200,6 +200,8 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 * [x] Creare il core Lua
 * [x] Separare il livello `Compat`
 * [x] Preparare collector e SavedVariables
+* [x] Rendere il collector silenzioso e versionare i record
+* [x] Preparare hash/deduplicazione per un futuro Companion
 * [ ] Verificare il caricamento reale su Classic Era
 * [ ] Verificare una piccola UI su Classic Era
 * [ ] Verificare SavedVariables su Classic Era
@@ -334,6 +336,45 @@ ForeverITA non usa e non deve dipendere da:
 Se una soluzione esterna usa metodi poco chiari o invasivi, non viene integrata automaticamente: viene prima analizzata e confrontata con le regole Blizzard aggiornate.
 
 Il progetto riguarda esclusivamente la **localizzazione e visualizzazione dei contenuti testuali** accessibili attraverso il normale sistema addon.
+
+---
+
+## 🗃️ Raccolta dati e privacy
+
+ForeverITA può raccogliere **in locale e in silenzio** i testi di quest mancanti o modificati incontrati durante il gioco.
+
+Il collector usa soltanto API/eventi dell'addon e SavedVariables.
+
+Può salvare, quando disponibili:
+
+* Quest ID;
+* titolo, descrizione, obiettivi, progress e completion/reward text;
+* zona/map ID come contesto;
+* versione client e addon;
+* hash/versione del record per evitare duplicati.
+
+Non è progettato per raccogliere nome del personaggio, account/BattleTag, chat, inventario, lista amici o altri dati personali non necessari.
+
+Durante il normale gioco il collector **non mostra messaggi in chat**.
+
+### Companion futuro
+
+In futuro potrà esistere un Companion esterno **opzionale** per condividere automaticamente i record utili con il database ForeverITA.
+
+L'addon WoW non comunica direttamente con Internet.
+
+Il Companion:
+
+* non sarà necessario per usare le traduzioni;
+* richiederà consenso esplicito alla prima configurazione;
+* potrà essere disattivato in seguito;
+* invierà soltanto record nuovi o modificati;
+* leggerà esclusivamente i file ForeverITA necessari;
+* non dovrà leggere memoria di WoW, traffico di rete del gioco o altri dati non necessari.
+
+Il Companion **non è implementato nella prima fase**. Prima viene completato e testato il collector locale.
+
+Vedi `docs/COLLECTOR_FORMAT.md`, `docs/COMPANION_DESIGN.md` e `docs/PRIVACY.md`.
 
 ---
 
