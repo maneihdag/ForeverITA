@@ -12,15 +12,6 @@ local Collector = {}
 FIT.MissingQuestCollector = Collector
 
 local MAX_QUESTS_PER_BUCKET = 2000
-local TEXT_FIELDS = {
-    "title",
-    "description",
-    "objectives",
-    "progress",
-    "completion",
-    "npcGUID",
-    "npcName",
-}
 
 local function countEntries(tbl)
     local count = 0
@@ -37,21 +28,33 @@ local function getDB()
     return nil
 end
 
-local function mergeSnapshot(record, snapshot)
-    record.events = record.events or {}
-    record.events[snapshot.event or "UNKNOWN"] = (record.events[snapshot.event or "UNKNOWN"] or 0) + 1
+local function chooseBucket(snapshot, flavor, translated, source)
+    if not translated then
+        return "missing", "translation_missing"
+    end
 
-    for _, field in ipairs(TEXT_FIELDS) do
-        if snapshot[field] ~= nil then
-            record[field] = snapshot[field]
+    if flavor == "forever" and source == "classic" then
+        return "verifyClassic", "classic_translation_needs_forever_verification"
+    end
+
+    if type(translated) == "table" and translated._sourceHash and FIT.RecordFormat then
+        local observedContent = FIT.RecordFormat:BuildContent(snapshot)
+        local observedHash = FIT.RecordFormat:Fingerprint(snapshot.id, observedContent)
+
+        if observedHash ~= translated._sourceHash then
+            return "modified", "source_text_changed"
         end
     end
 
-    record.lastBuild = snapshot.build or record.lastBuild
+    return nil, nil
 end
 
 function Collector:Observe(snapshot)
     if type(snapshot) ~= "table" or type(snapshot.id) ~= "number" or snapshot.id <= 0 then
+        return
+    end
+
+    if not FIT.RecordFormat then
         return
     end
 
@@ -66,70 +69,37 @@ function Collector:Observe(snapshot)
     end
 
     local translated, source = nil, "missing"
-
     if FIT.Data and FIT.Data.ResolveQuest then
         translated, source = FIT.Data:ResolveQuest(snapshot.id, flavor)
     end
 
-    local bucketName
-    local reason
-
-    if not translated then
-        bucketName = "missing"
-        reason = "translation_missing"
-    elseif flavor == "forever" and source == "classic" then
-        bucketName = "verifyClassic"
-        reason = "classic_translation_needs_forever_verification"
-    else
+    local bucketName, reason = chooseBucket(snapshot, flavor, translated, source)
+    if not bucketName then
         return
     end
 
     local bucket = db[bucketName]
-    local record = bucket[snapshot.id]
-
-    if not record then
-        if countEntries(bucket) >= MAX_QUESTS_PER_BUCKET then
-            db.dropped = (db.dropped or 0) + 1
-            return
-        end
-
-        record = {
-            id = snapshot.id,
-            reason = reason,
-            sourceAtCapture = source,
-        }
-
-        bucket[snapshot.id] = record
+    if type(bucket) ~= "table" then
+        return
     end
 
-    mergeSnapshot(record, snapshot)
-end
+    local nextRecord = FIT.RecordFormat:BuildRecord(snapshot, reason, source)
+    local current = bucket[snapshot.id]
 
-function Collector:GetCounts()
-    local db = getDB()
-    if not db then
-        return 0, 0, 0
+    if current and current.contentHash == nextRecord.contentHash then
+        current.client = nextRecord.client
+        current.addonVersion = FIT.version
+        return
     end
 
-    return countEntries(db.missing), countEntries(db.verifyClassic), db.dropped or 0
-end
-
-function Collector:PrintStatus()
-    local missing, verifyClassic, dropped = self:GetCounts()
-
-    FIT:Print(
-        string.format(
-            "Collector: missing=%d verifyClassic=%d dropped=%d",
-            missing,
-            verifyClassic,
-            dropped
-        )
-    )
-
-    local flavor = "unknown"
-    if FIT.Compat.Client and FIT.Compat.Client.GetDataFlavor then
-        flavor = FIT.Compat.Client:GetDataFlavor()
+    if not current and countEntries(bucket) >= MAX_QUESTS_PER_BUCKET then
+        db.dropped = (db.dropped or 0) + 1
+        return
     end
 
-    FIT:Print("Ambiente dati: " .. flavor)
+    if current then
+        nextRecord.revision = (tonumber(current.revision) or 1) + 1
+    end
+
+    bucket[snapshot.id] = nextRecord
 end
