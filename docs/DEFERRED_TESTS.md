@@ -30,6 +30,9 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - Quest 755 con completion;
 - Quest 750;
 - Quest 3093 con detail + progress + completion;
+- sostituzione `<PLAYER>` con il nome solo a schermo, senza salvarlo;
+- pannello nascosto quando manca la traduzione della fase corrente;
+- caricamento dati da `Data/Classic_it/Mulgore.lua`;
 - rimozione dal bucket missing quando una traduzione entra nel database;
 - rilevamento modified tramite hash per campo;
 - nessun messaggio automatico indesiderato in chat;
