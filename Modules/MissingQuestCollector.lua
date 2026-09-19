@@ -83,8 +83,8 @@ function Collector:Observe(snapshot)
         return
     end
 
-    local nextRecord = FIT.RecordFormat:BuildRecord(snapshot, reason, source)
     local current = bucket[snapshot.id]
+    local nextRecord = FIT.RecordFormat:BuildRecord(snapshot, reason, source, current)
 
     if current and current.contentHash == nextRecord.contentHash then
         current.client = nextRecord.client
