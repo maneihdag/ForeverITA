@@ -90,3 +90,22 @@ function Privacy:SanitizeSnapshot(snapshot)
 
     return snapshot
 end
+
+
+function Privacy:PersonalizeText(text)
+    if type(text) ~= "string" or text == "" then
+        return text
+    end
+
+    local API = FIT.Compat.API
+    if not API then
+        return text
+    end
+
+    local playerName = API:CallGlobal("UnitName", "player")
+    if type(playerName) ~= "string" or playerName == "" then
+        return text
+    end
+
+    return (text:gsub("<PLAYER>", playerName))
+end
