@@ -21,10 +21,19 @@ local MIN_HEIGHT = 230
 local MAX_HEIGHT = 520
 local TEXT_WIDTH = 344
 
+local function displayText(text)
+    if FIT.Compat.Privacy and FIT.Compat.Privacy.PersonalizeText then
+        return FIT.Compat.Privacy:PersonalizeText(text)
+    end
+    return text
+end
+
 local function addSection(parts, heading, text)
     if type(text) ~= "string" or text == "" then
         return
     end
+
+    text = displayText(text)
 
     if #parts > 0 then
         parts[#parts + 1] = "\n\n"
