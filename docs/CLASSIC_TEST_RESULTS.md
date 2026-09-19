@@ -29,6 +29,8 @@ Questi risultati dimostrano soltanto il funzionamento osservato su WoW Classic E
 - Il collector salva zona e map ID.
 - Nessun record è stato scartato nel test.
 - Nessun errore diagnostico è stato registrato.
+- Una nuova quest viene salvata correttamente con titolo, descrizione e obiettivi.
+- Una quest già raccolta può essere aggiornata in seguito senza creare un secondo record.
 
 ### Privacy
 
@@ -38,38 +40,54 @@ Il filtro privacy sostituisce correttamente il nome del personaggio presente nei
 
 `<PLAYER>`
 
-Il nome del personaggio non compare nel record raccolto analizzato dopo l'aggiornamento privacy.
+Il nome del personaggio non compare nei record analizzati dopo l'aggiornamento privacy.
 
 ### Merge tra eventi quest
 
-**PARZIALMENTE TESTATO SU CLASSIC**
+**TESTATO SU CLASSIC**
 
-Nel test della quest 3093 lo stesso record ha conservato insieme:
+La quest 755 è stata osservata in più momenti ed è arrivata a revisione 2 mantenendo nello stesso record:
 
-- titolo;
-- progress;
+- title;
+- description;
+- objectives;
 - completion.
 
-Questo conferma che eventi diversi possono arricchire lo stesso record senza creare record separati.
+Questo conferma che il collector conserva i campi già raccolti e aggiunge quelli arrivati in eventi successivi senza cancellare i precedenti.
 
-Descrizione e obiettivi non erano presenti nel secondo file di test. Non è ancora dimostrato se questo dipenda dal fatto che la quest fosse già stata accettata prima dell'aggiornamento oppure da un problema di cattura.
+Il campo progress resta naturalmente assente quando la quest non fornisce o non espone un testo progress nel percorso osservato.
 
-Per verificare completamente il merge bisogna accettare una nuova quest con la versione aggiornata già caricata e poi completarla.
+La quest 3093 conserva inoltre title, progress e completion nello stesso record, confermando il merge anche per quel percorso.
 
-## Prossimo test
+### Hash e versionamento
 
-1. Avviare WoW con l'ultima versione di ForeverITA già caricata.
-2. Accettare una quest nuova.
-3. Progredire nella quest.
-4. Consegnarla.
-5. Eseguire `/reload`.
-6. Controllare che lo stesso record contenga:
-   - title
-   - description
-   - objectives
-   - progress, se disponibile
-   - completion
-7. Verificare che eventuali riferimenti al nome del personaggio siano sostituiti da `<PLAYER>`.
+**TESTATO SU CLASSIC**
+
+- record schema 2 attivo;
+- hash q2 attivo;
+- revision aumenta quando il contenuto raccolto della stessa quest si arricchisce/cambia;
+- zona e map ID restano separati dal contenuto testuale.
+
+## Stato della prima fase Classic
+
+Il collector quest locale può ora essere considerato **TESTATO SU CLASSIC** per:
+
+- raccolta silenziosa;
+- Quest ID;
+- titolo;
+- descrizione;
+- obiettivi;
+- progress quando disponibile;
+- completion;
+- zona/map ID;
+- SavedVariables;
+- merge multi-evento;
+- privacy del nome personaggio;
+- hash/versionamento di base.
+
+## Prossimo passo
+
+Passare dalla sola raccolta alla prima prova reale del motore di traduzione con pochissime quest Classic, mantenendo i dati Classic separati dagli override Forever.
 
 ## Forever
 
