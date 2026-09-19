@@ -55,8 +55,8 @@ ForeverITA_CollectorDB
 Schema database attuale:
 
 ```text
-schema = 2
-recordSchema = 1
+schema = 3
+recordSchema = 2
 ```
 
 Esempio concettuale:
@@ -64,7 +64,7 @@ Esempio concettuale:
 ```lua
 missing = {
     [12345] = {
-        schema = 1,
+        schema = 2,
         type = "quest",
         id = 12345,
         reason = "translation_missing",
@@ -79,7 +79,7 @@ missing = {
             zone = "...",
             mapID = 12
         },
-        contentHash = "q1-123456789",
+        contentHash = "q2-123456789",
         revision = 1,
         addonVersion = "0.0.2-alpha",
         client = {
@@ -127,3 +127,15 @@ Il Companion e qualunque invio Internet non fanno parte della prima versione.
 Il gruppo `modified` può essere usato quando un record di traduzione contiene un hash del testo originale noto (`_sourceHash`).
 
 Se non abbiamo ancora un hash sorgente affidabile, ForeverITA non deve inventare che una quest sia modificata: la registra come missing oppure, su Forever quando usa solo la base Classic, come `verifyClassic`.
+
+## Privacy nei testi personalizzati
+
+Alcune quest possono inserire il nome del personaggio dentro il testo mostrato dal gioco.
+
+Prima di salvare il record, ForeverITA sostituisce gli alias del personaggio ottenuti tramite API addon con il segnaposto:
+
+`<PLAYER>`
+
+Il nome viene usato solo temporaneamente in memoria per la pulizia e non viene scritto nel database collector.
+
+Il record schema 2 conserva inoltre i campi raccolti in eventi diversi della stessa quest: per esempio descrizione/obiettivi letti all'apertura non vengono persi quando più tardi arriva il testo di completion.
