@@ -9,64 +9,22 @@ end
 FIT.name = addonName or "ForeverITA"
 FIT.version = "0.0.2-alpha"
 FIT.prefix = "|cff00ccff[ForeverITA]|r"
+FIT.Compat = FIT.Compat or {}
 
 function FIT:Print(message)
     print(self.prefix .. " " .. tostring(message))
 end
 
-function FIT:ToPlainValue(value)
-    if value == nil then
-        return nil, nil
-    end
-
-    if type(_G.issecretvalue) == "function" then
-        local okSecret, isSecret = pcall(_G.issecretvalue, value)
-        if okSecret and isSecret then
-            if type(_G.canaccessvalue) ~= "function" then
-                return nil, "secret_value"
-            end
-
-            local okAccess, canAccess = pcall(_G.canaccessvalue, value)
-            if not okAccess or not canAccess then
-                return nil, "secret_value"
-            end
-        end
-    end
-
-    local valueType = type(value)
-    if valueType ~= "string" and valueType ~= "number" and valueType ~= "boolean" then
-        return nil, "unsupported_type:" .. valueType
-    end
-
-    return value, nil
-end
-
-function FIT:SafeGlobalCall(apiName, ...)
-    local func = _G[apiName]
-    if type(func) ~= "function" then
-        return nil, "missing_api:" .. apiName
-    end
-
-    local ok, result = pcall(func, ...)
-    if not ok then
-        return nil, "api_error:" .. apiName
-    end
-
-    local plain, reason = self:ToPlainValue(result)
-    if reason then
-        return nil, reason .. ":" .. apiName
-    end
-
-    return plain, nil
-end
-
 local function printHelp()
-    FIT:Print("Comandi:")
-    FIT:Print("/fit status - client, build e flavor dati")
-    FIT:Print("/fit quest - snapshot della quest corrente")
-    FIT:Print("/fit data <QuestID> - risoluzione Classic/Forever")
-    FIT:Print("/fit collector - stato raccolta testi mancanti")
-    FIT:Print("/fit selftest - test del sistema dati e override")
+    FIT:Print("Comandi principali:")
+    FIT:Print("/fit status - stato client")
+    FIT:Print("/fit quest - ultima quest letta")
+    FIT:Print("/fit data <QuestID> - controlla i dati italiani")
+    FIT:Print("/fit collector - stato raccolta quest")
+    FIT:Print("/fit selftest - test logica Classic/Forever")
+    FIT:Print("/fit classictest - controlli per Classic Era")
+    FIT:Print("/fit ui - apre/chiude una finestra di test")
+    FIT:Print("/fit svtest start|check - test SavedVariables")
 end
 
 local function handleSlash(message)
@@ -79,12 +37,11 @@ local function handleSlash(message)
     if command == "" or command == "status" then
         FIT:Print("ForeverITA " .. FIT.version)
 
-        if FIT.Environment and FIT.Environment.Describe then
-            FIT:Print(FIT.Environment:Describe())
+        if FIT.Compat.Client and FIT.Compat.Client.Describe then
+            FIT:Print(FIT.Compat.Client:Describe())
         else
-            FIT:Print("Environment non disponibile.")
+            FIT:Print("Compat/Client non disponibile.")
         end
-
         return
     end
 
@@ -97,7 +54,7 @@ local function handleSlash(message)
         if FIT.QuestDebug and FIT.QuestDebug.DumpCurrent then
             FIT.QuestDebug:DumpCurrent()
         else
-            FIT:Print("Modulo QuestDebug non disponibile.")
+            FIT:Print("QuestDebug non disponibile.")
         end
         return
     end
@@ -109,17 +66,22 @@ local function handleSlash(message)
             return
         end
 
-        if FIT.Data and FIT.Data.ResolveQuest then
-            local flavor = FIT.Environment and FIT.Environment:GetDataFlavor() or "unknown"
-            local record, source = FIT.Data:ResolveQuest(questID, flavor)
-            if record then
-                FIT:Print("Quest " .. questID .. " -> " .. tostring(source))
-                FIT:Print("Titolo IT: " .. tostring(record.title or "<mancante>"))
-            else
-                FIT:Print("Quest " .. questID .. " -> nessuna traduzione (" .. tostring(source) .. ")")
-            end
-        else
+        if not FIT.Data or not FIT.Data.ResolveQuest then
             FIT:Print("DataRegistry non disponibile.")
+            return
+        end
+
+        local flavor = "unknown"
+        if FIT.Compat.Client and FIT.Compat.Client.GetDataFlavor then
+            flavor = FIT.Compat.Client:GetDataFlavor()
+        end
+
+        local record, source = FIT.Data:ResolveQuest(questID, flavor)
+        if record then
+            FIT:Print("Quest " .. questID .. " -> " .. tostring(source))
+            FIT:Print("Titolo IT: " .. tostring(record.title or "<mancante>"))
+        else
+            FIT:Print("Quest " .. questID .. " -> nessuna traduzione (" .. tostring(source) .. ")")
         end
         return
     end
@@ -142,6 +104,51 @@ local function handleSlash(message)
         return
     end
 
+    if command == "classictest" then
+        if FIT.ClassicSmokeTest and FIT.ClassicSmokeTest.Run then
+            FIT.ClassicSmokeTest:Run()
+        else
+            FIT:Print("ClassicSmokeTest non disponibile.")
+        end
+        return
+    end
+
+    if command == "ui" then
+        if FIT.Compat.UI and FIT.Compat.UI.ToggleTestWindow then
+            FIT.Compat.UI:ToggleTestWindow()
+        else
+            FIT:Print("Compat/UI non disponibile.")
+        end
+        return
+    end
+
+    if command == "svtest" then
+        local action = (rest or ""):lower()
+
+        if not FIT.Compat.Storage then
+            FIT:Print("Compat/Storage non disponibile.")
+            return
+        end
+
+        if action == "start" then
+            local ok, messageText = FIT.Compat.Storage:StartPersistenceProbe()
+            FIT:Print(messageText)
+            if ok then
+                FIT:Print("Ora usa /reload e poi /fit svtest check")
+            end
+            return
+        end
+
+        if action == "check" then
+            local ok, messageText = FIT.Compat.Storage:CheckPersistenceProbe()
+            FIT:Print(messageText)
+            return
+        end
+
+        FIT:Print("Uso: /fit svtest start  oppure  /fit svtest check")
+        return
+    end
+
     printHelp()
 end
 
@@ -154,6 +161,10 @@ eventFrame:RegisterEvent("ADDON_LOADED")
 eventFrame:SetScript("OnEvent", function(self, event, loadedAddon)
     if event ~= "ADDON_LOADED" or loadedAddon ~= FIT.name then
         return
+    end
+
+    if FIT.Compat.Storage and FIT.Compat.Storage.Initialize then
+        FIT.Compat.Storage:Initialize()
     end
 
     FIT:Print("Addon caricato. Versione " .. FIT.version)
