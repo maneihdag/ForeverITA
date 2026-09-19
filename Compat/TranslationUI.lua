@@ -153,7 +153,7 @@ function TranslationUI:Anchor(frame)
     end
 end
 
-function TranslationUI:ShowQuest(questID, record, sourceName)
+function TranslationUI:ShowQuest(questID, record, sourceName, eventName)
     if type(record) ~= "table" then
         return
     end
@@ -173,10 +173,20 @@ function TranslationUI:ShowQuest(questID, record, sourceName)
 
     local parts = {}
     addSection(parts, nil, record.title)
-    addSection(parts, "Descrizione", record.description)
-    addSection(parts, "Obiettivi", record.objectives)
-    addSection(parts, "In corso", record.progress)
-    addSection(parts, "Completamento", record.completion)
+
+    if eventName == "QUEST_DETAIL" then
+        addSection(parts, "Descrizione", record.description)
+        addSection(parts, "Obiettivi", record.objectives)
+    elseif eventName == "QUEST_PROGRESS" then
+        addSection(parts, "In corso", record.progress)
+    elseif eventName == "QUEST_COMPLETE" then
+        addSection(parts, "Completamento", record.completion)
+    else
+        addSection(parts, "Descrizione", record.description)
+        addSection(parts, "Obiettivi", record.objectives)
+        addSection(parts, "In corso", record.progress)
+        addSection(parts, "Completamento", record.completion)
+    end
 
     frame.text:SetHeight(2000)
     frame.text:SetText(table.concat(parts))
