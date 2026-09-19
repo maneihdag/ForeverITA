@@ -95,3 +95,16 @@ Prima di dichiarare una funzione compatibile:
 - riportare build e interface usate nel test.
 
 Nessun test su Classic o Retail prova da solo la compatibilità con Forever.
+
+## Classic Era come banco di prova
+
+Il progetto può essere sviluppato e testato su WoW Classic Era quando Forever non è disponibile.
+
+Regole:
+
+- Classic Era è un laboratorio, non il target finale;
+- un comportamento verificato su Classic va marcato **TESTATO SU CLASSIC**;
+- non dichiararlo compatibile Forever senza un test reale su Forever;
+- tutto ciò che può cambiare tra client deve stare in `Compat/`;
+- non introdurre dipendenze da frame o API Classic direttamente in Core, Modules o Data;
+- usare 2-3 quest reali alla volta per i test, non importare database enormi alla cieca.
