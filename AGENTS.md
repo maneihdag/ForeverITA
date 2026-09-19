@@ -169,3 +169,17 @@ Requisiti già fissati:
 - nuova verifica delle regole Blizzard prima di implementazione/distribuzione.
 
 Vedere `docs/COMPANION_DESIGN.md` e `docs/PRIVACY.md`.
+
+
+## Modalità test differiti
+
+Decisione operativa corrente: non interrompere lo sviluppo per chiedere un test manuale dopo ogni modifica.
+
+Quando una funzione non è stata ancora provata:
+
+- marcarla come **DA TESTARE SU CLASSIC** o **DA TESTARE SU FOREVER**;
+- aggiungerla a `docs/DEFERRED_TESTS.md`;
+- non dichiararla funzionante solo perché il codice è stato scritto;
+- continuare lo sviluppo finché non serve realmente una prova per sbloccare una decisione tecnica.
+
+I test manuali verranno eseguiti in batch.
