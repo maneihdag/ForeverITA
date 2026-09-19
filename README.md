@@ -308,19 +308,32 @@ Una buona segnalazione dovrebbe includere, quando possibile:
 
 ---
 
-## 🔐 Modifiche al client
+## 🔐 Perimetro tecnico
 
-Uno degli obiettivi del progetto è lavorare, quando possibile, esclusivamente attraverso il normale sistema addon di World of Warcraft.
+ForeverITA deve restare **sempre un normale addon World of Warcraft**.
 
-ForeverITA non nasce con l'obiettivo di:
+Il progetto usa soltanto:
 
-* modificare gli eseguibili del gioco;
-* alterare direttamente il client;
-* aggirare sistemi di protezione;
-* automatizzare il gameplay;
-* fornire vantaggi di gioco.
+* file `.lua`, `.toc` e, quando necessario, `.xml`;
+* API esposte dal client agli addon;
+* eventi dell'interfaccia;
+* SavedVariables;
+* UI addon;
+* database locali.
 
-Il progetto riguarda esclusivamente la **localizzazione e visualizzazione dei contenuti testuali** accessibili attraverso le funzionalità consentite agli addon.
+ForeverITA non usa e non deve dipendere da:
+
+* DLL esterne;
+* injection nel processo di WoW;
+* lettura diretta della memoria;
+* modifica dell'eseguibile o di file protetti;
+* bot o automazione del gameplay;
+* strumenti esterni che estraggono dati aggirando le API addon;
+* tecniche per aggirare protezioni o limitazioni imposte dal client.
+
+Se una soluzione esterna usa metodi poco chiari o invasivi, non viene integrata automaticamente: viene prima analizzata e confrontata con le regole Blizzard aggiornate.
+
+Il progetto riguarda esclusivamente la **localizzazione e visualizzazione dei contenuti testuali** accessibili attraverso il normale sistema addon.
 
 ---
 
