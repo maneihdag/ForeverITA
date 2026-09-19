@@ -46,11 +46,11 @@ function Privacy:GetPlayerAliases()
         return aliases
     end
 
-    local unitName = API:CallGlobal("UnitName", "player")
-    addAlias(aliases, seen, unitName)
-
     local fullName = API:CallGlobal("GetUnitName", "player", true)
     addAlias(aliases, seen, fullName)
+
+    local unitName = API:CallGlobal("UnitName", "player")
+    addAlias(aliases, seen, unitName)
 
     return aliases
 end
