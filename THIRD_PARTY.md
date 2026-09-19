@@ -22,3 +22,19 @@ Questo documento serve a distinguere ciò che possiamo studiare da ciò che poss
 La presenza di una licenza open source sul codice non concede automaticamente diritti sui testi, asset o altri contenuti di World of Warcraft.
 
 ForeverITA deve tenere separata la provenienza del codice dalla provenienza dei dati di traduzione.
+
+
+## Filtro tecnico obbligatorio
+
+Anche se un progetto ha una licenza compatibile, ForeverITA non integra automaticamente soluzioni che richiedono:
+
+- DLL;
+- injection;
+- lettura memoria;
+- modifica del client;
+- bot o automazione;
+- estrazione dati fuori dalle API addon.
+
+La licenza e la conformità tecnica sono due controlli separati.
+
+Se un progetto usa metodi non chiari, resta solo un riferimento finché il funzionamento non viene verificato.
