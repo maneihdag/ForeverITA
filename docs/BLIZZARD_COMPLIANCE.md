@@ -82,3 +82,22 @@ La UI Add-On Development Policy richiede che gli addon rispettino ToU/EULA, che 
 Blizzard vieta inoltre hack, bot e software di terze parti non autorizzato usato per modificare o automatizzare l'esperienza di gioco.
 
 ForeverITA deve restare interamente dentro il normale sistema addon.
+
+## Companion opzionale futuro
+
+Un eventuale Companion non fa parte dell'addon WoW e non deve essere usato per ottenere informazioni che le API addon non espongono.
+
+Può essere progettato soltanto per leggere il file SavedVariables di ForeverITA dopo che WoW lo ha scritto su disco e, con consenso esplicito dell'utente, sincronizzare record già raccolti legittimamente dall'addon.
+
+Non deve:
+
+- leggere la memoria di WoW;
+- intercettare traffico di rete;
+- iniettare codice;
+- simulare input;
+- automatizzare gameplay;
+- leggere altri dati del client non necessari.
+
+La documentazione della community WoW descrive storicamente SavedVariables come il normale ponte file-based per portare dati fuori dal sandbox addon, ma prima di implementare o distribuire il Companion va rifatta una verifica delle regole Blizzard/ToU/EULA aggiornate.
+
+Il Companion resta **NON IMPLEMENTATO** nella fase attuale.
