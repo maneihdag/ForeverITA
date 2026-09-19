@@ -46,3 +46,22 @@ La finestra si chiude quando termina/cambia il dialogo quest tramite `QUEST_FINI
 - QUEST_FINISHED: documentato su Classic Era.
 - UIPanelScrollFrameTemplate: usato nel livello Compat e da verificare direttamente in gioco.
 - Tutto il comportamento resta DA TESTARE SU FOREVER.
+
+## Risultato
+
+**TESTATO SU CLASSIC**
+
+La quest 757:
+
+- apre automaticamente il pannello ForeverITA;
+- mostra titolo, descrizione e obiettivi italiani;
+- chiude automaticamente il pannello al termine del dialogo;
+- non richiede `/fit show 757`.
+
+Il pannello resta separato dalla QuestFrame Blizzard.
+
+## Seconda prova
+
+È stata aggiunta la quest 755 — Rites of the Earthmother / Riti della Madre Terra.
+
+Questa quest contiene anche un testo di completion e serve a verificare la nuova UI per fase, così il giocatore non vede in anticipo dialoghi futuri.
