@@ -32,6 +32,22 @@ function Translation:ShowByID(questID)
     return true
 end
 
+local function hasBodyForEvent(record, event)
+    if event == "QUEST_DETAIL" then
+        return record.description ~= nil or record.objectives ~= nil
+    end
+
+    if event == "QUEST_PROGRESS" then
+        return record.progress ~= nil
+    end
+
+    if event == "QUEST_COMPLETE" then
+        return record.completion ~= nil
+    end
+
+    return true
+end
+
 function Translation:HandleSnapshot(event, snapshot)
     if event == "QUEST_FINISHED" then
         if FIT.Compat.TranslationUI then
@@ -46,7 +62,7 @@ function Translation:HandleSnapshot(event, snapshot)
 
     local record, source = FIT.Data:ResolveQuest(snapshot.id, flavor())
 
-    if record then
+    if record and hasBodyForEvent(record, event) then
         FIT.Compat.TranslationUI:ShowQuest(snapshot.id, record, source, event)
     elseif FIT.Compat.TranslationUI then
         FIT.Compat.TranslationUI:Hide()
