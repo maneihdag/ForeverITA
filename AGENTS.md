@@ -19,14 +19,14 @@ Il progetto deve separare sempre:
 
 1. Non assumere mai che WoW Forever usi le stesse API di Classic.
 2. Non assumere mai che una API presente abbia lo stesso comportamento di Retail/Mainline.
-3. Tutte le dipendenze da build, interface o flavor devono stare in `Core/Environment.lua`.
-4. Le letture quest devono passare da `Core/QuestAPI.lua`, non essere sparse nei moduli.
+3. Tutte le dipendenze da build, interface o flavor devono stare in `Compat/Client.lua`.
+4. Le letture quest devono passare da `Compat/Quest.lua`, non essere sparse nei moduli.
 5. I moduli non devono contenere database di traduzione hard-coded.
 6. `Data/Forever_it` ha precedenza su `Data/Classic_it` soltanto quando il flavor dati è Forever.
 7. Un override Forever può modificare solo alcuni campi; i campi non modificati possono fare fallback al livello Classic.
 8. Una traduzione Classic usata su Forever non è considerata automaticamente verificata.
 9. Le nuove funzionalità devono degradare in modo sicuro quando una API manca.
-10. Non modificare file del client, non automatizzare gameplay e non aggirare protezioni Blizzard.
+10. ForeverITA deve restare un normale addon WoW: niente DLL, injection, lettura memoria, modifica del client, bot, automazione gameplay o aggiramento delle protezioni Blizzard.
 
 ## Ricerca e verifica
 
@@ -108,3 +108,36 @@ Regole:
 - tutto ciò che può cambiare tra client deve stare in `Compat/`;
 - non introdurre dipendenze da frame o API Classic direttamente in Core, Modules o Data;
 - usare 2-3 quest reali alla volta per i test, non importare database enormi alla cieca.
+
+
+## Perimetro tecnico obbligatorio
+
+Sono ammessi soltanto:
+
+- `.lua`, `.toc`, `.xml`;
+- API WoW esposte agli addon;
+- eventi UI;
+- SavedVariables;
+- UI addon;
+- database locali dell'addon.
+
+Sono esclusi:
+
+- DLL esterne;
+- process injection;
+- lettura diretta della memoria;
+- modifica dell'eseguibile o di file protetti;
+- bot e automazione del gameplay;
+- strumenti esterni che estraggono dati aggirando le API addon;
+- qualsiasi tentativo di bypassare protected functions, Secret Values o altre restrizioni del client.
+
+Se un repository o uno strumento usa uno di questi metodi, non integrarlo. Segnalarlo prima.
+
+Se una tecnica è poco chiara o non documentata:
+
+1. fermarsi;
+2. verificare online le regole Blizzard aggiornate;
+3. classificare la tecnica come addon/API ufficiale, dubbia oppure esterna/invasiva;
+4. non procedere finché il dubbio non è risolto.
+
+Vedere anche `docs/BLIZZARD_COMPLIANCE.md`.
