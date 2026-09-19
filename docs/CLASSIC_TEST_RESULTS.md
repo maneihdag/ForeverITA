@@ -108,4 +108,26 @@ Screenshot in-game della quest 757 conferma che:
 
 Dallo screenshot è emerso molto spazio vuoto nella parte inferiore del pannello. La UI è stata quindi resa più compatta e con altezza adattiva al contenuto.
 
-Resta da verificare separatamente l'apertura automatica del pannello senza usare il comando manuale `/fit show 757`, e la chiusura automatica con `QUEST_FINISHED`.
+L'apertura automatica del pannello senza `/fit show 757` e la chiusura automatica alla fine del dialogo sono state confermate in gioco. **TESTATO SU CLASSIC**.
+
+### Apertura e chiusura automatica
+
+**TESTATO SU CLASSIC**
+
+Confermata in gioco:
+
+- apertura automatica del pannello quando viene aperta una quest tradotta;
+- chiusura automatica al termine/chiusura del dialogo;
+- nessun comando manuale necessario.
+
+### UI per fase della quest
+
+**DA TESTARE SU CLASSIC**
+
+Il pannello ora mostra solo i testi adatti alla fase corrente:
+
+- QUEST_DETAIL → titolo, descrizione, obiettivi;
+- QUEST_PROGRESS → titolo, progress;
+- QUEST_COMPLETE → titolo, completion.
+
+Questo evita di mostrare in anticipo testi di completamento già presenti nel database.
