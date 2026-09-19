@@ -54,6 +54,44 @@ function SelfTest:Run()
     local missing, missingSource = FIT.Data:ResolveQuest(990000003, "forever")
     check("Quest sconosciuta resta missing", missing == nil and missingSource == "missing")
 
+
+    if FIT.RecordFormat then
+        local baseSnapshot = {
+            id = 990000010,
+            title = "Titolo",
+            description = "Descrizione",
+            objectives = "Obiettivi",
+            zone = "Elwynn Forest",
+            mapID = 37,
+        }
+
+        local otherZone = {
+            id = 990000010,
+            title = "Titolo",
+            description = "Descrizione",
+            objectives = "Obiettivi",
+            zone = "Stormwind City",
+            mapID = 84,
+        }
+
+        local changedText = {
+            id = 990000010,
+            title = "Titolo modificato",
+            description = "Descrizione",
+            objectives = "Obiettivi",
+            zone = "Elwynn Forest",
+            mapID = 37,
+        }
+
+        local hashA = FIT.RecordFormat:Fingerprint(baseSnapshot.id, FIT.RecordFormat:BuildContent(baseSnapshot))
+        local hashB = FIT.RecordFormat:Fingerprint(otherZone.id, FIT.RecordFormat:BuildContent(otherZone))
+        local hashC = FIT.RecordFormat:Fingerprint(changedText.id, FIT.RecordFormat:BuildContent(changedText))
+
+        check("Hash uguale se cambia solo la zona", hashA == hashB)
+        check("Hash cambia se cambia il testo", hashA ~= hashC)
+    else
+        check("RecordFormat disponibile", false)
+    end
     FIT:Print(string.format("SELFTEST: %d pass, %d fail", passed, failed))
     return failed == 0
 end
