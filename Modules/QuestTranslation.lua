@@ -28,7 +28,7 @@ function Translation:ShowByID(questID)
         return false
     end
 
-    FIT.Compat.TranslationUI:ShowQuest(questID, record, source)
+    FIT.Compat.TranslationUI:ShowQuest(questID, record, source, nil)
     return true
 end
 
@@ -47,7 +47,7 @@ function Translation:HandleSnapshot(event, snapshot)
     local record, source = FIT.Data:ResolveQuest(snapshot.id, flavor())
 
     if record then
-        FIT.Compat.TranslationUI:ShowQuest(snapshot.id, record, source)
+        FIT.Compat.TranslationUI:ShowQuest(snapshot.id, record, source, event)
     elseif FIT.Compat.TranslationUI then
         FIT.Compat.TranslationUI:Hide()
     end
