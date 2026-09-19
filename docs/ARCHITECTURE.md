@@ -1,20 +1,35 @@
 # Architettura ForeverITA
 
-## Principio
+## Obiettivo
 
-ForeverITA non tratta WoW Forever come "Classic con un nome diverso".
+ForeverITA resta un addon destinato a **WoW Forever**.
 
-Il motore di localizzazione è indipendente dal client; la compatibilità con le API è confinata in adapter piccoli e sostituibili.
+WoW Classic Era viene usato soltanto come banco di prova temporaneo per:
+
+- caricamento addon;
+- Lua;
+- file .toc;
+- SavedVariables;
+- UI di base;
+- eventi quest;
+- collector;
+- motore dati.
+
+Un test riuscito su Classic **non prova** che la stessa cosa funzioni su Forever.
 
 ## Struttura
 
 ```text
 ForeverITA/
 ├── Core.lua
+├── Compat/
+│   ├── API.lua
+│   ├── Client.lua
+│   ├── Storage.lua
+│   ├── Quest.lua
+│   └── UI.lua
 ├── Core/
-│   ├── Environment.lua
-│   ├── DataRegistry.lua
-│   └── QuestAPI.lua
+│   └── DataRegistry.lua
 ├── Modules/
 │   ├── QuestDebug.lua
 │   └── MissingQuestCollector.lua
@@ -23,13 +38,26 @@ ForeverITA/
 │   │   └── Quests.lua
 │   └── Forever_it/
 │       └── Quests.lua
-├── Dev/
-│   └── SelfTest.lua
-└── docs/
-    └── ARCHITECTURE.md
+└── Dev/
+    ├── SelfTest.lua
+    └── ClassicSmokeTest.lua
 ```
 
-## Risoluzione dati
+## A cosa serve Compat
+
+Tutto ciò che parla direttamente con il client WoW e potrebbe cambiare tra Classic e Forever deve stare in `Compat/`.
+
+Esempi:
+
+- riconoscere il client;
+- chiamare API WoW;
+- leggere gli eventi quest;
+- usare SavedVariables;
+- creare UI.
+
+Il resto dell'addon non deve sapere come Classic o Forever implementano queste cose.
+
+## Dati
 
 Su Classic:
 
@@ -49,56 +77,16 @@ Classic_it
 missing
 ```
 
-L'override Forever è per campo.
-
-Esempio concettuale:
-
-```lua
-Classic:
-title + description + objectives
-
-Forever override:
-description
-
-Risultato Forever:
-title       <- Classic
-description <- Forever
-objectives  <- Classic
-```
-
-Un record Forever può usare `_mode = "replace"` quando l'intera quest deve essere considerata separata, oppure `_mode = "remove"` se in futuro serve bloccare esplicitamente un record Classic.
-
-## Regola di verifica
-
-Se su Forever una quest risolve soltanto dal livello Classic, ForeverITA può usarla come fallback futuro, ma il collector la marca come **da verificare su Forever**.
-
-Questo evita di equiparare automaticamente Vanilla e Forever.
-
-## API quest
-
-`Core/QuestAPI.lua` è l'unico punto che legge le API del client per la prima fase.
-
-API candidate attuali:
-
-- `GetQuestID`
-- `GetTitleText`
-- `GetQuestText`
-- `GetObjectiveText`
-- `GetProgressText`
-- `GetRewardText`
-
-Queste funzioni sono usate da collector Forever pubblici recenti, ma la nostra compatibilità resta **da testare su Forever**.
-
-Ogni chiamata è protetta e l'assenza di una API non deve bloccare l'addon.
+Una traduzione Classic usata come fallback su Forever resta **da verificare**.
 
 ## Collector
 
-`ForeverITA_CollectorDB` è una SavedVariable con due gruppi principali:
+Il collector mantiene due gruppi:
 
 - `missing`: quest senza traduzione;
-- `verifyClassic`: quest che su Forever stanno usando solo il fallback Classic.
+- `verifyClassic`: quest Forever che stanno usando solo dati Classic e devono essere confrontate.
 
-Per ogni quest il collector può accumulare, quando disponibili:
+Quando le API lo permettono può raccogliere:
 
 - QuestID;
 - titolo;
@@ -106,34 +94,30 @@ Per ogni quest il collector può accumulare, quando disponibili:
 - obiettivi;
 - progress;
 - completion;
-- NPC GUID/nome;
-- build;
-- eventi osservati.
+- NPC;
+- build del client.
 
-Il collector è event-driven e non esegue scansioni continue.
+## Test Classic
+
+Classic Era è il nostro laboratorio temporaneo.
+
+Possiamo segnare come **TESTATO SU CLASSIC**:
+
+- addon caricato;
+- Lua senza errori;
+- SavedVariables;
+- finestra UI;
+- eventi quest;
+- collector.
+
+Non possiamo trasformare automaticamente quel risultato in **compatibile Forever**.
+
+Le API e il comportamento Forever restano **DA TESTARE SU FOREVER**.
 
 ## Fixture
 
-Gli ID `990000001` e `990000002` sono dati sintetici interni.
+Gli ID `990000001` e `990000002` sono test sintetici interni.
 
-Servono a testare:
+Non sono quest Blizzard.
 
-- lookup Classic;
-- precedenza Forever;
-- merge per campo;
-- quest Forever-only;
-- record missing.
-
-Non sono quest reali e non devono essere usati come dati di localizzazione.
-
-## Cosa non facciamo ancora
-
-- sostituzione visiva dei testi Blizzard;
-- gossip;
-- import massivo di quest;
-- database reale di migliaia di record;
-- assunzioni sulla UI Forever;
-- dipendenza diretta dai frame di Classic;
-- automazione di upload dei dati raccolti.
-
-Questi punti vengono dopo la validazione del motore e i primi test reali su Forever.
+Servono solo per provare il sistema Classic -> Forever override.
