@@ -14,6 +14,7 @@ Compat\Privacy.lua
 Compat\Storage.lua
 Compat\Quest.lua
 Compat\UI.lua
+Compat\TranslationUI.lua
 
 Core\DataRegistry.lua
 Core\RecordFormat.lua
@@ -22,6 +23,7 @@ Data\Classic_it\Quests.lua
 Data\Forever_it\Quests.lua
 
 Modules\MissingQuestCollector.lua
+Modules\QuestTranslation.lua
 Modules\QuestDebug.lua
 
 Dev\SelfTest.lua
