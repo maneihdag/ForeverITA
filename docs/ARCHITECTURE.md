@@ -81,10 +81,13 @@ Una traduzione Classic usata come fallback su Forever resta **da verificare**.
 
 ## Collector
 
-Il collector mantiene due gruppi:
+Il collector lavora in background senza messaggi automatici in chat.
+
+Mantiene tre gruppi:
 
 - `missing`: quest senza traduzione;
-- `verifyClassic`: quest Forever che stanno usando solo dati Classic e devono essere confrontate.
+- `verifyClassic`: quest Forever che stanno usando solo dati Classic e devono essere confrontate;
+- `modified`: quest conosciute il cui testo osservato non corrisponde più all'hash sorgente disponibile.
 
 Quando le API lo permettono può raccogliere:
 
@@ -93,9 +96,16 @@ Quando le API lo permettono può raccogliere:
 - descrizione;
 - obiettivi;
 - progress;
-- completion;
-- NPC;
-- build del client.
+- completion/reward text;
+- zona/map ID;
+- build/versione client;
+- versione addon;
+- schema record;
+- content hash.
+
+Il collector non salva nome personaggio, account/BattleTag, chat, inventario o lista amici.
+
+La logica di sincronizzazione Internet non appartiene all'addon WoW. Un eventuale Companion futuro resta separato e opzionale.
 
 ## Test Classic
 
