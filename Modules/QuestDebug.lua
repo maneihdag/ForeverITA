@@ -10,6 +10,7 @@ end
 
 local QuestDebug = {
     lastSnapshot = nil,
+    seenEvents = 0,
     autoPrint = true,
 }
 
@@ -57,7 +58,11 @@ function QuestDebug:PrintSnapshot(snapshot)
     end
 
     if snapshot.id and FIT.Data then
-        local flavor = FIT.Environment and FIT.Environment:GetDataFlavor() or "unknown"
+        local flavor = "unknown"
+        if FIT.Compat.Client and FIT.Compat.Client.GetDataFlavor then
+            flavor = FIT.Compat.Client:GetDataFlavor()
+        end
+
         local _, source = FIT.Data:ResolveQuest(snapshot.id, flavor)
         FIT:Print("Traduzione: " .. tostring(source))
     end
@@ -76,13 +81,15 @@ function QuestDebug:PrintSnapshot(snapshot)
 end
 
 function QuestDebug:Capture(eventName)
-    if not FIT.QuestAPI or not FIT.QuestAPI.Read then
-        FIT:Print("QuestAPI non disponibile.")
+    local Quest = FIT.Compat.Quest
+    if not Quest or not Quest.Read then
+        FIT:Print("Compat/Quest non disponibile.")
         return nil
     end
 
-    local snapshot = FIT.QuestAPI:Read(eventName)
+    local snapshot = Quest:Read(eventName)
     self.lastSnapshot = snapshot
+    self.seenEvents = self.seenEvents + 1
 
     if FIT.MissingQuestCollector and FIT.MissingQuestCollector.Observe then
         FIT.MissingQuestCollector:Observe(snapshot)
@@ -101,18 +108,19 @@ function QuestDebug:DumpCurrent()
         return
     end
 
-    local snapshot = FIT.QuestAPI and FIT.QuestAPI:Read(nil)
+    local Quest = FIT.Compat.Quest
+    local snapshot = Quest and Quest:Read(nil)
+
     if snapshot then
         self.lastSnapshot = snapshot
         self:PrintSnapshot(snapshot)
+    else
+        FIT:Print("Nessuna quest letta finora.")
     end
 end
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("QUEST_DETAIL")
-frame:RegisterEvent("QUEST_PROGRESS")
-frame:RegisterEvent("QUEST_COMPLETE")
-
-frame:SetScript("OnEvent", function(_, event)
-    QuestDebug:Capture(event)
-end)
+if FIT.Compat.Quest and FIT.Compat.Quest.RegisterListener then
+    FIT.Compat.Quest:RegisterListener(function(event)
+        QuestDebug:Capture(event)
+    end)
+end
