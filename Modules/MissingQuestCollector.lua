@@ -28,6 +28,29 @@ local function getDB()
     return nil
 end
 
+local function sourceTextChanged(snapshot, translated)
+    if type(translated) ~= "table"
+        or type(translated._sourceHashes) ~= "table"
+        or not FIT.RecordFormat
+        or not FIT.RecordFormat.FingerprintField then
+        return false
+    end
+
+    local observed = FIT.RecordFormat:BuildContent(snapshot)
+
+    for field, value in pairs(observed) do
+        local expected = translated._sourceHashes[field]
+        if expected then
+            local actual = FIT.RecordFormat:FingerprintField(field, value)
+            if actual ~= expected then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
 local function chooseBucket(snapshot, flavor, translated, source)
     if not translated then
         return "missing", "translation_missing"
@@ -37,13 +60,8 @@ local function chooseBucket(snapshot, flavor, translated, source)
         return "verifyClassic", "classic_translation_needs_forever_verification"
     end
 
-    if type(translated) == "table" and translated._sourceHash and FIT.RecordFormat then
-        local observedContent = FIT.RecordFormat:BuildContent(snapshot)
-        local observedHash = FIT.RecordFormat:Fingerprint(snapshot.id, observedContent)
-
-        if observedHash ~= translated._sourceHash then
-            return "modified", "source_text_changed"
-        end
+    if sourceTextChanged(snapshot, translated) then
+        return "modified", "source_text_changed"
     end
 
     return nil, nil
@@ -74,9 +92,21 @@ function Collector:Observe(snapshot)
     end
 
     local bucketName, reason = chooseBucket(snapshot, flavor, translated, source)
+
+    local function clearOtherBuckets(keep)
+        for _, name in ipairs({ "missing", "verifyClassic", "modified" }) do
+            if name ~= keep and type(db[name]) == "table" then
+                db[name][snapshot.id] = nil
+            end
+        end
+    end
+
     if not bucketName then
+        clearOtherBuckets(nil)
         return
     end
+
+    clearOtherBuckets(bucketName)
 
     local bucket = db[bucketName]
     if type(bucket) ~= "table" then
@@ -103,4 +133,13 @@ function Collector:Observe(snapshot)
     end
 
     bucket[snapshot.id] = nextRecord
+end
+
+
+if FIT.Compat.Quest and FIT.Compat.Quest.RegisterListener then
+    FIT.Compat.Quest:RegisterListener(function(event, snapshot)
+        if event ~= "QUEST_FINISHED" then
+            Collector:Observe(snapshot)
+        end
+    end)
 end
