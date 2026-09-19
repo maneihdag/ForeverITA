@@ -20,7 +20,6 @@ local function printHelp()
     FIT:Print("/fit status - stato client")
     FIT:Print("/fit quest - ultima quest letta")
     FIT:Print("/fit data <QuestID> - controlla i dati italiani")
-    FIT:Print("/fit collector - stato raccolta quest")
     FIT:Print("/fit selftest - test logica Classic/Forever")
     FIT:Print("/fit classictest - controlli per Classic Era")
     FIT:Print("/fit ui - apre/chiude una finestra di test")
@@ -82,15 +81,6 @@ local function handleSlash(message)
             FIT:Print("Titolo IT: " .. tostring(record.title or "<mancante>"))
         else
             FIT:Print("Quest " .. questID .. " -> nessuna traduzione (" .. tostring(source) .. ")")
-        end
-        return
-    end
-
-    if command == "collector" then
-        if FIT.MissingQuestCollector and FIT.MissingQuestCollector.PrintStatus then
-            FIT.MissingQuestCollector:PrintStatus()
-        else
-            FIT:Print("Collector non disponibile.")
         end
         return
     end
@@ -167,6 +157,5 @@ eventFrame:SetScript("OnEvent", function(self, event, loadedAddon)
         FIT.Compat.Storage:Initialize()
     end
 
-    FIT:Print("Addon caricato. Versione " .. FIT.version)
     self:UnregisterEvent("ADDON_LOADED")
 end)
