@@ -15,7 +15,9 @@ Può salvare:
 - versione addon;
 - hash e revisione del record.
 
-Non è progettato per salvare:
+Prima del salvataggio, ForeverITA rimuove dal testo eventuali riferimenti al nome del personaggio e li sostituisce con `<PLAYER>`.
+
+Non salva:
 
 - nome personaggio;
 - account/BattleTag;
