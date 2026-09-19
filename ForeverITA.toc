@@ -10,6 +10,7 @@ Core.lua
 
 Compat\API.lua
 Compat\Client.lua
+Compat\Privacy.lua
 Compat\Storage.lua
 Compat\Quest.lua
 Compat\UI.lua
