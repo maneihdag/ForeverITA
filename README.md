@@ -68,6 +68,30 @@ Dati rilevati sul client beta al 17 settembre 2026:
 
 La disponibilità delle singole API e il comportamento dell’interfaccia devono ancora essere verificati direttamente in gioco.
 
+### Ambiente di sviluppo temporaneo: WoW Classic Era
+
+Finché non avremo accesso diretto a WoW Forever, useremo **WoW Classic Era** come banco di prova reale.
+
+Su Classic possiamo verificare:
+
+* caricamento dell'addon e del file `.toc`;
+* errori Lua;
+* SavedVariables;
+* UI di base;
+* eventi e lettura delle quest Vanilla;
+* collector delle quest mancanti;
+* funzionamento del motore dati.
+
+Questo **non significa** che Classic e Forever siano equivalenti.
+
+Ogni risultato sarà distinto in:
+
+* **TESTATO SU CLASSIC**;
+* **DA TESTARE SU FOREVER**;
+* **VERIFICATO SU FOREVER**, solo dopo un test reale sul client Forever.
+
+Tutto ciò che può cambiare tra Classic e Forever viene isolato nella cartella `Compat/`.
+
 
 ---
 
@@ -85,20 +109,25 @@ Un possibile esempio:
 
 ```text
 ForeverITA/
-│
 ├── ForeverITA.toc
 ├── Core.lua
-│
-├── Data/
-│   ├── Quests.lua
-│   ├── NPC.lua
-│   ├── Dialogues.lua
+├── Compat/
+│   ├── API.lua
+│   ├── Client.lua
+│   ├── Storage.lua
+│   ├── Quest.lua
 │   └── UI.lua
-│
-├── Localization/
-│   └── itIT.lua
-│
-└── README.md
+├── Core/
+│   └── DataRegistry.lua
+├── Modules/
+│   ├── QuestDebug.lua
+│   └── MissingQuestCollector.lua
+├── Data/
+│   ├── Classic_it/
+│   └── Forever_it/
+└── Dev/
+    ├── SelfTest.lua
+    └── ClassicSmokeTest.lua
 ```
 
 La struttura definitiva verrà decisa durante lo sviluppo e potrà cambiare man mano che comprenderemo meglio il funzionamento di WoW Forever.
@@ -166,11 +195,16 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 
 ### Fase 1 — Prototipo
 
-* [ ] Creare struttura base di ForeverITA
-* [ ] Creare `ForeverITA.toc`
-* [ ] Creare il core Lua
-* [ ] Verificare il caricamento dell'addon
-* [ ] Visualizzare un messaggio di conferma in gioco
+* [x] Creare struttura base di ForeverITA
+* [x] Creare `ForeverITA.toc`
+* [x] Creare il core Lua
+* [x] Separare il livello `Compat`
+* [x] Preparare collector e SavedVariables
+* [ ] Verificare il caricamento reale su Classic Era
+* [ ] Verificare una piccola UI su Classic Era
+* [ ] Verificare SavedVariables su Classic Era
+* [ ] Leggere 2-3 quest Vanilla reali su Classic Era
+* [ ] Ripetere i test principali su WoW Forever
 
 ### Fase 2 — Prima traduzione
 
