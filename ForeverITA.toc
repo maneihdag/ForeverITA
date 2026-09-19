@@ -20,6 +20,7 @@ Core\DataRegistry.lua
 Core\RecordFormat.lua
 
 Data\Classic_it\Quests.lua
+Data\Classic_it\Mulgore.lua
 Data\Forever_it\Quests.lua
 
 Modules\MissingQuestCollector.lua
