@@ -171,7 +171,9 @@ Token ammessi nella v0.1:
 
 `player` non viene usato qui: il nome giocatore è gestito separatamente dal privacy layer con `<PLAYER>`.
 
-Un campo dinamico deve esistere anche in `translation`.
+Nel layer Classic un campo dinamico deve esistere anche in `translation`.
+
+Nel layer Forever, `dynamicFields` può anche riferirsi a un campo tradotto ereditato dalla base Classic. Il validator runtime controlla il record risolto dopo il fallback e segnala il caso in cui quel campo non esista davvero.
 
 L'importer non deve inventare `dynamicFields`; devono derivare da una verifica esplicita.
 
