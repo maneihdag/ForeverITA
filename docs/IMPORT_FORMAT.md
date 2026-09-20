@@ -416,13 +416,11 @@ La prima versione non deve:
 
 Questo formato è una decisione di progetto.
 
-L'implementazione è:
+L'importer è implementato in `tools/import_quests.py` e dispone di fixture/test offline in `tools/fixtures/` e `tools/test_import_quests.py`.
 
-**DA PASSARE A CODEX DOMANI**
+Stato attuale:
 
-Dopo l'implementazione:
-
-**DA TESTARE COME TOOL DI SVILUPPO**
+**DA REVISIONARE E TESTARE COME TOOL DI SVILUPPO**
 
 La parte runtime generata resta inoltre soggetta ai normali test Classic e Forever.
 
@@ -433,3 +431,15 @@ Il validator/importer deve rifiutare Quest ID duplicati nello stesso batch JSON.
 Il runtime DataRegistry deve inoltre rifiutare una seconda registrazione dello stesso Quest ID nello stesso layer, così vengono intercettati anche duplicati distribuiti tra file differenti.
 
 Un Quest ID presente sia in `classic` sia in `forever` NON è un duplicato: è il normale meccanismo di override.
+
+## Comandi di verifica
+
+Quando si lavora da una copia locale del repository:
+
+```text
+python tools/import_quests.py tools/fixtures/import_classic_sample.json --check
+python tools/import_quests.py tools/fixtures/import_forever_sample.json --check
+python tools/test_import_quests.py
+```
+
+Questi test non richiedono World of Warcraft e non usano la rete.
