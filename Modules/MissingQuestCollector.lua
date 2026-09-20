@@ -28,50 +28,149 @@ local function getDB()
     return nil
 end
 
-local function sourceTextChanged(snapshot, translated)
+local CONTENT_FIELDS = {
+    "title",
+    "description",
+    "objectives",
+    "progress",
+    "completion",
+}
+
+local BUCKETS = {
+    "missing",
+    "incomplete",
+    "modified",
+    "verifyClassic",
+}
+
+local function hasText(value)
+    return type(value) == "string" and value ~= ""
+end
+
+local function copySnapshot(snapshot)
+    local copy = {}
+    for key, value in pairs(snapshot or {}) do
+        copy[key] = value
+    end
+    return copy
+end
+
+local function getPriorRecord(db, questID)
+    for _, bucketName in ipairs(BUCKETS) do
+        local bucket = db[bucketName]
+        if type(bucket) == "table" and type(bucket[questID]) == "table" then
+            return bucket[questID], bucketName
+        end
+    end
+    return nil, nil
+end
+
+local function mergePriorEvidence(snapshot, previous)
+    local merged = copySnapshot(snapshot)
+
+    if type(previous) == "table" and type(previous.content) == "table" then
+        for _, field in ipairs(CONTENT_FIELDS) do
+            if merged[field] == nil and previous.content[field] ~= nil then
+                merged[field] = previous.content[field]
+            end
+        end
+    end
+
+    return merged
+end
+
+local function buildSelectedSnapshot(snapshot, selectedContent)
+    local selected = copySnapshot(snapshot)
+
+    for _, field in ipairs(CONTENT_FIELDS) do
+        selected[field] = nil
+    end
+
+    for field, value in pairs(selectedContent or {}) do
+        selected[field] = value
+    end
+
+    return selected
+end
+
+local function observedContent(snapshot)
+    if not FIT.RecordFormat or not FIT.RecordFormat.BuildContent then
+        return {}
+    end
+    return FIT.RecordFormat:BuildContent(snapshot)
+end
+
+local function missingTranslationFields(snapshot, translated)
+    local missing = {}
+
+    if type(translated) ~= "table" then
+        return missing
+    end
+
+    for field, value in pairs(observedContent(snapshot)) do
+        if not hasText(translated[field]) then
+            missing[field] = value
+        end
+    end
+
+    return missing
+end
+
+local function changedSourceFields(snapshot, translated)
+    local changed = {}
+
     if type(translated) ~= "table"
         or type(translated._sourceHashes) ~= "table"
         or not FIT.RecordFormat
         or not FIT.RecordFormat.FingerprintField then
-        return false
+        return changed
     end
 
-    local observed = FIT.RecordFormat:BuildContent(snapshot)
+    local dynamicFields = type(translated._dynamicFields) == "table"
+        and translated._dynamicFields
+        or {}
 
-    for field, value in pairs(observed) do
-        local dynamicFields = translated._dynamicFields
-        local isDynamic =
-            type(dynamicFields) == "table"
-            and dynamicFields[field] ~= nil
-
-        if not isDynamic then
+    for field, value in pairs(observedContent(snapshot)) do
+        if dynamicFields[field] == nil then
             local expected = translated._sourceHashes[field]
             if expected then
                 local actual = FIT.RecordFormat:FingerprintField(field, value)
                 if actual ~= expected then
-                    return true
+                    changed[field] = value
                 end
             end
         end
     end
 
-    return false
+    return changed
+end
+
+local function hasEntries(tbl)
+    return type(tbl) == "table" and next(tbl) ~= nil
 end
 
 local function chooseBucket(snapshot, flavor, translated, source)
+    local content = observedContent(snapshot)
+
     if not translated then
-        return "missing", "translation_missing"
+        return "missing", "translation_missing", content
+    end
+
+    local incomplete = missingTranslationFields(snapshot, translated)
+    if hasEntries(incomplete) then
+        return "incomplete", "translation_field_missing", incomplete
+    end
+
+    local modified = changedSourceFields(snapshot, translated)
+    if hasEntries(modified) then
+        return "modified", "source_text_changed", modified
     end
 
     if flavor == "forever" and source == "classic" then
-        return "verifyClassic", "classic_translation_needs_forever_verification"
+        return "verifyClassic", "classic_translation_needs_forever_verification", content
     end
 
-    if sourceTextChanged(snapshot, translated) then
-        return "modified", "source_text_changed"
-    end
-
-    return nil, nil
+    return nil, nil, nil
 end
 
 function Collector:Observe(snapshot)
@@ -105,10 +204,13 @@ function Collector:Observe(snapshot)
         translated, source = FIT.Data:ResolveQuest(snapshot.id, flavor)
     end
 
-    local bucketName, reason = chooseBucket(snapshot, flavor, translated, source)
+    local priorRecord = getPriorRecord(db, snapshot.id)
+    local classificationSnapshot = mergePriorEvidence(snapshot, priorRecord)
+    local bucketName, reason, selectedContent =
+        chooseBucket(classificationSnapshot, flavor, translated, source)
 
     local function clearOtherBuckets(keep)
-        for _, name in ipairs({ "missing", "verifyClassic", "modified" }) do
+        for _, name in ipairs(BUCKETS) do
             if name ~= keep and type(db[name]) == "table" then
                 db[name][snapshot.id] = nil
             end
@@ -120,20 +222,34 @@ function Collector:Observe(snapshot)
         return
     end
 
-    clearOtherBuckets(bucketName)
-
     local bucket = db[bucketName]
     if type(bucket) ~= "table" then
         return
     end
 
+    local selectedSnapshot = buildSelectedSnapshot(classificationSnapshot, selectedContent)
     local current = bucket[snapshot.id]
-    local nextRecord = FIT.RecordFormat:BuildRecord(snapshot, reason, source, current)
+
+    local priorForBuild = nil
+    if priorRecord then
+        priorForBuild = {
+            content = {},
+            context = priorRecord.context,
+            client = priorRecord.client,
+            revision = priorRecord.revision,
+        }
+    end
+
+    local nextRecord =
+        FIT.RecordFormat:BuildRecord(selectedSnapshot, reason, source, priorForBuild)
 
     if current and current.contentHash == nextRecord.contentHash then
         current.client = nextRecord.client
         current.context = nextRecord.context
         current.addonVersion = FIT.version
+        current.reason = reason
+        current.sourceAtCapture = source
+        clearOtherBuckets(bucketName)
         return
     end
 
@@ -142,10 +258,16 @@ function Collector:Observe(snapshot)
         return
     end
 
-    if current then
-        nextRecord.revision = (tonumber(current.revision) or 1) + 1
+    if priorRecord then
+        local previousRevision = tonumber(priorRecord.revision) or 1
+        if priorRecord.contentHash ~= nextRecord.contentHash then
+            nextRecord.revision = previousRevision + 1
+        else
+            nextRecord.revision = previousRevision
+        end
     end
 
+    clearOtherBuckets(bucketName)
     bucket[snapshot.id] = nextRecord
 end
 
