@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "layer": "classic",
+  "group": "SyntheticImportTest",
+  "defaults": {
+    "status": "draft",
+    "sourceClient": "synthetic",
+    "sourceBuild": "0"
+  },
+  "quests": [
+    {
+      "id": 990000101,
+      "translation": {
+        "title": "[TEST] Import classic",
+        "description": "Riga uno.\nRiga due.",
+        "objectives": "Verifica l'import JSON in Lua."
+      },
+      "sourceHashes": {
+        "title": "f3-1001",
+        "description": "f3-1002",
+        "objectives": "f3-1003"
+      },
+      "meta": {
+        "provenance": "ForeverITA synthetic importer fixture"
+      }
+    },
+    {
+      "id": 990000102,
+      "translation": {
+        "title": "[TEST] Campo dinamico",
+        "description": "Una traduzione sintetica che simula un campo sorgente dipendente dalla classe."
+      },
+      "sourceHashes": {
+        "title": "f3-1101",
+        "description": "f3-1102"
+      },
+      "dynamicFields": {
+        "description": ["class"]
+      },
+      "meta": {
+        "provenance": "ForeverITA synthetic importer fixture"
+      }
+    }
+  ]
+}
