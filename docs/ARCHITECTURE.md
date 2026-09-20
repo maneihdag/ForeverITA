@@ -25,17 +25,22 @@ ForeverITA/
 ├── Compat/
 │   ├── API.lua
 │   ├── Client.lua
+│   ├── Privacy.lua
 │   ├── Storage.lua
 │   ├── Quest.lua
-│   └── UI.lua
+│   ├── UI.lua
+│   └── TranslationUI.lua
 ├── Core/
-│   └── DataRegistry.lua
+│   ├── DataRegistry.lua
+│   └── RecordFormat.lua
 ├── Modules/
-│   ├── QuestDebug.lua
-│   └── MissingQuestCollector.lua
+│   ├── MissingQuestCollector.lua
+│   ├── QuestTranslation.lua
+│   └── QuestDebug.lua
 ├── Data/
 │   ├── Classic_it/
-│   │   └── Quests.lua
+│   │   ├── Quests.lua
+│   │   └── Mulgore.lua
 │   └── Forever_it/
 │       └── Quests.lua
 └── Dev/
@@ -149,3 +154,28 @@ Nessun modulo può richiedere:
 - automazione del gameplay.
 
 Se una funzione non è ottenibile tramite le API addon disponibili, viene marcata come **non disponibile / da verificare**, non aggirata con strumenti esterni.
+
+## Perimetro della prima Alpha
+
+Il perimetro preciso della v0.1 è fissato in `docs/V0_1_SCOPE.md`.
+
+Per la prima Alpha la priorità è il ciclo quest:
+
+```text
+evento quest
+→ Compat/Quest
+→ DataRegistry
+→ QuestTranslation
+→ TranslationUI
+```
+
+In parallelo:
+
+```text
+evento quest
+→ Compat/Quest
+→ MissingQuestCollector
+→ SavedVariables
+```
+
+La traduzione e la raccolta condividono la lettura Compat ma restano moduli separati.
