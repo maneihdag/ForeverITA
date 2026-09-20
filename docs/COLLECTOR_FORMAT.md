@@ -79,6 +79,11 @@ missing = {
             zone = "...",
             mapID = 12
         },
+        fieldHashes = {
+            title = "f3-...",
+            description = "f3-...",
+            objectives = "f3-..."
+        },
         contentHash = "q3-123456789",
         revision = 1,
         addonVersion = "0.0.2-alpha",
@@ -94,7 +99,9 @@ missing = {
 
 ## Hash e deduplicazione
 
-L'hash identifica il contenuto testuale della quest.
+`contentHash` identifica l'insieme del contenuto testuale della quest.
+
+Il record conserva anche `fieldHashes`, con un fingerprint `f3-*` per ogni campo sorgente osservato. Questi valori possono essere riutilizzati direttamente come `_sourceHashes` quando viene preparata una traduzione, evitando di ricalcolarli manualmente fuori dal collector.
 
 Zona e map ID non cambiano l'hash, così la stessa quest incontrata in due posti non viene considerata un nuovo testo.
 
