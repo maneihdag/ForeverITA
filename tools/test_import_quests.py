@@ -82,6 +82,13 @@ class ImportQuestTests(unittest.TestCase):
         with self.assertRaises(importer.ValidationError):
             importer.validate_batch(raw)
 
+    def test_classic_extra_hash_without_translation_is_rejected(self):
+        raw = load_fixture("import_classic_sample.json")
+        raw["quests"][0]["sourceHashes"]["completion"] = "f3-9999"
+
+        with self.assertRaises(importer.ValidationError):
+            importer.validate_batch(raw)
+
     def test_old_hash_schema_is_rejected(self):
         raw = load_fixture("import_classic_sample.json")
         raw["quests"][0]["sourceHashes"]["title"] = "f2-123"
