@@ -15,8 +15,42 @@ FIT.Compat.Privacy = Privacy
 
 local PLAYER_TOKEN = "<PLAYER>"
 
-local function escapePattern(text)
-    return (text:gsub("([^%w])", "%%%1"))
+local function isNameByte(byte)
+    if not byte then
+        return false
+    end
+
+    return (byte >= 48 and byte <= 57)
+        or (byte >= 65 and byte <= 90)
+        or (byte >= 97 and byte <= 122)
+        or byte == 95
+        or byte >= 128
+end
+
+local function replaceAliasToken(text, alias)
+    local cursor = 1
+
+    while true do
+        local first, last = text:find(alias, cursor, true)
+        if not first then
+            break
+        end
+
+        local previousByte = first > 1 and text:byte(first - 1) or nil
+        local nextByte = last < #text and text:byte(last + 1) or nil
+
+        if not isNameByte(previousByte) and not isNameByte(nextByte) then
+            text =
+                text:sub(1, first - 1)
+                .. PLAYER_TOKEN
+                .. text:sub(last + 1)
+            cursor = first + #PLAYER_TOKEN
+        else
+            cursor = last + 1
+        end
+    end
+
+    return text
 end
 
 local function addAlias(list, seen, value)
@@ -63,7 +97,7 @@ function Privacy:SanitizeText(text)
     local sanitized = text
 
     for _, alias in ipairs(self:GetPlayerAliases()) do
-        sanitized = sanitized:gsub(escapePattern(alias), PLAYER_TOKEN)
+        sanitized = replaceAliasToken(sanitized, alias)
     end
 
     return sanitized
