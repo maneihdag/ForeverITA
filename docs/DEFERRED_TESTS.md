@@ -24,7 +24,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 ## Da testare nel prossimo batch Classic
 
 - eseguire `/fit datatest` e verificare che il dataset attuale passi senza errori;
-- verificare che i quattro record Mulgore producano solo i warning legacy attesi per `manual_test_translation`;
+- verificare che i quattro record Mulgore `draft` non producano warning/errori inattesi nel validator;
 
 - UI compatta/adattiva dopo il restyling;
 - visualizzazione diversa per QUEST_DETAIL;
