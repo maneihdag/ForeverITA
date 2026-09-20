@@ -32,8 +32,77 @@ local function newDatabase()
     }
 end
 
+local function migrateRecordV2ToV3(record)
+    if type(record) ~= "table" then
+        return nil
+    end
+
+    if record.schema == 3 then
+        return record
+    end
+
+    if record.schema ~= 2
+        or type(record.id) ~= "number"
+        or type(record.content) ~= "table"
+        or not FIT.RecordFormat
+        or not FIT.RecordFormat.BuildFieldHashes
+        or not FIT.RecordFormat.Fingerprint then
+        return nil
+    end
+
+    record.schema = 3
+    record.fieldHashes = FIT.RecordFormat:BuildFieldHashes(record.content)
+    record.contentHash = FIT.RecordFormat:Fingerprint(record.id, record.content)
+    record.addonVersion = FIT.version
+
+    return record
+end
+
+local function migrateBucketV2ToV3(bucket)
+    local migrated = {}
+
+    if type(bucket) ~= "table" then
+        return migrated
+    end
+
+    for questID, record in pairs(bucket) do
+        local converted = migrateRecordV2ToV3(record)
+        if converted then
+            migrated[questID] = converted
+        end
+    end
+
+    return migrated
+end
+
+local function migrateDatabaseV3ToV4(db)
+    if type(db) ~= "table" or db.schema ~= 3 then
+        return nil
+    end
+
+    db.schema = 4
+    db.recordSchema = 3
+    db.addonVersion = FIT.version
+    db.missing = migrateBucketV2ToV3(db.missing)
+    db.modified = migrateBucketV2ToV3(db.modified)
+    db.verifyClassic = migrateBucketV2ToV3(db.verifyClassic)
+    db.incomplete = type(db.incomplete) == "table" and db.incomplete or {}
+    db.diagnostics = type(db.diagnostics) == "table" and db.diagnostics or {}
+    db.tests = type(db.tests) == "table" and db.tests or {}
+    db.dropped = tonumber(db.dropped) or 0
+
+    db.diagnostics.storage_migrated_v3_to_v4 =
+        (db.diagnostics.storage_migrated_v3_to_v4 or 0) + 1
+
+    return db
+end
+
 function Storage:Initialize()
     local db = _G.ForeverITA_CollectorDB
+
+    if type(db) == "table" and db.schema == 3 then
+        db = migrateDatabaseV3ToV4(db)
+    end
 
     if type(db) ~= "table" or db.schema ~= self.schema then
         db = newDatabase()
