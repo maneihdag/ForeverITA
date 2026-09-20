@@ -132,6 +132,8 @@ Un campo assente significa che la traduzione di quel campo non è fornita.
 
 Contiene i fingerprint del testo sorgente originale osservato, non della traduzione italiana.
 
+Quando il record proviene dal collector ForeverITA schema 3, questi valori possono essere copiati dal relativo `fieldHashes` del record raccolto.
+
 Chiavi ammesse:
 
 - `title`;
