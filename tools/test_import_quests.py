@@ -120,6 +120,14 @@ class ImportQuestTests(unittest.TestCase):
         with self.assertRaises(importer.ValidationError):
             importer.validate_batch(raw)
 
+    def test_verified_forever_translation_requires_hash(self):
+        raw = load_fixture("import_forever_sample.json")
+        raw["defaults"]["status"] = "verified_forever"
+        del raw["quests"][0]["sourceHashes"]["title"]
+
+        with self.assertRaises(importer.ValidationError):
+            importer.validate_batch(raw)
+
     def test_verified_forever_metadata_only_override_is_allowed(self):
         raw = {
             "schema": 1,
