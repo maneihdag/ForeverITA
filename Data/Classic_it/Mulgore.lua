@@ -39,6 +39,7 @@ Dimostra il tuo valore eliminando questi nemici e torna da Chief Hawkwind a Camp
         status = "manual_test_translation",
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
+        provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
         terminologyNote = "Picco del Tuono verificato; altri nomi propri lasciati in inglese finché non verificati.",
     },
 })
@@ -73,6 +74,7 @@ Troverai la dimora del veggente direttamente a sud di Camp Narache, nascosta tra
         status = "manual_test_translation",
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
+        provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
         terminologyNote = "Picco del Tuono verificato; gli altri nomi propri restano in inglese finché non verificati.",
     },
 })
@@ -99,6 +101,7 @@ I nostri bambini hanno bisogno di vestiti e le nostre tende devono essere ripara
         status = "manual_test_translation",
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
+        provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
         terminologyNote = "Nomi propri e nome oggetto lasciati in inglese finché non verificati.",
     },
 })
@@ -133,6 +136,7 @@ Ora va', <PLAYER>. Mettiti alla prova. Io sarò qui quando avrai bisogno di me.]
         status = "manual_test_translation",
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
+        provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
         terminologyNote = "Nomi propri lasciati in inglese finché non verificati.",
     },
 })
