@@ -192,11 +192,11 @@ nessuna traduzione
 traduzione presente ma campo osservato non tradotto
 → incomplete
 
-su Forever usa soltanto base Classic
-→ verifyClassic
-
 campo sorgente noto con hash diverso
 → modified
+
+su Forever usa soltanto base Classic e i campi osservati non risultano modificati
+→ verifyClassic
 
 altrimenti
 → nessun record
@@ -205,5 +205,27 @@ altrimenti
 Quando la traduzione diventa completa per i campi osservati, il Quest ID deve essere rimosso da `incomplete` al successivo incontro.
 
 L'aggiunta del bucket può essere retrocompatibile: `Compat/Storage.lua` può inizializzarlo quando manca senza cancellare gli altri dati. Non aumentare automaticamente lo schema finché non è necessario per incompatibilità reali.
+
+Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
+
+## Persistenza dell'evidenza `modified`
+
+**Decisione di progetto — da implementare.**
+
+Un record `modified` non deve essere cancellato soltanto perché un evento successivo della stessa quest riguarda un altro campo che coincide con il database.
+
+Esempio:
+
+```text
+QUEST_DETAIL
+description diversa → modified
+
+QUEST_COMPLETE
+completion uguale → NON cancellare il modified della description
+```
+
+Il record `modified` può essere rimosso soltanto quando i campi già registrati come evidenza non risultano più diversi rispetto agli `_sourceHashes` correnti, per esempio dopo un aggiornamento del database traduzioni.
+
+L'implementazione può riutilizzare il contenuto già conservato nel record `modified` per rivalutare i campi; non è necessario introdurre un nuovo formato se non serve.
 
 Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
