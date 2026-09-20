@@ -156,3 +156,54 @@ Regola prevista:
 Non vanno compattati gli spazi interni e non vanno riscritti i paragrafi: l'obiettivo è eliminare differenze tecniche di newline/bordi, non alterare il contenuto.
 
 Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
+
+## Traduzioni parziali
+
+**Decisione di progetto — da implementare.**
+
+Una quest può esistere nel database ma avere soltanto alcuni campi tradotti. In questo caso non deve essere trattata come completamente coperta.
+
+Esempio:
+
+```text
+title ✅
+description ✅
+objectives ✅
+progress ❌
+completion ❌
+```
+
+Se durante il gioco viene osservato un campo sorgente che non ha il corrispondente campo tradotto, il collector dovrà registrarlo nel bucket:
+
+`incomplete`
+
+con reason:
+
+`translation_field_missing`
+
+Nel bucket `incomplete` devono essere conservati soltanto i campi sorgente osservati che mancano nella traduzione, oltre a ID, contesto, build, hash e metadati già previsti dal formato record.
+
+Precedenza prevista del collector:
+
+```text
+nessuna traduzione
+→ missing
+
+traduzione presente ma campo osservato non tradotto
+→ incomplete
+
+su Forever usa soltanto base Classic
+→ verifyClassic
+
+campo sorgente noto con hash diverso
+→ modified
+
+altrimenti
+→ nessun record
+```
+
+Quando la traduzione diventa completa per i campi osservati, il Quest ID deve essere rimosso da `incomplete` al successivo incontro.
+
+L'aggiunta del bucket può essere retrocompatibile: `Compat/Storage.lua` può inizializzarlo quando manca senza cancellare gli altri dati. Non aumentare automaticamente lo schema finché non è necessario per incompatibilità reali.
+
+Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
