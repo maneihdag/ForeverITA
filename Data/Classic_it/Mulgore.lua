@@ -29,9 +29,9 @@ Dimostra il tuo valore eliminando questi nemici e torna da Chief Hawkwind a Camp
     objectives = "Uccidi i Bristleback nella Brambleblade Ravine e porta 12 Bristleback Belts a Chief Hawkwind a Camp Narache.",
 
     _sourceHashes = {
-        title = "f2-583207982",
-        description = "f2-1605805047",
-        objectives = "f2-41009017",
+        title = "f3-1309580852",
+        description = "f3-517983166",
+        objectives = "f3-1315568635",
     },
 
     _meta = {
@@ -63,10 +63,10 @@ Troverai la dimora del veggente direttamente a sud di Camp Narache, nascosta tra
     completion = "Ti manda Chief Hawkwind? Intraprendere i Riti della Madre Terra non è cosa da poco...",
 
     _sourceHashes = {
-        title = "f2-529049881",
-        description = "f2-96613098",
-        objectives = "f2-338062873",
-        completion = "f2-1229479040",
+        title = "f3-1993634989",
+        description = "f3-940745371",
+        objectives = "f3-1480327953",
+        completion = "f3-1805373569",
     },
 
     -- Il client rende il token <class> con la classe reale del personaggio.
@@ -97,9 +97,9 @@ I nostri bambini hanno bisogno di vestiti e le nostre tende devono essere ripara
     objectives = "Grull Hawkwind a Camp Narache vuole che tu gli porti 10 Mountain Cougar Pelts.",
 
     _sourceHashes = {
-        title = "f2-915779862",
-        description = "f2-931175005",
-        objectives = "f2-425273098",
+        title = "f3-58031097",
+        description = "f3-1819721703",
+        objectives = "f3-1712647064",
     },
 
     _meta = {
@@ -130,11 +130,11 @@ Non sono una guida, ma comprendo gli elementi e so parlare con gli spiriti del n
 Ora va', <PLAYER>. Mettiti alla prova. Io sarò qui quando avrai bisogno di me.]],
 
     _sourceHashes = {
-        title = "f2-163691353",
-        description = "f2-1603757999",
-        objectives = "f2-1136235860",
-        progress = "f2-257620214",
-        completion = "f2-485747249",
+        title = "f3-1615236429",
+        description = "f3-2076480885",
+        objectives = "f3-2027092750",
+        progress = "f3-2085786229",
+        completion = "f3-528183461",
     },
 
     _meta = {
