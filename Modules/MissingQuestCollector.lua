@@ -259,6 +259,7 @@ function Collector:Observe(snapshot)
     if current and current.contentHash == nextRecord.contentHash then
         current.client = nextRecord.client
         current.context = nextRecord.context
+        current.fieldHashes = nextRecord.fieldHashes
         current.addonVersion = FIT.version
         current.reason = reason
         current.sourceAtCapture = source
