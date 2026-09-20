@@ -44,6 +44,23 @@ function SelfTest:Run()
         "Campo non sovrascritto resta Classic",
         forever and equal(forever.objectives, "Verifica il fallback dei campi non sovrascritti.")
     )
+    check(
+        "Hash Forever sovrascrive solo il campo fornito",
+        forever
+            and forever._sourceHashes
+            and forever._sourceHashes.title == "f2-2001"
+            and forever._sourceHashes.description == "f2-1002"
+            and forever._sourceHashes.objectives == "f2-1003"
+    )
+    check(
+        "Metadati campi dinamici vengono uniti per campo",
+        forever
+            and forever._dynamicFields
+            and forever._dynamicFields.title
+            and forever._dynamicFields.description
+            and forever._dynamicFields.title[1] == "class"
+            and forever._dynamicFields.description[1] == "race"
+    )
 
     local foreverOnly, foreverOnlySource = FIT.Data:ResolveQuest(990000002, "forever")
     check("Forever-only disponibile", foreverOnly ~= nil and foreverOnlySource == "forever")
@@ -66,6 +83,39 @@ function SelfTest:Run()
         })
     end)
     check("QuestID duplicato nello stesso layer rifiutato", duplicateAccepted == false)
+
+    if FIT.Data.ForEachQuest then
+        local iterated = {}
+        local firstRecord
+
+        local iterOk = FIT.Data:ForEachQuest("classic", function(questID, record)
+            iterated[#iterated + 1] = questID
+            if not firstRecord then
+                firstRecord = record
+                record.title = "[TEST] Mutazione copia"
+            end
+        end)
+
+        local sorted = true
+        for i = 2, #iterated do
+            if iterated[i - 1] > iterated[i] then
+                sorted = false
+                break
+            end
+        end
+
+        check("Iterazione dati disponibile", iterOk == true and #iterated > 0)
+        check("Iterazione dati ordinata per QuestID", sorted)
+
+        local fixtureAfterIteration = FIT.Data:ResolveQuest(990000001, "classic")
+        check(
+            "Iterazione dati non espone record mutabili",
+            fixtureAfterIteration
+                and fixtureAfterIteration.title == "[TEST] Base Classic"
+        )
+    else
+        check("Iterazione dati disponibile", false)
+    end
 
 
     if FIT.RecordFormat then
