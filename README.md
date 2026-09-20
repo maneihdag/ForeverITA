@@ -250,7 +250,7 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 * [x] Gestire le quest non ancora tradotte tramite collector
 * [x] Gestire traduzioni parziali tramite bucket `incomplete` (DA TESTARE SU CLASSIC)
 * [x] Aggiungere validator del database traduzioni (`/fit datatest`, DA TESTARE SU CLASSIC)
-* [x] Aggiungere importer di sviluppo JSON → Lua (DA REVISIONARE/TESTARE)
+* [x] Aggiungere importer di sviluppo JSON → Lua (test automatici offline PASS; review Codex ancora prevista)
 
 ### Fase 4 — Espansione
 
