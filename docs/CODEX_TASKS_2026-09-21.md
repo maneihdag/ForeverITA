@@ -73,11 +73,13 @@ Controllare in particolare:
 - nessuna regressione nel fallback Classic/Forever;
 - `_mode = replace/remove` invariati;
 - merge metadata per campo corretto;
+- override metadata-only `verified_forever` risolto tramite fallback Classic senza duplicare la traduzione;
 - nessun `modified` perso per un evento successivo non correlato;
 - nessun `incomplete` perso per un evento successivo non correlato;
 - caso simultaneo `modified` + `incomplete`: `modified` deve avere precedenza senza perdere stabilità tra eventi;
 - campi dinamici esclusi dal confronto hash;
 - nessun dato personale aggiuntivo;
+- privacy con punteggiatura UTF-8/possessivi e nessuna sostituzione dentro parole più lunghe;
 - nessun output automatico in chat del collector;
 - schema 3/f3/q3 coerente ovunque;
 - `fieldHashes` presenti e coerenti nei nuovi record collector;
@@ -113,6 +115,8 @@ Poi generare output temporanei e verificare:
 - `merge` senza `_mode`;
 - `replace` e `remove` corretti;
 - dynamicFields;
+- status `verified_classic`/`verified_forever` coerenti con il layer e con sourceClient/sourceBuild;
+- override Forever metadata-only e dynamic metadata ereditato dalla base Classic;
 - rifiuto duplicati;
 - rifiuto hash f2;
 - nessuna modifica automatica al TOC.
