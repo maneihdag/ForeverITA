@@ -446,7 +446,7 @@ Non è affiliato, sponsorizzato, approvato o supportato da Blizzard Entertainmen
 
 World of Warcraft, Warcraft, Blizzard Entertainment e tutti i relativi nomi, marchi, immagini, personaggi e contenuti appartengono ai rispettivi proprietari.
 
-ForeverITA non distribuisce il client di gioco né contenuti proprietari del gioco.
+ForeverITA non distribuisce il client di gioco né file originali del client Blizzard. Il repository può contenere traduzioni originali, identificatori tecnici e riferimenti necessari alla localizzazione; i diritti sui contenuti e sui marchi di World of Warcraft restano dei rispettivi titolari.
 
 ---
 
