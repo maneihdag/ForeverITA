@@ -101,3 +101,20 @@ Non deve:
 La documentazione della community WoW descrive storicamente SavedVariables come il normale ponte file-based per portare dati fuori dal sandbox addon, ma prima di implementare o distribuire il Companion va rifatta una verifica delle regole Blizzard/ToU/EULA aggiornate.
 
 Il Companion resta **NON IMPLEMENTATO** nella fase attuale.
+
+## Donazioni
+
+La UI Add-On Development Policy Blizzard vieta di inserire richieste di donazioni dentro l'addon.
+
+Per ForeverITA:
+
+- nessun messaggio di donazione in chat;
+- nessun pulsante PayPal nella UI addon;
+- nessun popup di supporto economico in gioco;
+- eventuali link o richieste di supporto restano limitati al repository, sito o pagina di distribuzione.
+
+La pagina GitHub può quindi documentare un metodo di supporto, ma il codice addon non deve mostrarlo in gioco.
+
+Fonte Blizzard:
+
+- https://us.forums.blizzard.com/en/wow/t/ui-add-on-development-policy/24534
