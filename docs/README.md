@@ -17,6 +17,7 @@ Questo file serve a evitare che la cartella `docs/` diventi disordinata.
 - `GLOSSARY_IT.md` — glossario italiano verificato/provvisorio;
 - `DATA_SOURCE_STRATEGY.md` — regole sulle sorgenti dati;
 - `IMPORT_FORMAT.md` — formato JSON → Lua dell'importer;
+- `tools/README.md` — comandi e requisiti degli strumenti di sviluppo;
 - `TRANSLATION_WORKFLOW.md` — percorso completo collector → traduzione → JSON → Lua → test;
 - `COLLECTOR_FORMAT.md` — formato e classificazione del collector.
 
