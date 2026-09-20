@@ -1,16 +1,11 @@
 name: Lua syntax checks
 
 on:
-  push:
-    branches:
-      - architecture-v0.0.2
-    paths:
-      - "**/*.lua"
-      - ".github/workflows/lua-syntax.yml"
   pull_request:
     paths:
       - "**/*.lua"
       - ".github/workflows/lua-syntax.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
