@@ -107,5 +107,7 @@ function Privacy:PersonalizeText(text)
         return text
     end
 
-    return (text:gsub("<PLAYER>", playerName))
+    return (text:gsub("<PLAYER>", function()
+        return playerName
+    end))
 end
