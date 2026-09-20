@@ -8,6 +8,8 @@ Le traduzioni di prova devono essere leggibili in italiano senza inventare termi
 
 ## Terminologia
 
+Il glossario dei termini già verificati è in `docs/GLOSSARY_IT.md`.
+
 Ordine di priorità:
 
 1. terminologia italiana ufficiale Blizzard verificata;
