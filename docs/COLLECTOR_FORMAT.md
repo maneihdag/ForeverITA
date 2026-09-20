@@ -255,7 +255,7 @@ Decisione:
 - `Storage.recordSchema` è passato a 3;
 - il database SavedVariables è passato da schema 3 a schema 4 per evitare di mescolare record q2 e q3 senza una migrazione esplicita.
 
-Durante questa fase Alpha il cambio schema può inizializzare un nuovo collector DB. I SavedVariables di test importanti già raccolti sono stati archiviati e usati per verificare il primo dataset Mulgore.
+È ora implementata una migrazione esplicita dal database schema 3 al database schema 4. I record schema 2 vengono convertiti a schema 3 rigenerando `fieldHashes` e `contentHash q3`, senza perdere il testo raccolto compatibile. Schema più vecchi o sconosciuti continuano a essere reinizializzati in modo sicuro.
 
 Gli `_sourceHashes` dei record Mulgore attuali sono stati ricalcolati con schema 3 nello stesso passaggio che ha introdotto la normalizzazione.
 
