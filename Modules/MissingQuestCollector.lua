@@ -166,14 +166,14 @@ local function chooseBucket(snapshot, flavor, translated, source)
         return "missing", "translation_missing", content
     end
 
-    local incomplete = missingTranslationFields(snapshot, translated)
-    if hasEntries(incomplete) then
-        return "incomplete", "translation_field_missing", incomplete
-    end
-
     local modified = changedSourceFields(snapshot, translated)
     if hasEntries(modified) then
         return "modified", "source_text_changed", modified
+    end
+
+    local incomplete = missingTranslationFields(snapshot, translated)
+    if hasEntries(incomplete) then
+        return "incomplete", "translation_field_missing", incomplete
     end
 
     if flavor == "forever" and source == "classic" then
