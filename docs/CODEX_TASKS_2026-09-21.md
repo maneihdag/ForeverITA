@@ -12,7 +12,7 @@ Non lavorare su `main` e non fare merge.
 
 Il 20 settembre lo sviluppo è proseguito manualmente con ChatGPT + GitHub mentre Codex non era disponibile.
 
-Le modifiche che inizialmente erano previste per Codex sono già state implementate, ma NON sono ancora considerate verificate.
+Le modifiche che inizialmente erano previste per Codex sono già state implementate. I tool Python e l'offline Lua core/data harness passano in GitHub Actions, ma il runtime WoW NON è ancora considerato verificato.
 
 Domani Codex Sol medio va usato soprattutto come reviewer/esecutore di correzioni, non per riscrivere l'architettura.
 
@@ -35,7 +35,8 @@ Domani Codex Sol medio va usato soprattutto come reviewer/esecutore di correzion
 - label UI Forever basata su `_meta.status`;
 - importer `tools/import_quests.py`;
 - fixture JSON sintetiche;
-- test offline `tools/test_import_quests.py`.
+- test offline `tools/test_import_quests.py`;
+- offline Lua core/data harness `tools/test_lua_core.lua`, con SelfTest + TranslationDataValidator PASS in GitHub Actions.
 
 Tutto questo resta **DA REVISIONARE** e, dove applicabile, **DA TESTARE SU CLASSIC**.
 
