@@ -159,3 +159,18 @@ Prima servono:
 Il futuro importer è uno strumento di sviluppo, non una dipendenza runtime dell'addon.
 
 Il formato scelto per la v0.1 è JSON batch → Lua deterministico. L'importer non scaricherà fonti e non aggiornerà automaticamente il TOC nella prima versione.
+
+## Controlli secondari del testo sorgente
+
+### Wowhead come controllo secondario
+
+Le pagine Classic/Forever di Wowhead sono utili per confrontare:
+
+- Quest ID;
+- testo sorgente inglese;
+- campi detail/progress/completion;
+- eventuali differenze visibili tra dataset Classic e Forever.
+
+Non vengono usate come prova primaria della terminologia italiana: nelle pagine italiane Classic/Forever consultate, molti testi quest restano infatti in inglese.
+
+Per la terminologia italiana stabile resta prioritario il materiale Blizzard italiano verificabile.
