@@ -150,6 +150,8 @@ L'importer v0.1 accetta soltanto schema hash `f3` per evitare di generare dati m
 
 Per un record Classic reale, ogni campo presente in `translation` deve avere il relativo `sourceHashes`.
 
+Nel layer Classic non sono ammessi hash per campi che non hanno una traduzione corrispondente. Nel layer Forever un hash può invece riferirsi a un campo ereditato dalla base Classic; il validator runtime controlla il record risolto dopo il fallback.
+
 L'importer non inventa hash mancanti e non calcola hash dalla traduzione italiana.
 
 ### dynamicFields
