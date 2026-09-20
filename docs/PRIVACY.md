@@ -81,4 +81,6 @@ Per evitare che un testo personalizzato venga salvato senza poter rimuovere il n
 
 Questo comportamento privilegia la privacy rispetto alla completezza del collector.
 
+Anche `/fit quest` evita di stampare i testi della quest se lo snapshot è marcato `privacySafe = false`; mostra soltanto le informazioni diagnostiche non testuali necessarie.
+
 Stato: **DA TESTARE SU CLASSIC** e **DA TESTARE SU FOREVER**.
