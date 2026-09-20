@@ -50,7 +50,7 @@ Dimostra il tuo valore eliminando questi nemici e torna da Chief Hawkwind a Camp
 FIT.Data:RegisterQuest("classic", 755, {
     title = "Riti della Madre Terra",
 
-    description = [[La tua disponibilità a svolgere un compito umile per i tauren di Narache e il tuo desiderio di imparare sono qualità nobili, <PLAYER>. Credo che un giorno verrai acclamato a Picco del Tuono come uno sciamano di grande valore.
+    description = [[La tua disponibilità a svolgere un compito umile per i tauren di Narache e il tuo desiderio di imparare sono qualità nobili, <PLAYER>. Credo che un giorno verrai acclamato a Picco del Tuono come un grande esponente della tua classe.
 
 Prima di allora dovrai intraprendere i Riti della Madre Terra, che sono tre.
 
@@ -67,6 +67,12 @@ Troverai la dimora del veggente direttamente a sud di Camp Narache, nascosta tra
         description = "f2-96613098",
         objectives = "f2-338062873",
         completion = "f2-1229479040",
+    },
+
+    -- Il client rende il token <class> con la classe reale del personaggio.
+    -- Il valore osservato durante questo test era "shaman".
+    _dynamicFields = {
+        description = { "class" },
     },
 
     _meta = {
