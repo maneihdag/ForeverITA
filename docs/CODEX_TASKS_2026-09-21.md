@@ -74,9 +74,82 @@ Stato dopo implementazione:
 
 **DA TESTARE SU CLASSIC**
 
-## Task 4 — Importer JSON → Lua
+## Task 4 — Collector per traduzioni parziali
 
-**DA PASSARE A CODEX DOMANI, DOPO I TASK 1-3**
+**DA PASSARE A CODEX DOMANI**
+
+Specifica obbligatoria:
+
+`docs/COLLECTOR_FORMAT.md` → sezione `Traduzioni parziali`.
+
+Obiettivo:
+
+- aggiungere bucket `incomplete`;
+- reason `translation_field_missing`;
+- se una traduzione esiste ma manca il campo sorgente osservato, raccogliere soltanto quel campo mancante;
+- precedenza: missing → incomplete → verifyClassic → modified;
+- rimuovere il Quest ID da `incomplete` quando non serve più;
+- inizializzare il nuovo bucket in modo retrocompatibile senza cancellare gli altri SavedVariables;
+- aggiornare test/diagnostica senza messaggi automatici in chat.
+
+Stato dopo implementazione:
+
+**DA TESTARE SU CLASSIC**
+
+## Task 5 — Stato traduzione e label UI
+
+**DA PASSARE A CODEX DOMANI**
+
+Specifica obbligatoria:
+
+`docs/TRANSLATION_STYLE.md` → `Stati traduzione v0.1` e `Regola etichette UI`.
+
+Problema attuale:
+
+`TranslationUI.lua` può mostrare `Dati verificati per Forever` basandosi soltanto sul fatto che il record provenga dal layer Forever.
+
+Questo non è sufficiente.
+
+Obiettivo:
+
+- usare `_meta.status` per distinguere draft/reviewed/verified;
+- mostrare `Verificata su Forever` soltanto per `verified_forever`;
+- mostrare `Override Forever · DA VERIFICARE` per override Forever non ancora verificati;
+- mantenere `Base Classic · DA VERIFICARE SU FOREVER` per fallback Classic;
+- non introdurre nuove API.
+
+Stato dopo implementazione:
+
+**DA TESTARE SU CLASSIC** e **DA TESTARE SU FOREVER** per la resa reale sul client Forever.
+
+## Task 6 — Privacy scrubber: evitare sostituzioni dentro parole
+
+**DA PASSARE A CODEX DOMANI**
+
+Problema individuato nello static review:
+
+`Privacy:SanitizeText()` oggi sostituisce il nome del personaggio come semplice sottostringa.
+
+Esempio teorico:
+
+`Ash` potrebbe alterare `Ashenvale`.
+
+Obiettivo:
+
+- continuare a sostituire il nome reale con `<PLAYER>`;
+- sostituire soltanto occorrenze del nome come token/nome completo, non dentro parole più lunghe;
+- preservare casi con punteggiatura o possessivo;
+- non salvare mai il nome reale;
+- aggiungere self-test sintetici;
+- nessuna nuova API WoW.
+
+Stato dopo implementazione:
+
+**DA TESTARE SU CLASSIC**
+
+## Task 7 — Importer JSON → Lua
+
+**DA PASSARE A CODEX DOMANI, DOPO I TASK 1-6**
 
 Specifica obbligatoria:
 
@@ -102,12 +175,19 @@ Il tool deve poter essere testato con fixture sintetiche create apposta, senza c
 ## Ordine consigliato
 
 ```text
+PRIMA ONDATA
 1. datatest
 2. normalizzazione hash
 3. merge sourceHashes
-4. importer
-5. review ChatGPT
-6. test batch Classic quando utile
+4. collector incomplete
+
+SECONDA ONDATA
+5. label UI basate sullo stato
+6. privacy boundary
+7. importer
+
+poi review ChatGPT
+e test batch Classic quando utile
 ```
 
 ## Fuori scope
