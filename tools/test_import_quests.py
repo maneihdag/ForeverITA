@@ -113,6 +113,34 @@ class ImportQuestTests(unittest.TestCase):
         with self.assertRaises(importer.ValidationError):
             importer.validate_batch(raw)
 
+    def test_verified_forever_metadata_only_override_is_allowed(self):
+        raw = {
+            "schema": 1,
+            "layer": "forever",
+            "group": "VerifiedMetadataOnly",
+            "defaults": {
+                "status": "verified_forever",
+                "sourceClient": "Forever synthetic",
+                "sourceBuild": "0",
+            },
+            "quests": [
+                {
+                    "id": 990000201,
+                    "operation": "merge",
+                    "meta": {
+                        "provenance": "ForeverITA synthetic importer fixture",
+                    },
+                }
+            ],
+        }
+
+        batch = importer.validate_batch(raw)
+        rendered = importer.render_lua(batch)
+
+        self.assertEqual(batch["quests"][0]["translation"], {})
+        self.assertIn('status = "verified_forever"', rendered)
+        self.assertNotIn('_mode = "merge"', rendered)
+
     def test_lua_string_escapes_control_characters(self):
         rendered = importer.lua_string('A"\\B\nC\tD')
         self.assertTrue(rendered.startswith('"') and rendered.endswith('"'))
