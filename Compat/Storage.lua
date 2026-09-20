@@ -23,6 +23,7 @@ local function newDatabase()
         recordSchema = 3,
         addonVersion = FIT.version,
         missing = {},
+        incomplete = {},
         verifyClassic = {},
         modified = {},
         dropped = 0,
@@ -41,6 +42,7 @@ function Storage:Initialize()
     db.recordSchema = 3
     db.addonVersion = FIT.version
     db.missing = type(db.missing) == "table" and db.missing or {}
+    db.incomplete = type(db.incomplete) == "table" and db.incomplete or {}
     db.verifyClassic = type(db.verifyClassic) == "table" and db.verifyClassic or {}
     db.modified = type(db.modified) == "table" and db.modified or {}
     db.diagnostics = type(db.diagnostics) == "table" and db.diagnostics or {}
