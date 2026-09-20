@@ -80,6 +80,7 @@ Controllare in particolare:
 - nessun dato personale aggiuntivo;
 - nessun output automatico in chat del collector;
 - schema 3/f3/q3 coerente ovunque;
+- `fieldHashes` presenti e coerenti nei nuovi record collector;
 - DB schema 4 coerente.
 
 Se trovi un errore, applica una correzione piccola e aggiungi/aggiorna un test logico quando possibile.
