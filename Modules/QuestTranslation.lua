@@ -32,17 +32,21 @@ function Translation:ShowByID(questID)
     return true
 end
 
+local function hasText(value)
+    return type(value) == "string" and value ~= ""
+end
+
 local function hasBodyForEvent(record, event)
     if event == "QUEST_DETAIL" then
-        return record.description ~= nil or record.objectives ~= nil
+        return hasText(record.description) or hasText(record.objectives)
     end
 
     if event == "QUEST_PROGRESS" then
-        return record.progress ~= nil
+        return hasText(record.progress)
     end
 
     if event == "QUEST_COMPLETE" then
-        return record.completion ~= nil
+        return hasText(record.completion)
     end
 
     return true
