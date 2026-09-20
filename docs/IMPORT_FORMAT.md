@@ -240,6 +240,14 @@ Il Lua generato scrive:
 
 Un remove non contiene translation, sourceHashes o dynamicFields.
 
+### Override di verifica senza duplicare la traduzione
+
+Se la traduzione Classic è ancora valida su Forever, non è necessario duplicare tutto il testo italiano soltanto per marcarla come verificata.
+
+È ammesso un override Forever senza `translation` quando contiene dati utili, per esempio nuovi `sourceHashes`/`dynamicFields`, oppure quando `meta.status = "verified_forever"` con `sourceClient` e `sourceBuild`.
+
+In questo caso il testo italiano continua a fare fallback dalla base Classic, mentre il record Forever documenta la verifica reale sul client.
+
 ## Metadata e fallback Forever
 
 Quando un override Forever modifica un campo testuale, i metadata Classic di quel campo non devono sopravvivere automaticamente.
