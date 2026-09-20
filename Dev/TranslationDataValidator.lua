@@ -180,8 +180,31 @@ local function validateStatus(layer, questID, record, errors, warnings)
 
     if LEGACY_STATUS[status] then
         addIssue(warnings, layer, questID, "_meta.status usa il valore legacy " .. tostring(status))
-    elseif not VALID_STATUS[status] then
+        return
+    end
+
+    if not VALID_STATUS[status] then
         addIssue(errors, layer, questID, "_meta.status non riconosciuto: " .. tostring(status))
+        return
+    end
+
+    if meta.synthetic == true then
+        return
+    end
+
+    if layer == "classic" and status == "verified_forever" then
+        addIssue(errors, layer, questID, "verified_forever non è valido nel layer classic")
+    elseif layer == "forever" and status == "verified_classic" then
+        addIssue(errors, layer, questID, "verified_classic non è valido nel layer forever")
+    end
+
+    if status == "verified_forever" then
+        if not isNonEmptyString(meta.sourceClient) then
+            addIssue(errors, layer, questID, "verified_forever richiede _meta.sourceClient")
+        end
+        if not isNonEmptyString(meta.sourceBuild) then
+            addIssue(errors, layer, questID, "verified_forever richiede _meta.sourceBuild")
+        end
     end
 end
 
