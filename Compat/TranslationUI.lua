@@ -175,7 +175,13 @@ function TranslationUI:ShowQuest(questID, record, sourceName, eventName)
     if flavor == "forever" and sourceName == "classic" then
         frame.source:SetText("Base Classic · DA VERIFICARE SU FOREVER")
     elseif sourceName == "forever" or sourceName == "forever_override" or sourceName == "forever_replace" then
-        frame.source:SetText("Dati verificati per Forever")
+        local status = type(record._meta) == "table" and record._meta.status or nil
+
+        if status == "verified_forever" then
+            frame.source:SetText("Verificata su Forever")
+        else
+            frame.source:SetText("Override Forever · DA VERIFICARE")
+        end
     else
         frame.source:SetText("")
     end
