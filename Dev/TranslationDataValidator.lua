@@ -254,7 +254,11 @@ local function validateStatus(layer, questID, record, errors, warnings)
     end
 
     if LEGACY_STATUS[status] then
-        addIssue(warnings, layer, questID, "_meta.status usa il valore legacy " .. tostring(status))
+        if layer == "classic" then
+            addIssue(warnings, layer, questID, "_meta.status usa il valore legacy " .. tostring(status))
+        else
+            addIssue(errors, layer, questID, "_meta.status legacy non ammesso nel layer " .. tostring(layer))
+        end
         return
     end
 
