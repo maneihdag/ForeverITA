@@ -16,6 +16,7 @@ VALID_LAYERS = {"classic", "forever"}
 VALID_OPERATIONS = {"merge", "replace", "remove"}
 VALID_STATUSES = {"draft", "reviewed", "verified_classic", "verified_forever"}
 VALID_DYNAMIC_TOKENS = {"class", "race"}
+CURRENT_HASH_SCHEMA = 3
 GROUP_RE = re.compile(r"^[A-Za-z0-9_-]+$")
 HASH_RE = re.compile(r"^f\d+-\d+$")
 
@@ -89,7 +90,7 @@ def validate_hashes(value: Any, quest_id: int) -> dict[str, str]:
         if field in value:
             hash_value = value[field]
             if not isinstance(hash_value, str) or not HASH_RE.fullmatch(hash_value):
-                fail(f"quest {quest_id}: sourceHashes.{field} ha formato non valido")
+                fail(\n                    f"quest {quest_id}: sourceHashes.{field} deve usare " \n                    f"lo schema f{CURRENT_HASH_SCHEMA}-*"\n                )
             out[field] = hash_value
     return out
 
