@@ -40,11 +40,11 @@ Il database e il collector non devono conservare il nome reale del giocatore.
 
 ## Stato dei record
 
-Durante il prototipo i record reali usano:
+I record reali del prototipo sono ora migrati a:
 
-`status = "manual_test_translation"`
+`status = "draft"`
 
-Non significa traduzione definitiva.
+Questo indica esplicitamente che la traduzione è presente ma non ancora promossa a `reviewed` o verificata.
 
 Prima di una release pubblica serviranno revisione terminologica e controllo qualità.
 
@@ -72,7 +72,7 @@ Valori previsti per i nuovi record:
 - `verified_classic` — traduzione e comportamento verificati sul client Classic usato come laboratorio;
 - `verified_forever` — traduzione verificata direttamente sul client WoW Forever.
 
-`manual_test_translation` resta temporaneamente accettato soltanto per i quattro record Classic del prototipo già presenti. Il validator lo segnala come stato legacy/warning nel layer Classic; non è ammesso per nuovi record Forever.
+`manual_test_translation` resta riconosciuto dal validator soltanto come compatibilità con eventuali vecchi dati del prototipo. Nessun record corrente deve usarlo e non è ammesso per nuovi record Forever.
 
 Regole di coerenza:
 
