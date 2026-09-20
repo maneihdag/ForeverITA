@@ -331,7 +331,8 @@ A parità di input il risultato deve essere identico.
 Regole:
 
 - quest ordinate per Quest ID crescente;
-- UTF-8;
+- UTF-8; l'input accetta anche un eventuale BOM UTF-8;
+- chiavi JSON duplicate vengono rifiutate invece di usare silenziosamente l'ultimo valore;
 - newline LF;
 - nessun timestamp;
 - nessun valore casuale;
