@@ -153,6 +153,34 @@ function Data:ResolveQuest(questID, flavor)
         end
     end
 
+    local textFields = {
+        "title",
+        "description",
+        "objectives",
+        "progress",
+        "completion",
+    }
+
+    for _, field in ipairs(textFields) do
+        if override[field] ~= nil then
+            if type(merged._sourceHashes) == "table"
+                and (
+                    type(override._sourceHashes) ~= "table"
+                    or override._sourceHashes[field] == nil
+                ) then
+                merged._sourceHashes[field] = nil
+            end
+
+            if type(merged._dynamicFields) == "table"
+                and (
+                    type(override._dynamicFields) ~= "table"
+                    or override._dynamicFields[field] == nil
+                ) then
+                merged._dynamicFields[field] = nil
+            end
+        end
+    end
+
     return merged, "forever_override"
 end
 
