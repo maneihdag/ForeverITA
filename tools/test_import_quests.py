@@ -89,6 +89,30 @@ class ImportQuestTests(unittest.TestCase):
         with self.assertRaises(importer.ValidationError):
             importer.validate_batch(raw)
 
+    def test_classic_rejects_verified_forever(self):
+        raw = load_fixture("import_classic_sample.json")
+        raw["defaults"]["status"] = "verified_forever"
+
+        with self.assertRaises(importer.ValidationError):
+            importer.validate_batch(raw)
+
+    def test_forever_rejects_verified_classic(self):
+        raw = load_fixture("import_forever_sample.json")
+        raw["defaults"]["status"] = "verified_classic"
+
+        with self.assertRaises(importer.ValidationError):
+            importer.validate_batch(raw)
+
+    def test_verified_forever_requires_source_build(self):
+        raw = load_fixture("import_forever_sample.json")
+        raw["defaults"] = {
+            "status": "verified_forever",
+            "sourceClient": "Forever synthetic",
+        }
+
+        with self.assertRaises(importer.ValidationError):
+            importer.validate_batch(raw)
+
     def test_lua_string_escapes_control_characters(self):
         rendered = importer.lua_string('A"\\B\nC\tD')
         self.assertTrue(rendered.startswith('"') and rendered.endswith('"'))
