@@ -20,7 +20,7 @@ Sequenza:
 
 1. entrare nel gioco e controllare che ForeverITA venga caricato senza errori Lua;
 2. `/fit status` — verificare Classic Era e interface attesa;
-3. `/fit selftest` — tutti i test devono passare;
+3. `/fit selftest` — tutti i test devono passare, inclusi normalizzazione hash, `fieldHashes`, fallback metadata e privacy boundary;
 4. `/fit datatest` — dopo l'implementazione del validator, nessun errore dati;
 5. `/fit classictest` — nessun FAIL inatteso;
 6. `/fit data 990000001` — verificare la fixture Classic;
@@ -29,7 +29,7 @@ Sequenza:
 9. quando possibile verificare PROGRESS;
 10. quando possibile verificare COMPLETE;
 11. verificare che `<PLAYER>` venga mostrato come nome soltanto nella UI e non venga salvato nel collector;
-12. incontrare almeno una quest non tradotta e verificare che il collector la registri senza messaggi automatici;
+12. incontrare almeno una quest non tradotta e verificare che il collector la registri senza messaggi automatici e con `fieldHashes` per i campi osservati;
 13. verificare almeno un caso di traduzione parziale dopo l'implementazione del bucket `incomplete`;
 14. `/fit svtest start` → `/reload` → `/fit svtest check`;
 15. uscire dal gioco e controllare il file SavedVariables generato;
