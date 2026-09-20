@@ -39,11 +39,18 @@ local function sourceTextChanged(snapshot, translated)
     local observed = FIT.RecordFormat:BuildContent(snapshot)
 
     for field, value in pairs(observed) do
-        local expected = translated._sourceHashes[field]
-        if expected then
-            local actual = FIT.RecordFormat:FingerprintField(field, value)
-            if actual ~= expected then
-                return true
+        local dynamicFields = translated._dynamicFields
+        local isDynamic =
+            type(dynamicFields) == "table"
+            and dynamicFields[field] ~= nil
+
+        if not isDynamic then
+            local expected = translated._sourceHashes[field]
+            if expected then
+                local actual = FIT.RecordFormat:FingerprintField(field, value)
+                if actual ~= expected then
+                    return true
+                end
             end
         end
     end
