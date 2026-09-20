@@ -146,7 +146,7 @@ local function validateDynamicFields(layer, questID, record, errors)
     for field, tokens in pairs(dynamicFields) do
         if not TEXT_FIELD_SET[field] then
             addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " non è un campo noto")
-        elseif not isNonEmptyString(record[field]) then
+        elseif layer == "classic" and not isNonEmptyString(record[field]) then
             addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " richiede il campo tradotto")
         elseif type(tokens) ~= "table" or #tokens == 0 then
             addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " deve contenere almeno un token")
@@ -350,6 +350,43 @@ local function validateForeverReal(layer, questID, record, errors)
     end
 end
 
+local function validateResolvedForever(questID, record, errors)
+    if record._mode == "remove" then
+        return
+    end
+
+    local resolved, source = FIT.Data:ResolveQuest(questID, "forever")
+    if not resolved then
+        addIssue(errors, "forever", questID, "override Forever non risolvibile: " .. tostring(source))
+        return
+    end
+
+    local hasResolvedText = false
+    for _, field in ipairs(TEXT_FIELDS) do
+        if isNonEmptyString(resolved[field]) then
+            hasResolvedText = true
+            break
+        end
+    end
+
+    if not hasResolvedText then
+        addIssue(errors, "forever", questID, "override Forever non-remove senza testo tradotto risolto")
+    end
+
+    if type(resolved._dynamicFields) == "table" then
+        for field in pairs(resolved._dynamicFields) do
+            if TEXT_FIELD_SET[field] and not isNonEmptyString(resolved[field]) then
+                addIssue(
+                    errors,
+                    "forever",
+                    questID,
+                    "_dynamicFields." .. tostring(field) .. " non ha un campo tradotto dopo il fallback"
+                )
+            end
+        end
+    end
+end
+
 local function validateRecord(layer, questID, record, errors, warnings)
     if not isValidQuestID(questID) then
         addIssue(errors, layer, questID, "QuestID deve essere un intero positivo")
@@ -398,6 +435,11 @@ function Validator:Run()
         local ok, reason = FIT.Data:ForEachQuest(layer, function(questID, record)
             checked = checked + 1
             validateRecord(layer, questID, record, errors, warnings)
+
+            if layer == "forever"
+                and not (type(record._meta) == "table" and record._meta.synthetic == true) then
+                validateResolvedForever(questID, record, errors)
+            end
         end)
 
         if not ok then
