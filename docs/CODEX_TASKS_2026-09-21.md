@@ -75,6 +75,7 @@ Controllare in particolare:
 - merge metadata per campo corretto;
 - nessun `modified` perso per un evento successivo non correlato;
 - nessun `incomplete` perso per un evento successivo non correlato;
+- caso simultaneo `modified` + `incomplete`: `modified` deve avere precedenza senza perdere stabilità tra eventi;
 - campi dinamici esclusi dal confronto hash;
 - nessun dato personale aggiuntivo;
 - nessun output automatico in chat del collector;
