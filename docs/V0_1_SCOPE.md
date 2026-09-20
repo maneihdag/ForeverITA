@@ -24,6 +24,7 @@ La prima Alpha comprende:
 - collector silenzioso delle quest mancanti o da verificare;
 - separazione dati `Data/Classic_it` e `Data/Forever_it`;
 - fixture e strumenti diagnostici in `Dev/`;
+- formato di importazione dati definito in `docs/IMPORT_FORMAT.md`;
 - test differiti raccolti in `docs/DEFERRED_TESTS.md`.
 
 ## Fuori dalla v0.1
