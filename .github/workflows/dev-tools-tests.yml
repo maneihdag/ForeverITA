@@ -1,0 +1,38 @@
+name: Development tool tests
+
+on:
+  push:
+    branches:
+      - architecture-v0.0.2
+  pull_request:
+    paths:
+      - "tools/**"
+      - ".github/workflows/dev-tools-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  python-tools:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile Python tools
+        run: python -m py_compile tools/import_quests.py tools/test_import_quests.py
+
+      - name: Validate Classic fixture
+        run: python tools/import_quests.py tools/fixtures/import_classic_sample.json --check
+
+      - name: Validate Forever fixture
+        run: python tools/import_quests.py tools/fixtures/import_forever_sample.json --check
+
+      - name: Run importer tests
+        run: python tools/test_import_quests.py
