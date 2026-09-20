@@ -15,6 +15,8 @@ Obiettivo:
 - aggiungere `/fit datatest`;
 - aggiungere `Dev/TranslationDataValidator.lua`;
 - aggiungere un metodo read-only per iterare le quest nel DataRegistry;
+- l'iterazione deve essere deterministica per Quest ID crescente;
+- il callback non deve poter modificare i record reali del registry: passare una copia o equivalente sicuro;
 - validare struttura, Quest ID, campi testuali, hash, meta e modalità override;
 - nessuna esecuzione automatica;
 - nessuna nuova API WoW.
@@ -87,7 +89,10 @@ Obiettivo:
 - aggiungere bucket `incomplete`;
 - reason `translation_field_missing`;
 - se una traduzione esiste ma manca il campo sorgente osservato, raccogliere soltanto quel campo mancante;
-- precedenza: missing → incomplete → verifyClassic → modified;
+- precedenza: missing → incomplete → modified → verifyClassic;
+- un `modified` non deve sparire perché un evento successivo, relativo a un altro campo, risulta uguale;
+- rivalutare il contenuto già raccolto prima di cancellare un `modified`;
+- analogamente, un record `incomplete` non deve sparire a causa di un evento non collegato al campo mancante;
 - rimuovere il Quest ID da `incomplete` quando non serve più;
 - inizializzare il nuovo bucket in modo retrocompatibile senza cancellare gli altri SavedVariables;
 - aggiornare test/diagnostica senza messaggi automatici in chat.
@@ -96,31 +101,22 @@ Stato dopo implementazione:
 
 **DA TESTARE SU CLASSIC**
 
-## Task 5 — Stato traduzione e label UI
+## Task 5 — Stati traduzione nel validator
 
 **DA PASSARE A CODEX DOMANI**
 
 Specifica obbligatoria:
 
-`docs/TRANSLATION_STYLE.md` → `Stati traduzione v0.1` e `Regola etichette UI`.
+`docs/TRANSLATION_STYLE.md` → `Stati traduzione v0.1`.
 
-Problema attuale:
+La correzione delle label UI è già stata applicata manualmente il 20 settembre ed è **DA TESTARE**.
 
-`TranslationUI.lua` può mostrare `Dati verificati per Forever` basandosi soltanto sul fatto che il record provenga dal layer Forever.
+Obiettivo Codex:
 
-Questo non è sufficiente.
-
-Obiettivo:
-
-- usare `_meta.status` per distinguere draft/reviewed/verified;
-- mostrare `Verificata su Forever` soltanto per `verified_forever`;
-- mostrare `Override Forever · DA VERIFICARE` per override Forever non ancora verificati;
-- mantenere `Base Classic · DA VERIFICARE SU FOREVER` per fallback Classic;
-- non introdurre nuove API.
-
-Stato dopo implementazione:
-
-**DA TESTARE SU CLASSIC** e **DA TESTARE SU FOREVER** per la resa reale sul client Forever.
+- far conoscere al validator gli stati `draft`, `reviewed`, `verified_classic`, `verified_forever`;
+- accettare temporaneamente `manual_test_translation` come stato legacy con warning;
+- rifiutare stati sconosciuti nei record reali;
+- non cambiare nuovamente la UI se non emerge un errore specifico durante la review.
 
 ## Task 6 — Privacy scrubber: evitare sostituzioni dentro parole
 
@@ -172,6 +168,19 @@ Prima versione:
 
 Il tool deve poter essere testato con fixture sintetiche create apposta, senza copiare dati Blizzard o repository esterni.
 
+## Già sistemato il 20 settembre
+
+Non ripetere questi lavori domani:
+
+- resolver fail-closed su flavor sconosciuto;
+- rifiuto Quest ID duplicati nello stesso layer;
+- collector fermo su flavor client non riconosciuto;
+- mapID passato attraverso il controllo plain/secret value;
+- label UI Forever basata su `_meta.status`;
+- metadata TOC `X-License: MIT`.
+
+Queste modifiche sono **DA TESTARE SU CLASSIC** dove applicabile.
+
 ## Ordine consigliato
 
 ```text
@@ -182,7 +191,7 @@ PRIMA ONDATA
 4. collector incomplete
 
 SECONDA ONDATA
-5. label UI basate sullo stato
+5. stati traduzione nel validator
 6. privacy boundary
 7. importer
 
