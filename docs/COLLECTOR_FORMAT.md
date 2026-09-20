@@ -189,11 +189,11 @@ Precedenza prevista del collector:
 nessuna traduzione
 → missing
 
-traduzione presente ma campo osservato non tradotto
-→ incomplete
-
 campo sorgente noto con hash diverso
 → modified
+
+traduzione presente ma campo osservato non tradotto
+→ incomplete
 
 su Forever usa soltanto base Classic e i campi osservati non risultano modificati
 → verifyClassic
@@ -201,6 +201,8 @@ su Forever usa soltanto base Classic e i campi osservati non risultano modificat
 altrimenti
 → nessun record
 ```
+
+Se nella stessa osservazione esistono sia un campo mancante sia un campo già tradotto il cui sorgente è cambiato, `modified` ha precedenza. Un cambiamento del sorgente può rendere non valida una traduzione esistente ed è quindi più urgente di un campo semplicemente non ancora tradotto.
 
 Quando la traduzione diventa completa per i campi osservati, il Quest ID deve essere rimosso da `incomplete` al successivo incontro.
 
