@@ -47,6 +47,27 @@ local VALID_DYNAMIC_TOKEN = {
     race = true,
 }
 
+local VALID_RECORD_KEYS = {
+    title = true,
+    description = true,
+    objectives = true,
+    progress = true,
+    completion = true,
+    _mode = true,
+    _sourceHashes = true,
+    _dynamicFields = true,
+    _meta = true,
+}
+
+local VALID_META_KEYS = {
+    synthetic = true,
+    status = true,
+    sourceClient = true,
+    sourceBuild = true,
+    terminologyNote = true,
+    provenance = true,
+}
+
 local function isNonEmptyString(value)
     return type(value) == "string" and value:match("%S") ~= nil
 end
@@ -63,6 +84,32 @@ local function addIssue(issues, layer, questID, message)
         questID = questID,
         message = message,
     }
+end
+
+local function validateKnownKeys(layer, questID, record, errors)
+    for key in pairs(record) do
+        if not VALID_RECORD_KEYS[key] then
+            addIssue(errors, layer, questID, "campo record non riconosciuto: " .. tostring(key))
+        end
+    end
+
+    local meta = record._meta
+    if meta ~= nil and type(meta) ~= "table" then
+        addIssue(errors, layer, questID, "_meta deve essere una table")
+        return
+    end
+
+    if type(meta) == "table" then
+        for key, value in pairs(meta) do
+            if not VALID_META_KEYS[key] then
+                addIssue(errors, layer, questID, "_meta." .. tostring(key) .. " non è riconosciuto")
+            elseif key == "synthetic" and type(value) ~= "boolean" then
+                addIssue(errors, layer, questID, "_meta.synthetic deve essere boolean")
+            elseif key ~= "synthetic" and not isNonEmptyString(value) then
+                addIssue(errors, layer, questID, "_meta." .. tostring(key) .. " deve essere una stringa non vuota")
+            end
+        end
+    end
 end
 
 local function validateHashes(layer, questID, record, errors)
@@ -275,6 +322,24 @@ local function validateClassicReal(layer, questID, record, errors)
     end
 end
 
+local function validateForeverReal(layer, questID, record, errors)
+    if record._mode == "remove" then
+        return
+    end
+
+    local hasTranslation = false
+    for _, field in ipairs(TEXT_FIELDS) do
+        if isNonEmptyString(record[field]) then
+            hasTranslation = true
+            break
+        end
+    end
+
+    if not hasTranslation then
+        addIssue(errors, layer, questID, "override Forever non-remove senza campi tradotti")
+    end
+end
+
 local function validateRecord(layer, questID, record, errors, warnings)
     if not isValidQuestID(questID) then
         addIssue(errors, layer, questID, "QuestID deve essere un intero positivo")
@@ -286,6 +351,7 @@ local function validateRecord(layer, questID, record, errors, warnings)
         return
     end
 
+    validateKnownKeys(layer, questID, record, errors)
     validateTextFields(layer, questID, record, errors)
     validateMode(layer, questID, record, errors)
     validateHashes(layer, questID, record, errors)
@@ -303,6 +369,8 @@ local function validateRecord(layer, questID, record, errors, warnings)
 
     if layer == "classic" then
         validateClassicReal(layer, questID, record, errors)
+    elseif layer == "forever" then
+        validateForeverReal(layer, questID, record, errors)
     end
 end
 
