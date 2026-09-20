@@ -58,3 +58,31 @@ Ogni record reale deve indicare almeno:
 ## Classic e Forever
 
 Una traduzione Classic può diventare base per Forever, ma non viene considerata verificata su Forever finché non viene confrontata sul client reale.
+
+## Stati traduzione v0.1
+
+Per evitare che il livello dati venga confuso con una verifica reale sul client, `_meta.status` ha un significato esplicito.
+
+Valori previsti per i nuovi record:
+
+- `draft` — traduzione preparata ma non revisionata;
+- `reviewed` — testo revisionato, ma non necessariamente provato in gioco;
+- `verified_classic` — traduzione e comportamento verificati sul client Classic usato come laboratorio;
+- `verified_forever` — traduzione verificata direttamente sul client WoW Forever.
+
+`manual_test_translation` resta temporaneamente accettato per i quattro record del prototipo già presenti. Il futuro validator dovrà segnalarlo come stato legacy/warning, non come errore, finché quei record non vengono migrati.
+
+Essere nel layer `Forever_it` NON significa automaticamente `verified_forever`.
+
+## Regola etichette UI
+
+La UI non deve dichiarare che un dato è verificato su Forever soltanto perché proviene dal layer Forever.
+
+Regola prevista:
+
+- Forever + fallback Classic → `Base Classic · DA VERIFICARE SU FOREVER`;
+- Forever + override con `status = verified_forever` → `Verificata su Forever`;
+- Forever + override con qualunque altro stato → `Override Forever · DA VERIFICARE`;
+- Classic → nessuna etichetta tecnica durante il normale utilizzo.
+
+Stato implementazione: **DA PASSARE A CODEX DOMANI**.
