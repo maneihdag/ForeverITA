@@ -22,11 +22,11 @@ FIT.Data:RegisterQuest("classic", 757, {
 
 Per prima cosa devi superare il Rito della Forza. In questa prova dovrai dimostrare il tuo coraggio abbattendo i nemici della tribù.
 
-I Bristleback della Brambleblade Ravine, a est, stanno invadendo le terre della nostra tribù. Tendono imboscate ai nostri gruppi di cacciatori e, col favore delle tenebre, rubano al villaggio.
+I Verrospino della Brambleblade Ravine, a est, stanno invadendo le terre della nostra tribù. Tendono imboscate ai nostri gruppi di cacciatori e, col favore delle tenebre, rubano al villaggio.
 
-Dimostra il tuo valore eliminando questi nemici e torna da Chief Hawkwind a Camp Narache con le loro cinture come prova delle tue gesta.]],
+Dimostra il tuo valore eliminando questi nemici e torna da Chief Hawkwind a Campo Narache con le loro cinture come prova delle tue gesta.]],
 
-    objectives = "Uccidi i Bristleback nella Brambleblade Ravine e porta 12 Bristleback Belts a Chief Hawkwind a Camp Narache.",
+    objectives = "Uccidi i Verrospino nella Brambleblade Ravine e porta 12 Bristleback Belts a Chief Hawkwind a Campo Narache.",
 
     _sourceHashes = {
         title = "f3-1309580852",
@@ -40,7 +40,7 @@ Dimostra il tuo valore eliminando questi nemici e torna da Chief Hawkwind a Camp
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
         provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
-        terminologyNote = "Picco del Tuono verificato; altri nomi propri lasciati in inglese finché non verificati.",
+        terminologyNote = "Picco del Tuono, Campo Narache e Madre Terra verificati su fonti Blizzard; altri nomi propri lasciati in inglese finché non verificati.",
     },
 })
 
@@ -56,9 +56,9 @@ Prima di allora dovrai intraprendere i Riti della Madre Terra, che sono tre.
 
 La prima prova è il Rito della Forza. Raggiungi Seer Graytongue e digli che ti manda Chief Hawkwind.
 
-Troverai la dimora del veggente direttamente a sud di Camp Narache, nascosta tra le colline.]],
+Troverai la dimora del veggente direttamente a sud di Campo Narache, nascosta tra le colline.]],
 
-    objectives = "Raggiungi Seer Graytongue, che vive sulle colline direttamente a sud di Camp Narache.",
+    objectives = "Raggiungi Seer Graytongue, che vive sulle colline direttamente a sud di Campo Narache.",
 
     completion = "Ti manda Chief Hawkwind? Intraprendere i Riti della Madre Terra non è cosa da poco...",
 
@@ -94,7 +94,7 @@ FIT.Data:RegisterQuest("classic", 750, {
 
 I nostri bambini hanno bisogno di vestiti e le nostre tende devono essere riparate.]],
 
-    objectives = "Grull Hawkwind a Camp Narache vuole che tu gli porti 10 Mountain Cougar Pelts.",
+    objectives = "Grull Hawkwind a Campo Narache vuole che tu gli porti 10 Mountain Cougar Pelts.",
 
     _sourceHashes = {
         title = "f3-58031097",
@@ -108,7 +108,7 @@ I nostri bambini hanno bisogno di vestiti e le nostre tende devono essere ripara
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
         provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
-        terminologyNote = "Nomi propri e nome oggetto lasciati in inglese finché non verificati.",
+        terminologyNote = "Campo Narache verificato su fonte Blizzard; nomi propri e nome oggetto lasciati in inglese finché non verificati.",
     },
 })
 
@@ -119,7 +119,7 @@ FIT.Data:RegisterQuest("classic", 3093, {
 
     description = [[Poco fa un messaggero ti stava cercando, <PLAYER>. Credo che sia stato inviato dall'istruttrice degli sciamani Meela. Se questa nota viene da Meela, non perderei tempo prima di leggerne il contenuto.]],
 
-    objectives = "Leggi la Nota incisa con rune e parla con Meela Dawnstrider a Camp Narache.",
+    objectives = "Leggi la Nota incisa con rune e parla con Meela Dawnstrider a Campo Narache.",
 
     progress = [[Sei arrivato da me con la stessa rapidità con cui l'acqua cade dal cielo. Sono lieta della tua prontezza. Significa che comprendi sia l'importanza del nostro incontro sia quella della tua presenza qui.
 
@@ -143,7 +143,7 @@ Ora va', <PLAYER>. Mettiti alla prova. Io sarò qui quando avrai bisogno di me.]
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
         provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
-        terminologyNote = "Nomi propri lasciati in inglese finché non verificati.",
+        terminologyNote = "Campo Narache e Sciamano verificati su fonti Blizzard; nomi propri lasciati in inglese finché non verificati.",
     },
 })
 
