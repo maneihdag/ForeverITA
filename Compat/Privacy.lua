@@ -24,7 +24,6 @@ local function isNameByte(byte)
         or (byte >= 65 and byte <= 90)
         or (byte >= 97 and byte <= 122)
         or byte == 95
-        or byte >= 128
 end
 
 local function replaceAliasToken(text, alias)
@@ -85,6 +84,10 @@ function Privacy:GetPlayerAliases()
 
     local unitName = API:CallGlobal("UnitName", "player")
     addAlias(aliases, seen, unitName)
+
+    table.sort(aliases, function(a, b)
+        return #a > #b
+    end)
 
     return aliases
 end
