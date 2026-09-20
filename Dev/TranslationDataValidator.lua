@@ -335,8 +335,18 @@ local function validateForeverReal(layer, questID, record, errors)
         end
     end
 
-    if not hasTranslation then
-        addIssue(errors, layer, questID, "override Forever non-remove senza campi tradotti")
+    local hasSourceHashes = type(record._sourceHashes) == "table"
+        and next(record._sourceHashes) ~= nil
+    local hasDynamicFields = type(record._dynamicFields) == "table"
+        and next(record._dynamicFields) ~= nil
+    local verifiedMetadataOnly = type(record._meta) == "table"
+        and record._meta.status == "verified_forever"
+
+    if not hasTranslation
+        and not hasSourceHashes
+        and not hasDynamicFields
+        and not verifiedMetadataOnly then
+        addIssue(errors, layer, questID, "override Forever non-remove senza contenuto utile")
     end
 end
 
