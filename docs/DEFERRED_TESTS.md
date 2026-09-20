@@ -39,7 +39,8 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - self-test dopo tutte le modifiche;
 - verificare che un flavor sconosciuto non faccia fallback silenzioso a Classic;
 - verificare il rifiuto di QuestID duplicati nello stesso layer;
-- assenza di errori Lua.
+- assenza di errori Lua;
+- lettura mapID tramite il controllo Compat senza errori o valori non accessibili.
 
 ## Da testare su Forever
 
