@@ -215,6 +215,11 @@ def validate_batch(raw: Any) -> dict[str, Any]:
                     fail(
                         f"quest {quest_id}: verified_forever richiede meta.{required}"
                     )
+            for field in translation:
+                if field not in hashes:
+                    fail(
+                        f"quest {quest_id}: verified_forever richiede sourceHashes.{field}"
+                    )
 
         if operation == "remove":
             if layer != "forever":
