@@ -35,7 +35,12 @@ Risultato verificato il 20 settembre 2026:
 
 Le workflow run iniziali sul commit `71dcf68f7066984e5d2f221ee89ea1e5cb118a87` sono concluse con `success`.
 
-Successivamente è stato aggiunto `tools/test_lua_core.lua`. La run `35502914310` ha concluso con `success` anche lo step **Run offline core/data tests**.
+Successivamente sono stati aggiunti gli harness Lua offline. La run `35503099944` ha concluso con `success` tutti questi step:
+
+- **Check Lua syntax**;
+- **Run offline core/data tests**;
+- **Run offline collector tests**;
+- **Run offline storage migration tests**.
 
 ## Cosa provano
 
@@ -44,6 +49,8 @@ Questi test provano:
 - sintassi Lua 5.1 dei file presenti;
 - esecuzione offline di `Dev/SelfTest.lua` sui moduli puri caricabili senza WoW;
 - esecuzione offline di `Dev/TranslationDataValidator.lua` sull'attuale dataset Classic/Forever;
+- classificazione e persistenza logica dei bucket collector;
+- migrazione SavedVariables schema 3 → 4 / record schema 2 → 3;
 - corretto funzionamento offline dell'importer sulle fixture e sui casi coperti dalla suite;
 - assenza di errori Python nei tool testati.
 
