@@ -22,6 +22,7 @@ local function printHelp()
     FIT:Print("/fit data <QuestID> - controlla i dati italiani")
     FIT:Print("/fit show <QuestID> - apre la traduzione di prova")
     FIT:Print("/fit selftest - test logica Classic/Forever")
+    FIT:Print("/fit datatest - controlla il database traduzioni")
     FIT:Print("/fit classictest - controlli per Classic Era")
     FIT:Print("/fit ui - apre/chiude una finestra di test")
     FIT:Print("/fit svtest start|check - test SavedVariables")
@@ -110,6 +111,15 @@ local function handleSlash(message)
             FIT.SelfTest:Run()
         else
             FIT:Print("SelfTest non disponibile.")
+        end
+        return
+    end
+
+    if command == "datatest" then
+        if FIT.TranslationDataValidator and FIT.TranslationDataValidator.Run then
+            FIT.TranslationDataValidator:Run()
+        else
+            FIT:Print("TranslationDataValidator non disponibile.")
         end
         return
     end
