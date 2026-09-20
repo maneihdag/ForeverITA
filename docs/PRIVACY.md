@@ -64,6 +64,6 @@ Esempio sintetico:
 - `Ash, torna qui.` → `<PLAYER>, torna qui.`;
 - `Ashenvale` → resta `Ashenvale`.
 
-La sostituzione continua a funzionare accanto a punteggiatura e forme possessive.
+La sostituzione continua a funzionare accanto a punteggiatura e forme possessive, inclusa punteggiatura UTF-8 comune come il trattino lungo. Gli alias vengono provati dal più lungo al più corto per evitare sostituzioni parziali quando è disponibile anche la forma `Nome-Reame`.
 
 Stato: **DA TESTARE SU CLASSIC**.
