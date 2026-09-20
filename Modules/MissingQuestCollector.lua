@@ -184,7 +184,10 @@ local function chooseBucket(snapshot, flavor, translated, source)
 end
 
 function Collector:Observe(snapshot)
-    if type(snapshot) ~= "table" or type(snapshot.id) ~= "number" or snapshot.id <= 0 then
+    if type(snapshot) ~= "table"
+        or type(snapshot.id) ~= "number"
+        or snapshot.id <= 0
+        or math.floor(snapshot.id) ~= snapshot.id then
         return
     end
 
