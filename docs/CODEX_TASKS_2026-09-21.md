@@ -17,7 +17,8 @@ Obiettivo:
 - aggiungere un metodo read-only per iterare le quest nel DataRegistry;
 - l'iterazione deve essere deterministica per Quest ID crescente;
 - il callback non deve poter modificare i record reali del registry: passare una copia o equivalente sicuro;
-- validare struttura, Quest ID, campi testuali, hash, meta e modalità override;
+- validare struttura, Quest ID, campi testuali, hash, meta, `_dynamicFields` e modalità override;
+- `_dynamicFields` può usare soltanto campi testuali noti e token `class`/`race` nella v0.1;
 - nessuna esecuzione automatica;
 - nessuna nuova API WoW.
 
@@ -182,6 +183,7 @@ Non ripetere questi lavori domani:
 - collector fermo su flavor client non riconosciuto;
 - mapID passato attraverso il controllo plain/secret value;
 - label UI Forever basata su `_meta.status`;
+- dynamic field comparator: i campi marcati `_dynamicFields` non producono `modified` dal solo hash;
 - metadata TOC `X-License: MIT`.
 
 Queste modifiche sono **DA TESTARE SU CLASSIC** dove applicabile.
