@@ -138,6 +138,20 @@ function SelfTest:Run()
             Privacy:SanitizeText("Ash—torna qui") == "<PLAYER>—torna qui"
         )
 
+        Privacy.GetPlayerAliases = function()
+            return {}
+        end
+
+        local privacySnapshot = {
+            id = 990000020,
+            description = "Testo sintetico",
+        }
+        Privacy:SanitizeSnapshot(privacySnapshot)
+        check(
+            "Privacy marca unsafe senza alias",
+            privacySnapshot.privacySafe == false
+        )
+
         Privacy.GetPlayerAliases = originalGetPlayerAliases
     else
         check("Privacy disponibile", false)
