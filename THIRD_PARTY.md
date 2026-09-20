@@ -50,3 +50,11 @@ Punti utili:
 - `Questie` mantiene strumenti di validation e test del database: rafforza la scelta di introdurre un validator ForeverITA prima di scalare i dati.
 - `ForeverDiffCollector` usa un collector event-driven e limitato con `11509, 16001`: conferma la fattibilità pratica del modello, senza provare automaticamente la compatibilità di ForeverITA.
 - `CMaNGOS Vanilla DB Localized` possiede effettivamente un file italiano delle quest; l'assenza di una licenza chiara impedisce l'import massivo diretto.
+
+## Licenza di ForeverITA
+
+Il codice originale di ForeverITA usa licenza MIT.
+
+Questa scelta non cambia le regole sopra: materiale GPL, senza licenza o con licenza diversa non diventa automaticamente MIT e non va copiato senza una verifica specifica.
+
+Vedi `docs/LICENSING.md`.
