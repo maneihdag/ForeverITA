@@ -41,20 +41,24 @@ function QuestDebug:PrintSnapshot(snapshot)
         FIT:Print("QuestID: <non disponibile>")
     end
 
-    if snapshot.title then
-        FIT:Print("Titolo: " .. compact(snapshot.title))
-    end
-    if snapshot.description then
-        FIT:Print("Descrizione: " .. compact(snapshot.description))
-    end
-    if snapshot.objectives then
-        FIT:Print("Obiettivi: " .. compact(snapshot.objectives))
-    end
-    if snapshot.progress then
-        FIT:Print("Progress: " .. compact(snapshot.progress))
-    end
-    if snapshot.completion then
-        FIT:Print("Completion: " .. compact(snapshot.completion))
+    if snapshot.privacySafe == false then
+        FIT:Print("Testo quest non mostrato: privacy alias non disponibile.")
+    else
+        if snapshot.title then
+            FIT:Print("Titolo: " .. compact(snapshot.title))
+        end
+        if snapshot.description then
+            FIT:Print("Descrizione: " .. compact(snapshot.description))
+        end
+        if snapshot.objectives then
+            FIT:Print("Obiettivi: " .. compact(snapshot.objectives))
+        end
+        if snapshot.progress then
+            FIT:Print("Progress: " .. compact(snapshot.progress))
+        end
+        if snapshot.completion then
+            FIT:Print("Completion: " .. compact(snapshot.completion))
+        end
     end
 
     if snapshot.id and FIT.Data then
