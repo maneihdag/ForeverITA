@@ -404,7 +404,9 @@ Per il perimetro della prima Alpha e la strategia dei dati: `docs/V0_1_SCOPE.md`
 
 Il codice sorgente di ForeverITA è disponibile pubblicamente per permettere trasparenza, studio e collaborazione.
 
-Una licenza open source definitiva verrà scelta prima della distribuzione delle prime versioni utilizzabili.
+Il codice originale di ForeverITA è distribuito con licenza **MIT**.
+
+La licenza del codice non concede diritti sui marchi o sui contenuti di World of Warcraft appartenenti a Blizzard Entertainment o ad altri titolari. Dettagli: `LICENSE` e `docs/LICENSING.md`.
 
 ---
 
