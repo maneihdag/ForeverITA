@@ -161,6 +161,30 @@ local function validateStatus(layer, questID, record, errors, warnings)
     end
 end
 
+local function validateCurrentHashSchema(layer, questID, record, errors)
+    if type(record._sourceHashes) ~= "table"
+        or not FIT.RecordFormat
+        or type(FIT.RecordFormat.schema) ~= "number" then
+        return
+    end
+
+    local prefix = "^f" .. tostring(FIT.RecordFormat.schema) .. "%-"
+    for field, value in pairs(record._sourceHashes) do
+        if TEXT_FIELD_SET[field]
+            and type(value) == "string"
+            and not value:match(prefix) then
+            addIssue(
+                errors,
+                layer,
+                questID,
+                "_sourceHashes." .. tostring(field)
+                    .. " usa uno schema diverso da RecordFormat "
+                    .. tostring(FIT.RecordFormat.schema)
+            )
+        end
+    end
+end
+
 local function validateClassicReal(layer, questID, record, errors)
     if not isNonEmptyString(record.title) then
         addIssue(errors, layer, questID, "title mancante o vuoto")
@@ -227,6 +251,8 @@ local function validateRecord(layer, questID, record, errors, warnings)
     if synthetic then
         return
     end
+
+    validateCurrentHashSchema(layer, questID, record, errors)
 
     if layer == "classic" then
         validateClassicReal(layer, questID, record, errors)
