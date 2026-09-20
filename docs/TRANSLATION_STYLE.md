@@ -74,6 +74,12 @@ Valori previsti per i nuovi record:
 
 `manual_test_translation` resta temporaneamente accettato per i quattro record del prototipo già presenti. Il validator lo segnala come stato legacy/warning, non come errore, finché quei record non vengono migrati.
 
+Regole di coerenza:
+
+- `verified_classic` è valido soltanto nel layer Classic;
+- `verified_forever` è valido soltanto nel layer Forever;
+- `verified_forever` richiede anche `sourceClient` e `sourceBuild`, perché la UI usa questo stato per mostrare che la traduzione è stata realmente verificata sul client Forever.
+
 Essere nel layer `Forever_it` NON significa automaticamente `verified_forever`.
 
 ## Regola etichette UI
