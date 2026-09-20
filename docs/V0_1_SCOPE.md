@@ -114,11 +114,12 @@ Prima della release Alpha servono:
 
 1. nessun errore Lua nel batch di test;
 2. validator dei dati traduzione;
-3. test del collector su Classic;
-4. test della UI traduzione su Classic;
-5. almeno un test reale su Forever per caricamento, API quest, UI e SavedVariables;
-6. documentazione chiara su ciò che è verificato e ciò che non lo è;
-7. nessuna dipendenza runtime esterna.
+3. normalizzazione canonica del testo prima degli hash;
+4. test del collector su Classic;
+5. test della UI traduzione su Classic;
+6. almeno un test reale su Forever per caricamento, API quest, UI e SavedVariables;
+7. documentazione chiara su ciò che è verificato e ciò che non lo è;
+8. nessuna dipendenza runtime esterna.
 
 ## Stato attuale
 
