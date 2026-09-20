@@ -72,7 +72,7 @@ Valori previsti per i nuovi record:
 - `verified_classic` — traduzione e comportamento verificati sul client Classic usato come laboratorio;
 - `verified_forever` — traduzione verificata direttamente sul client WoW Forever.
 
-`manual_test_translation` resta temporaneamente accettato per i quattro record del prototipo già presenti. Il validator lo segnala come stato legacy/warning, non come errore, finché quei record non vengono migrati.
+`manual_test_translation` resta temporaneamente accettato soltanto per i quattro record Classic del prototipo già presenti. Il validator lo segnala come stato legacy/warning nel layer Classic; non è ammesso per nuovi record Forever.
 
 Regole di coerenza:
 
