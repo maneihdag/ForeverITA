@@ -92,6 +92,15 @@ Non cambiare architettura solo per preferenza personale.
 
 ## Task 2 — Review e test dell'importer
 
+GitHub Actions ha già eseguito con successo il 20 settembre:
+
+- compilazione Python;
+- `--check` fixture Classic;
+- `--check` fixture Forever;
+- `tools/test_import_quests.py`.
+
+Codex deve quindi fare una review indipendente e ripetere i test se utile, non partire dall'idea che il tool sia ancora mai stato eseguito.
+
 File:
 
 - `tools/import_quests.py`;
