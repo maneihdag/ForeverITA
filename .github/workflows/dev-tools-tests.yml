@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - architecture-v0.0.2
+    paths:
+      - "tools/**"
+      - ".github/workflows/dev-tools-tests.yml"
   pull_request:
     paths:
       - "tools/**"
