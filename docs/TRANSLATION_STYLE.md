@@ -91,10 +91,10 @@ Stato implementazione: **DA PASSARE A CODEX DOMANI**.
 
 Il client può sostituire token del testo quest prima che l'addon lo legga.
 
-Caso confermato:
+Casi confermati:
 
-- Quest 755 usa `<class>` nel template;
-- sul personaggio del test Classic il collector ha ricevuto `shaman`.
+- Quest 755 usa `<class>` nel template; sul personaggio del test Classic il collector ha ricevuto `shaman`;
+- Quest 747 usa `<race>` e `<name>` nel completion; il collector del personaggio Tauren ha ricevuto `tauren` e il nome reale prima del privacy scrub.
 
 Per questi casi il record può dichiarare:
 
@@ -107,7 +107,7 @@ _dynamicFields = {
 Valori previsti inizialmente:
 
 - `class`;
-- `race` se verrà confermato da dati reali.
+- `race`.
 
 Il nome giocatore resta gestito separatamente dal placeholder `<PLAYER>` perché è anche una regola di privacy.
 
