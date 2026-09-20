@@ -71,8 +71,23 @@ function Quest:Read(eventName)
 
     if _G.C_Map and type(_G.C_Map.GetBestMapForUnit) == "function" then
         local ok, mapID = pcall(_G.C_Map.GetBestMapForUnit, "player")
-        if ok and type(mapID) == "number" then
-            snapshot.mapID = mapID
+        if ok then
+            local API = FIT.Compat.API
+            local plainMapID, err
+
+            if API and API.ToPlainValue then
+                plainMapID, err = API:ToPlainValue(mapID)
+            else
+                plainMapID = mapID
+            end
+
+            if type(plainMapID) == "number" then
+                snapshot.mapID = plainMapID
+            elseif err then
+                snapshot.errors.mapID = err .. ":C_Map.GetBestMapForUnit"
+            end
+        else
+            snapshot.errors.mapID = "api_error:C_Map.GetBestMapForUnit"
         end
     end
 
