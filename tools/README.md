@@ -55,3 +55,26 @@ Non devono:
 - importare dati da repository esterni senza verifica;
 - leggere il processo WoW;
 - diventare una dipendenza necessaria per usare l'addon.
+
+## Test Lua offline
+
+GitHub Actions usa Lua 5.1 per eseguire anche:
+
+```text
+lua5.1 tools/test_lua_core.lua
+lua5.1 tools/test_lua_collector.lua
+lua5.1 tools/test_lua_storage.lua
+```
+
+Copertura:
+
+- DataRegistry / fallback Classic-Forever;
+- RecordFormat / hash / fieldHashes;
+- privacy logica sintetica;
+- TranslationDataValidator;
+- override Forever metadata-only;
+- bucket collector e transizioni tra eventi;
+- privacy e flavor fail-closed del collector;
+- migrazione SavedVariables schema 3→4.
+
+Questi test non simulano il client WoW e non sostituiscono i batch Classic/Forever.
