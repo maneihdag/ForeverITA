@@ -78,7 +78,8 @@ Regole di coerenza:
 
 - `verified_classic` è valido soltanto nel layer Classic;
 - `verified_forever` è valido soltanto nel layer Forever;
-- `verified_forever` richiede anche `sourceClient` e `sourceBuild`, perché la UI usa questo stato per mostrare che la traduzione è stata realmente verificata sul client Forever.
+- `verified_forever` richiede anche `sourceClient` e `sourceBuild`, perché la UI usa questo stato per mostrare che la traduzione è stata realmente verificata sul client Forever;
+- per `verified_forever`, ogni campo tradotto risolto deve avere il relativo `_sourceHashes`, così la verifica resta collegata al testo sorgente realmente controllato.
 
 Essere nel layer `Forever_it` NON significa automaticamente `verified_forever`.
 
