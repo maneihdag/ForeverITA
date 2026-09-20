@@ -88,8 +88,10 @@ Il collector deve:
 - non stampare conteggi o notifiche di raccolta in chat;
 - salvare un formato record versionato;
 - usare ID + hash per evitare duplicati e reinvii futuri;
+- mantenere `fieldHashes` dei campi sorgente raccolti per evitare ricalcoli manuali quando si prepara una traduzione;
 - raccogliere solo dati indispensabili alla localizzazione;
 - non salvare nome personaggio, account/BattleTag, chat, inventario, lista amici o altri dati personali non necessari;
+- se non è possibile ottenere un alias giocatore tramite le normali API per eseguire lo scrub, lo snapshot resta `privacySafe = false` e il collector non deve persisterne il testo;
 - non dare per scontata la persistenza SavedVariables finché il bug della beta non è verificato come risolto.
 
 ## Test
