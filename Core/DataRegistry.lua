@@ -54,6 +54,15 @@ function Data:RegisterQuest(layer, questID, record)
         error("ForeverITA: record quest non valido per " .. tostring(questID))
     end
 
+    if self[layer].quests[questID] ~= nil then
+        error(
+            "ForeverITA: QuestID duplicato nel layer "
+                .. tostring(layer)
+                .. ": "
+                .. tostring(questID)
+        )
+    end
+
     self[layer].quests[questID] = record
 end
 
@@ -62,9 +71,13 @@ function Data:ResolveQuest(questID, flavor)
         return nil, "invalid_id"
     end
 
+    if flavor ~= "classic" and flavor ~= "forever" then
+        return nil, "unsupported_flavor"
+    end
+
     local base = self.classic.quests[questID]
 
-    if flavor ~= "forever" then
+    if flavor == "classic" then
         if base then
             return deepCopy(base), "classic"
         end
