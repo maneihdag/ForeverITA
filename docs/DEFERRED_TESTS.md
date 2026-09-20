@@ -58,5 +58,5 @@ Tutto ciò che dipende dal client reale Forever resta **DA TESTARE SU FOREVER**,
 - override Forever;
 - collector;
 - confronto hash;
-- usare Quest 755 come primo caso `modified`: la fonte pubblica Forever suggerisce `<class>` dove il Classic raccolto contiene `shaman`;
-- confrontare anche 750, 757 e 3093, che pubblicamente risultano coerenti con la base Classic.
+- usare Quest 755 per verificare la gestione dei campi dinamici: il template Classic/Forever usa `<class>`, mentre il collector riceve la classe già renderizzata;
+- confrontare 750, 755, 757 e 3093 sul client reale; le fonti pubbliche non dimostrano al momento un override Forever tra queste quattro.
