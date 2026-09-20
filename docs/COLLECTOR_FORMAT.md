@@ -159,7 +159,7 @@ Stato: **DA TESTARE SU CLASSIC**.
 
 ## Traduzioni parziali
 
-**Decisione di progetto — da implementare.**
+**IMPLEMENTATO — DA TESTARE SU CLASSIC.**
 
 Una quest può esistere nel database ma avere soltanto alcuni campi tradotti. In questo caso non deve essere trattata come completamente coperta.
 
@@ -206,11 +206,11 @@ Quando la traduzione diventa completa per i campi osservati, il Quest ID deve es
 
 L'aggiunta del bucket può essere retrocompatibile: `Compat/Storage.lua` può inizializzarlo quando manca senza cancellare gli altri dati. Non aumentare automaticamente lo schema finché non è necessario per incompatibilità reali.
 
-Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
+Stato: **DA TESTARE SU CLASSIC**.
 
 ## Persistenza dell'evidenza `modified`
 
-**Decisione di progetto — da implementare.**
+**IMPLEMENTATO — DA TESTARE SU CLASSIC.**
 
 Un record `modified` non deve essere cancellato soltanto perché un evento successivo della stessa quest riguarda un altro campo che coincide con il database.
 
@@ -228,7 +228,7 @@ Il record `modified` può essere rimosso soltanto quando i campi già registrati
 
 L'implementazione può riutilizzare il contenuto già conservato nel record `modified` per rivalutare i campi; non è necessario introdurre un nuovo formato se non serve.
 
-Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
+Stato: **DA TESTARE SU CLASSIC**.
 
 ### Versionamento della normalizzazione
 
@@ -268,3 +268,17 @@ Questo evita falsi positivi tra personaggi di classi diverse.
 Il collector può continuare a conservare il testo effettivamente osservato; ciò che viene sospeso è soltanto la conclusione automatica `source_text_changed` per quel campo.
 
 Non sostituire globalmente parole come `shaman`, `tauren`, `warrior` ecc.: potrebbero essere testo narrativo reale.
+
+## Metadata degli override Forever
+
+Un override Forever parziale eredita dalla base Classic `_sourceHashes` e `_dynamicFields` soltanto per i campi testuali che NON vengono sovrascritti.
+
+Se Forever sovrascrive, per esempio, `description`:
+
+- un nuovo `_sourceHashes.description` viene usato se fornito;
+- se non viene fornito, l'hash Classic della description viene rimosso invece di essere riutilizzato in modo ambiguo;
+- lo stesso vale per `_dynamicFields.description`.
+
+I metadata dei campi Classic non toccati continuano invece a fare fallback normalmente.
+
+Stato: **IMPLEMENTATO — DA TESTARE SU CLASSIC** con fixture e poi **DA TESTARE SU FOREVER** con dati reali.
