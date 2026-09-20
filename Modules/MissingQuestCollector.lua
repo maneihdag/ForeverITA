@@ -86,6 +86,13 @@ function Collector:Observe(snapshot)
         flavor = FIT.Compat.Client:GetDataFlavor()
     end
 
+    if flavor ~= "classic" and flavor ~= "forever" then
+        if FIT.Compat.Storage and FIT.Compat.Storage.RecordDiagnostic then
+            FIT.Compat.Storage:RecordDiagnostic("collector_unsupported_flavor")
+        end
+        return
+    end
+
     local translated, source = nil, "missing"
     if FIT.Data and FIT.Data.ResolveQuest then
         translated, source = FIT.Data:ResolveQuest(snapshot.id, flavor)
