@@ -35,6 +35,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - Quest 3093 con detail + progress + completion;
 - sostituzione `<PLAYER>` con il nome solo a schermo, senza salvarlo;
 - privacy scrubber: nome separato da apostrofo/trattino lungo e nessuna sostituzione dentro parole più lunghe;
+- verificare che il collector salti la persistenza quando `privacySafe = false` e registri solo la diagnostica prevista;
 - pannello nascosto quando manca la traduzione della fase corrente;
 - verificare che il pannello precedente venga nascosto se una nuova quest non produce un QuestID valido;
 - verificare che campi vuoti non vengano trattati come tradotti;
