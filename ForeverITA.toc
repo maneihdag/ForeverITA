@@ -30,3 +30,4 @@ Modules\QuestDebug.lua
 
 Dev\SelfTest.lua
 Dev\ClassicSmokeTest.lua
+Dev\TranslationDataValidator.lua
