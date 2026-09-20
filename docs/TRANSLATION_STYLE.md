@@ -72,7 +72,7 @@ Valori previsti per i nuovi record:
 - `verified_classic` — traduzione e comportamento verificati sul client Classic usato come laboratorio;
 - `verified_forever` — traduzione verificata direttamente sul client WoW Forever.
 
-`manual_test_translation` resta temporaneamente accettato per i quattro record del prototipo già presenti. Il futuro validator dovrà segnalarlo come stato legacy/warning, non come errore, finché quei record non vengono migrati.
+`manual_test_translation` resta temporaneamente accettato per i quattro record del prototipo già presenti. Il validator lo segnala come stato legacy/warning, non come errore, finché quei record non vengono migrati.
 
 Essere nel layer `Forever_it` NON significa automaticamente `verified_forever`.
 
@@ -80,14 +80,14 @@ Essere nel layer `Forever_it` NON significa automaticamente `verified_forever`.
 
 La UI non deve dichiarare che un dato è verificato su Forever soltanto perché proviene dal layer Forever.
 
-Regola prevista:
+Regola implementata:
 
 - Forever + fallback Classic → `Base Classic · DA VERIFICARE SU FOREVER`;
 - Forever + override con `status = verified_forever` → `Verificata su Forever`;
 - Forever + override con qualunque altro stato → `Override Forever · DA VERIFICARE`;
 - Classic → nessuna etichetta tecnica durante il normale utilizzo.
 
-Stato implementazione: **DA PASSARE A CODEX DOMANI**.
+Stato implementazione: **IMPLEMENTATO — DA TESTARE**.
 
 ## Campi sorgente dinamici
 
