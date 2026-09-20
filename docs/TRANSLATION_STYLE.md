@@ -86,3 +86,31 @@ Regola prevista:
 - Classic → nessuna etichetta tecnica durante il normale utilizzo.
 
 Stato implementazione: **DA PASSARE A CODEX DOMANI**.
+
+## Campi sorgente dinamici
+
+Il client può sostituire token del testo quest prima che l'addon lo legga.
+
+Caso confermato:
+
+- Quest 755 usa `<class>` nel template;
+- sul personaggio del test Classic il collector ha ricevuto `shaman`.
+
+Per questi casi il record può dichiarare:
+
+```lua
+_dynamicFields = {
+    description = { "class" },
+}
+```
+
+Valori previsti inizialmente:
+
+- `class`;
+- `race` se verrà confermato da dati reali.
+
+Il nome giocatore resta gestito separatamente dal placeholder `<PLAYER>` perché è anche una regola di privacy.
+
+Un campo marcato dinamico non deve generare automaticamente `modified` soltanto perché un altro personaggio vede una sostituzione diversa.
+
+Non fare sostituzioni globali ingenue di parole come `shaman` o `tauren`: potrebbero essere testo narrativo reale e non placeholder.
