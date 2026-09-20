@@ -123,16 +123,22 @@ ForeverITA/
 ├── Compat/
 │   ├── API.lua
 │   ├── Client.lua
+│   ├── Privacy.lua
 │   ├── Storage.lua
 │   ├── Quest.lua
-│   └── UI.lua
+│   ├── UI.lua
+│   └── TranslationUI.lua
 ├── Core/
-│   └── DataRegistry.lua
+│   ├── DataRegistry.lua
+│   └── RecordFormat.lua
 ├── Modules/
-│   ├── QuestDebug.lua
-│   └── MissingQuestCollector.lua
+│   ├── MissingQuestCollector.lua
+│   ├── QuestTranslation.lua
+│   └── QuestDebug.lua
 ├── Data/
 │   ├── Classic_it/
+│   │   ├── Quests.lua
+│   │   └── Mulgore.lua
 │   └── Forever_it/
 └── Dev/
     ├── SelfTest.lua
@@ -389,6 +395,8 @@ Il Companion:
 Il Companion **non è implementato nella prima fase**. Prima viene completato e testato il collector locale.
 
 Vedi `docs/COLLECTOR_FORMAT.md`, `docs/COMPANION_DESIGN.md` e `docs/PRIVACY.md`.
+
+Per il perimetro della prima Alpha e la strategia dei dati: `docs/V0_1_SCOPE.md` e `docs/DATA_SOURCE_STRATEGY.md`.
 
 ---
 
