@@ -412,6 +412,24 @@ local function validateResolvedForever(questID, record, errors)
         addIssue(errors, "forever", questID, "override Forever non-remove senza testo tradotto risolto")
     end
 
+    if type(resolved._meta) == "table"
+        and resolved._meta.status == "verified_forever" then
+        for _, field in ipairs(TEXT_FIELDS) do
+            if isNonEmptyString(resolved[field])
+                and (
+                    type(resolved._sourceHashes) ~= "table"
+                    or resolved._sourceHashes[field] == nil
+                ) then
+                addIssue(
+                    errors,
+                    "forever",
+                    questID,
+                    "verified_forever richiede _sourceHashes." .. tostring(field)
+                )
+            end
+        end
+    end
+
     if type(resolved._sourceHashes) == "table" then
         for field in pairs(resolved._sourceHashes) do
             if TEXT_FIELD_SET[field] and not isNonEmptyString(resolved[field]) then
