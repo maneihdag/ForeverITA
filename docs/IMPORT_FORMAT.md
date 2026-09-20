@@ -236,6 +236,8 @@ Il Lua generato scrive:
 
 Il record Forever sostituisce completamente la base Classic.
 
+Poiché `replace` disattiva il fallback, deve contenere almeno un campo in `translation`. Gli override metadata-only sono validi soltanto in modalità `merge`.
+
 ### remove
 
 Il Lua generato scrive:
