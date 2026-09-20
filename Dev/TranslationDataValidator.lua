@@ -99,6 +99,8 @@ local function validateDynamicFields(layer, questID, record, errors)
     for field, tokens in pairs(dynamicFields) do
         if not TEXT_FIELD_SET[field] then
             addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " non è un campo noto")
+        elseif not isNonEmptyString(record[field]) then
+            addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " richiede il campo tradotto")
         elseif type(tokens) ~= "table" or #tokens == 0 then
             addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " deve contenere almeno un token")
         else
@@ -136,10 +138,32 @@ local function validateTextFields(layer, questID, record, errors)
 end
 
 local function validateMode(layer, questID, record, errors)
-    if record._mode ~= nil
-        and record._mode ~= "replace"
-        and record._mode ~= "remove" then
+    if record._mode == nil then
+        return
+    end
+
+    if layer ~= "forever" then
+        addIssue(errors, layer, questID, "_mode è ammesso soltanto nel layer forever")
+        return
+    end
+
+    if record._mode ~= "replace" and record._mode ~= "remove" then
         addIssue(errors, layer, questID, "_mode deve essere replace oppure remove")
+        return
+    end
+
+    if record._mode == "remove" then
+        for _, field in ipairs(TEXT_FIELDS) do
+            if record[field] ~= nil then
+                addIssue(errors, layer, questID, "_mode remove non deve contenere " .. field)
+            end
+        end
+        if record._sourceHashes ~= nil then
+            addIssue(errors, layer, questID, "_mode remove non deve contenere _sourceHashes")
+        end
+        if record._dynamicFields ~= nil then
+            addIssue(errors, layer, questID, "_mode remove non deve contenere _dynamicFields")
+        end
     end
 end
 
