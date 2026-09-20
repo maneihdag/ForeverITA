@@ -179,3 +179,13 @@ evento quest
 ```
 
 La traduzione e la raccolta condividono la lettura Compat ma restano moduli separati.
+
+## Strategia TOC
+
+La v0.1 usa un solo `ForeverITA.toc` con più Interface:
+
+`11509, 16001`
+
+Questo è intenzionale: Classic Era e Forever caricano gli stessi file e le differenze vengono isolate in `Compat/`.
+
+Un futuro `ForeverITA_Camelot.toc` verrà aggiunto soltanto se il client Forever richiederà una lista file realmente diversa.
