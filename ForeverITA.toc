@@ -3,6 +3,7 @@
 ## Notes: Traduzione italiana sperimentale per World of Warcraft: Forever
 ## Author: Maneihdag
 ## Version: 0.0.2-alpha
+## X-License: MIT
 ## DefaultState: Enabled
 ## SavedVariables: ForeverITA_CollectorDB
 
