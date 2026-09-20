@@ -51,3 +51,19 @@ Con consenso:
 - può essere disattivato in qualsiasi momento.
 
 Il README e la futura pagina download devono indicare chiaramente queste condizioni.
+
+## Confini della sostituzione del nome
+
+Il privacy scrubber sostituisce il nome del personaggio solo quando compare come token separato.
+
+Non deve sostituire una sequenza uguale al nome quando quella sequenza è parte di una parola più lunga.
+
+Esempio sintetico:
+
+- personaggio `Ash`;
+- `Ash, torna qui.` → `<PLAYER>, torna qui.`;
+- `Ashenvale` → resta `Ashenvale`.
+
+La sostituzione continua a funzionare accanto a punteggiatura e forme possessive.
+
+Stato: **DA TESTARE SU CLASSIC**.
