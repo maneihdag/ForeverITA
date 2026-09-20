@@ -177,6 +177,16 @@ function SelfTest:Run()
         check("Merge conserva descrizione", secondEvent.content.description == "Descrizione iniziale")
         check("Merge conserva obiettivi", secondEvent.content.objectives == "Obiettivi iniziali")
         check("Merge aggiunge completion", secondEvent.content.completion == "Testo finale")
+        check(
+            "Record conserva hash per campo",
+            secondEvent.fieldHashes
+                and secondEvent.fieldHashes.description
+                    == FIT.RecordFormat:FingerprintField("description", "Descrizione iniziale")
+                and secondEvent.fieldHashes.objectives
+                    == FIT.RecordFormat:FingerprintField("objectives", "Obiettivi iniziali")
+                and secondEvent.fieldHashes.completion
+                    == FIT.RecordFormat:FingerprintField("completion", "Testo finale")
+        )
     else
         check("RecordFormat disponibile", false)
     end
