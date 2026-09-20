@@ -59,14 +59,15 @@ Potrebbero esserci:
 
 ### Stato tecnico attuale
 
-Dati rilevati sul client beta al 17 settembre 2026:
+Dati pubblici verificati online al 20 settembre 2026:
 
 * WoW Forever Beta: 1.60.1
-* Build: 69893
+* build iniziale documentata: 69893
+* build segnalata nei test pubblici più recenti: 69913
 * Interface: 16001
 * ForeverITA: prototipo diagnostico non ancora validato direttamente sul client Forever
 
-La disponibilità delle singole API e il comportamento dell’interfaccia devono ancora essere verificati direttamente in gioco.
+La disponibilità delle singole API e il comportamento dell’interfaccia devono ancora essere verificati direttamente in gioco. I report pubblici sul build 69913 indicano inoltre un problema di ripristino delle SavedVariables tra sessioni; per ForeverITA resta **DA TESTARE SU FOREVER**.
 
 
 ### Modalità di sviluppo attuale
