@@ -15,6 +15,7 @@ Questo file serve a evitare che la cartella `docs/` diventi disordinata.
 
 - `TRANSLATION_STYLE.md` — stile, terminologia, status e placeholder;
 - `GLOSSARY_IT.md` — glossario italiano verificato/provvisorio;
+- `TERMINOLOGY_AUDIT_2026-09-20.md` — audit dei termini nelle prime quattro quest Mulgore;
 - `DATA_SOURCE_STRATEGY.md` — regole sulle sorgenti dati;
 - `IMPORT_FORMAT.md` — formato JSON → Lua dell'importer;
 - `tools/README.md` — comandi e requisiti degli strumenti di sviluppo;
