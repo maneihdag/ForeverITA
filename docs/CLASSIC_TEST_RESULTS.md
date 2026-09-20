@@ -19,7 +19,7 @@ Questi risultati dimostrano soltanto il funzionamento osservato su WoW Classic E
 
 - ForeverITA carica correttamente.
 - Le SavedVariables vengono scritte e lette correttamente.
-- Schema collector 3 e record schema 2 sono attivi.
+- Nel test originale erano attivi collector DB schema 3 e record schema 2. Il branch corrente usa DB schema 4 / record schema 3 e questo aggiornamento è **DA TESTARE SU CLASSIC**.
 
 ### Collector locale
 
@@ -63,7 +63,7 @@ La quest 3093 conserva inoltre title, progress e completion nello stesso record,
 
 **TESTATO SU CLASSIC**
 
-- record schema 2 attivo;
+- nel test originale era attivo record schema 2; il branch corrente usa record schema 3, ancora **DA TESTARE SU CLASSIC**;
 - hash q2 attivo;
 - revision aumenta quando il contenuto raccolto della stessa quest si arricchisce/cambia;
 - zona e map ID restano separati dal contenuto testuale.
