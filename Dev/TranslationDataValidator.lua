@@ -148,11 +148,30 @@ local function validateDynamicFields(layer, questID, record, errors)
             addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " non è un campo noto")
         elseif layer == "classic" and not isNonEmptyString(record[field]) then
             addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " richiede il campo tradotto")
-        elseif type(tokens) ~= "table" or #tokens == 0 then
+        elseif type(tokens) ~= "table" or next(tokens) == nil then
             addIssue(errors, layer, questID, "_dynamicFields." .. tostring(field) .. " deve contenere almeno un token")
         else
             local seen = {}
-            for _, token in ipairs(tokens) do
+            local count = 0
+            local maxIndex = 0
+
+            for key, token in pairs(tokens) do
+                if type(key) ~= "number"
+                    or key < 1
+                    or math.floor(key) ~= key then
+                    addIssue(
+                        errors,
+                        layer,
+                        questID,
+                        "_dynamicFields." .. tostring(field) .. " deve essere una lista numerica"
+                    )
+                else
+                    count = count + 1
+                    if key > maxIndex then
+                        maxIndex = key
+                    end
+                end
+
                 if type(token) ~= "string" or not VALID_DYNAMIC_TOKEN[token] then
                     addIssue(
                         errors,
@@ -170,6 +189,15 @@ local function validateDynamicFields(layer, questID, record, errors)
                 else
                     seen[token] = true
                 end
+            end
+
+            if count ~= maxIndex then
+                addIssue(
+                    errors,
+                    layer,
+                    questID,
+                    "_dynamicFields." .. tostring(field) .. " deve essere una lista continua senza buchi"
+                )
             end
         end
     end
