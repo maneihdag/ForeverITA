@@ -249,8 +249,22 @@ Gli `_sourceHashes` dei record Mulgore attuali devono essere ricalcolati con sch
 Valori di riferimento già ricontrollati sui sorgenti Classic raccolti:
 
 - Quest 750: title `f3-58031097`, description `f3-1819721703`, objectives `f3-1712647064`;
-- Quest 755: title `f3-1993634989`, description `f3-940745371`, objectives `f3-1480327953`, completion `f3-1805373569`;
+- Quest 755: title `f3-1993634989`, description `f3-940745371`, objectives `f3-1480327953`, completion `f3-1805373569`; la description è la variante osservata sul personaggio di test e il campo è marcato dinamico `class`;
 - Quest 757: title `f3-1309580852`, description `f3-517983166`, objectives `f3-1315568635`;
 - Quest 3093: title `f3-1615236429`, description `f3-2076480885`, objectives `f3-2027092750`, progress `f3-2085786229`, completion `f3-528183461`.
 
 La description della Quest 3093 è un buon test perché il sorgente raccolto terminava con CRLF: lo schema 3 deve normalizzarlo prima del fingerprint.
+
+## Campi dinamici e confronto hash
+
+Alcuni campi vengono renderizzati dal client con valori dipendenti dal personaggio.
+
+Caso confermato: Quest 755, description con token classe.
+
+Se il record traduzione dichiara `_dynamicFields[field]`, il comparator non deve usare il singolo `_sourceHashes[field]` per decidere `modified` finché non esiste una canonicalizzazione sicura di quel token.
+
+Questo evita falsi positivi tra personaggi di classi diverse.
+
+Il collector può continuare a conservare il testo effettivamente osservato; ciò che viene sospeso è soltanto la conclusione automatica `source_text_changed` per quel campo.
+
+Non sostituire globalmente parole come `shaman`, `tauren`, `warrior` ecc.: potrebbero essere testo narrativo reale.
