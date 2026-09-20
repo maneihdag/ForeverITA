@@ -82,6 +82,13 @@ class ImportQuestTests(unittest.TestCase):
         with self.assertRaises(importer.ValidationError):
             importer.validate_batch(raw)
 
+    def test_old_hash_schema_is_rejected(self):
+        raw = load_fixture("import_classic_sample.json")
+        raw["quests"][0]["sourceHashes"]["title"] = "f2-123"
+
+        with self.assertRaises(importer.ValidationError):
+            importer.validate_batch(raw)
+
     def test_lua_string_escapes_control_characters(self):
         rendered = importer.lua_string('A"\\B\nC\tD')
         self.assertTrue(rendered.startswith('"') and rendered.endswith('"'))
