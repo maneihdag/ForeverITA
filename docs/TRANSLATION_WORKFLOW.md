@@ -40,6 +40,7 @@ Per il record scelto:
 - usare il testo sorgente raccolto come riferimento locale di lavoro;
 - preparare la traduzione italiana;
 - copiare i fingerprint necessari da `fieldHashes` in `sourceHashes`;
+- per un campo dichiarato dinamico, ricordare che il `fieldHashes` raccolto rappresenta la variante realmente osservata sul personaggio di test; `_dynamicFields` fa sì che il comparator non lo usi ingenuamente come prova di modifica su altri personaggi;
 - usare `<PLAYER>` nei dati, mai il nome reale;
 - dichiarare `dynamicFields` soltanto quando il comportamento dinamico è stato verificato.
 
