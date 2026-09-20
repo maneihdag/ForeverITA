@@ -14,6 +14,14 @@ FIT.Data:RegisterQuest("classic", 990000001, {
     title = "[TEST] Base Classic",
     description = "Record sintetico usato per testare il livello dati Classic.",
     objectives = "Verifica il fallback dei campi non sovrascritti.",
+    _sourceHashes = {
+        title = "f2-1001",
+        description = "f2-1002",
+        objectives = "f2-1003",
+    },
+    _dynamicFields = {
+        description = { "race" },
+    },
     _meta = {
         synthetic = true,
         provenance = "ForeverITA internal test fixture",
