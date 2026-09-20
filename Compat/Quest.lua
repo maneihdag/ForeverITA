@@ -37,6 +37,7 @@ function Quest:Read(eventName)
     local snapshot = {
         event = eventName or "MANUAL",
         errors = {},
+        privacySafe = false,
     }
 
     if eventName == "QUEST_FINISHED" then
