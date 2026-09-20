@@ -117,6 +117,32 @@ function SelfTest:Run()
     end
 
 
+    if FIT.Compat.Privacy and FIT.Compat.Privacy.SanitizeText then
+        local Privacy = FIT.Compat.Privacy
+        local originalGetPlayerAliases = Privacy.GetPlayerAliases
+
+        Privacy.GetPlayerAliases = function()
+            return { "Ash" }
+        end
+
+        check(
+            "Privacy non sostituisce dentro parole ASCII",
+            Privacy:SanitizeText("Ashenvale") == "Ashenvale"
+        )
+        check(
+            "Privacy sostituisce accanto a punteggiatura ASCII",
+            Privacy:SanitizeText("Ash's report") == "<PLAYER>'s report"
+        )
+        check(
+            "Privacy sostituisce accanto a punteggiatura UTF-8",
+            Privacy:SanitizeText("Ash—torna qui") == "<PLAYER>—torna qui"
+        )
+
+        Privacy.GetPlayerAliases = originalGetPlayerAliases
+    else
+        check("Privacy disponibile", false)
+    end
+
     if FIT.RecordFormat then
         local baseSnapshot = {
             id = 990000010,
