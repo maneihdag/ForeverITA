@@ -140,7 +140,7 @@ Verificare:
 - hash f3 presenti per i campi tradotti;
 - `_dynamicFields` della Quest 755;
 - provenance;
-- status legacy gestito come warning dal validator.
+- status `draft` coerente sui quattro record; nessun warning legacy atteso dal dataset corrente.
 
 ## Commit
 
