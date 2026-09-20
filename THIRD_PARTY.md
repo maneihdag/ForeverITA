@@ -58,3 +58,14 @@ Il codice originale di ForeverITA usa licenza MIT.
 Questa scelta non cambia le regole sopra: materiale GPL, senza licenza o con licenza diversa non diventa automaticamente MIT e non va copiato senza una verifica specifica.
 
 Vedi `docs/LICENSING.md`.
+
+## Altri riferimenti Forever verificati il 20 settembre 2026
+
+| Repository | Licenza / stato | Uso ForeverITA |
+|---|---|---|
+| ATTWoWAddon/AllTheThings | MIT | Riferimento per build/configurazione multi-flavor e supporto Forever |
+| wheelbarrel00/LootPro | MIT | Riferimento per distribuzione con TOC Camelot separato; nessuna dipendenza |
+| Bodify/BetterBlizzPlates | licenza repository non standard/da verificare per file | Studio di compatibilità e conferma pratica di Interface 16001/SavedVariables |
+| TheMizeGuy/WowForeverTwitchEmotes | nessuna licenza propria chiara sul lavoro upstream | Solo studio; utile come esempio di feature detection su Forever |
+
+Nessuno di questi repository viene copiato o introdotto come dipendenza del runtime ForeverITA.
