@@ -38,6 +38,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - nessun messaggio automatico indesiderato in chat;
 - self-test dopo tutte le modifiche;
 - verificare che un flavor sconosciuto non faccia fallback silenzioso a Classic;
+- verificare che il collector non raccolga dati quando il flavor client non è riconosciuto;
 - verificare il rifiuto di QuestID duplicati nello stesso layer;
 - assenza di errori Lua;
 - lettura mapID tramite il controllo Compat senza errori o valori non accessibili.
