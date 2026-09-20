@@ -54,6 +54,19 @@ function SelfTest:Run()
     local missing, missingSource = FIT.Data:ResolveQuest(990000003, "forever")
     check("Quest sconosciuta resta missing", missing == nil and missingSource == "missing")
 
+    local unsupported, unsupportedSource = FIT.Data:ResolveQuest(990000001, "unknown")
+    check(
+        "Flavor sconosciuto non usa fallback Classic",
+        unsupported == nil and unsupportedSource == "unsupported_flavor"
+    )
+
+    local duplicateAccepted = pcall(function()
+        FIT.Data:RegisterQuest("classic", 990000001, {
+            title = "[TEST] Duplicato non consentito",
+        })
+    end)
+    check("QuestID duplicato nello stesso layer rifiutato", duplicateAccepted == false)
+
 
     if FIT.RecordFormat then
         local baseSnapshot = {
