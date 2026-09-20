@@ -176,6 +176,29 @@ L'importer NON deve calcolare un hash a partire dalla traduzione italiana.
 
 Gli hash rappresentano il testo sorgente originale, non la traduzione.
 
+### dynamicFields
+
+Facoltativo.
+
+Permette di dichiarare campi sorgente che il client renderizza in modo dipendente dal personaggio.
+
+Esempio:
+
+```json
+"dynamicFields": {
+  "description": ["class"]
+}
+```
+
+Valori inizialmente ammessi:
+
+- `class`;
+- `race`.
+
+Non usare `player` qui: il nome giocatore è già canonicalizzato come `<PLAYER>` dalla privacy layer.
+
+Un importer non deve inventare dynamicFields. Devono provenire da una verifica esplicita.
+
 ### meta
 
 Campi previsti:
