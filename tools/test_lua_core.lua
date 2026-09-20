@@ -35,6 +35,49 @@ loadAddonFile("Data/Classic_it/Quests.lua")
 loadAddonFile("Data/Classic_it/Mulgore.lua")
 loadAddonFile("Data/Forever_it/Quests.lua")
 
+-- Real-shape synthetic data for metadata-only Forever verification.
+local inheritedTitle = "[TEST] Metadata-only Forever verification"
+local inheritedDescription = "Classic translation inherited on Forever."
+
+FIT.Data:RegisterQuest("classic", 990000030, {
+    title = inheritedTitle,
+    description = inheritedDescription,
+    _sourceHashes = {
+        title = FIT.RecordFormat:FingerprintField("title", inheritedTitle),
+        description = FIT.RecordFormat:FingerprintField("description", inheritedDescription),
+    },
+    _meta = {
+        synthetic = false,
+        status = "draft",
+        sourceClient = "Classic synthetic",
+        sourceBuild = "0",
+        provenance = "ForeverITA offline core test",
+    },
+})
+
+FIT.Data:RegisterQuest("forever", 990000030, {
+    _meta = {
+        synthetic = false,
+        status = "verified_forever",
+        sourceClient = "Forever synthetic",
+        sourceBuild = "0",
+        provenance = "ForeverITA offline core test",
+    },
+})
+
+local inherited, inheritedSource = FIT.Data:ResolveQuest(990000030, "forever")
+if not (
+    inherited
+    and inheritedSource == "forever_override"
+    and inherited.title == inheritedTitle
+    and inherited.description == inheritedDescription
+    and inherited._meta.status == "verified_forever"
+    and inherited._sourceHashes.title
+        == FIT.RecordFormat:FingerprintField("title", inheritedTitle)
+) then
+    error("metadata-only Forever verification fallback non valido")
+end
+
 loadAddonFile("Dev/SelfTest.lua")
 loadAddonFile("Dev/TranslationDataValidator.lua")
 
