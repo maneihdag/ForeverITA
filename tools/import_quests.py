@@ -241,7 +241,7 @@ def validate_batch(raw: Any) -> dict[str, Any]:
                 )
 
         for field in dynamic_fields:
-            if field not in translation:
+            if layer == "classic" and field not in translation:
                 fail(f"quest {quest_id}: dynamicFields.{field} richiede translation.{field}")
 
         normalized.append(
