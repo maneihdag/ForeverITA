@@ -141,9 +141,13 @@ ForeverITA/
 │   │   ├── Quests.lua
 │   │   └── Mulgore.lua
 │   └── Forever_it/
-└── Dev/
-    ├── SelfTest.lua
-    └── ClassicSmokeTest.lua
+├── Dev/
+│   ├── SelfTest.lua
+│   ├── ClassicSmokeTest.lua
+│   └── TranslationDataValidator.lua
+└── tools/
+    ├── import_quests.py
+    └── test_import_quests.py
 ```
 
 La struttura definitiva verrà decisa durante lo sviluppo e potrà cambiare man mano che comprenderemo meglio il funzionamento di WoW Forever.
@@ -401,6 +405,8 @@ Il Companion **non è implementato nella prima fase**. Prima viene completato e 
 Vedi `docs/COLLECTOR_FORMAT.md`, `docs/COMPANION_DESIGN.md` e `docs/PRIVACY.md`.
 
 Per il perimetro della prima Alpha e la strategia dei dati: `docs/V0_1_SCOPE.md` e `docs/DATA_SOURCE_STRATEGY.md`.
+
+Indice completo della documentazione: `docs/README.md`.
 
 ---
 
