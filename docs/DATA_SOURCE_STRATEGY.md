@@ -150,10 +150,12 @@ Non fare una importazione massiva oggi.
 Prima servono:
 
 1. validator dati;
-2. schema import definito;
+2. schema import definito in `docs/IMPORT_FORMAT.md`;
 3. fonte autorizzata o traduzione originale ForeverITA;
 4. controllo placeholder;
 5. controllo hash;
 6. test su un piccolo campione.
 
 Il futuro importer è uno strumento di sviluppo, non una dipendenza runtime dell'addon.
+
+Il formato scelto per la v0.1 è JSON batch → Lua deterministico. L'importer non scaricherà fonti e non aggiornerà automaticamente il TOC nella prima versione.
