@@ -33,6 +33,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - Quest 755 con completion;
 - Quest 750;
 - Quest 3093 con detail + progress + completion;
+- resa delle nuove forme terminologiche verificate (`Campo Narache`, `Verrospino`, `Madre Terra`, `Picco del Tuono`);
 - sostituzione `<PLAYER>` con il nome solo a schermo, senza salvarlo;
 - privacy scrubber: nome separato da apostrofo/trattino lungo e nessuna sostituzione dentro parole più lunghe;
 - verificare che il collector salti la persistenza quando `privacySafe = false` e registri solo la diagnostica prevista;
