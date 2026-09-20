@@ -55,8 +55,8 @@ ForeverITA_CollectorDB
 Schema database attuale:
 
 ```text
-schema = 3
-recordSchema = 2
+schema = 4
+recordSchema = 3
 ```
 
 Esempio concettuale:
@@ -64,7 +64,7 @@ Esempio concettuale:
 ```lua
 missing = {
     [12345] = {
-        schema = 2,
+        schema = 3,
         type = "quest",
         id = 12345,
         reason = "translation_missing",
@@ -79,7 +79,7 @@ missing = {
             zone = "...",
             mapID = 12
         },
-        contentHash = "q2-123456789",
+        contentHash = "q3-123456789",
         revision = 1,
         addonVersion = "0.0.2-alpha",
         client = {
@@ -138,15 +138,15 @@ Prima di salvare il record, ForeverITA sostituisce gli alias del personaggio ott
 
 Il nome viene usato solo temporaneamente in memoria per la pulizia e non viene scritto nel database collector.
 
-Il record schema 2 conserva inoltre i campi raccolti in eventi diversi della stessa quest: per esempio descrizione/obiettivi letti all'apertura non vengono persi quando più tardi arriva il testo di completion.
+Il record schema 3 conserva inoltre i campi raccolti in eventi diversi della stessa quest: per esempio descrizione/obiettivi letti all'apertura non vengono persi quando più tardi arriva il testo di completion.
 
 ## Normalizzazione testo sorgente
 
-**Decisione di progetto — da implementare.**
+**IMPLEMENTATO — DA TESTARE SU CLASSIC.**
 
-Prima di calcolare gli hash dei testi sorgente, ForeverITA dovrà usare una forma canonica per evitare falsi `modified` causati soltanto da differenze di formattazione.
+Prima di calcolare gli hash dei testi sorgente, ForeverITA usa una forma canonica per evitare falsi `modified` causati soltanto da differenze di formattazione.
 
-Regola prevista:
+Regola applicata:
 
 - convertire `\r\n` e `\r` in `\n`;
 - rimuovere solo gli spazi bianchi iniziali e finali dell'intero campo;
@@ -155,7 +155,7 @@ Regola prevista:
 
 Non vanno compattati gli spazi interni e non vanno riscritti i paragrafi: l'obiettivo è eliminare differenze tecniche di newline/bordi, non alterare il contenuto.
 
-Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
+Stato: **DA TESTARE SU CLASSIC**.
 
 ## Traduzioni parziali
 
@@ -236,15 +236,15 @@ La normalizzazione cambia il significato dell'hash. Non va quindi introdotta man
 
 Decisione:
 
-- `RecordFormat.schema` passerà da 2 a 3;
-- i nuovi fingerprint diventeranno `f3-*`;
-- i nuovi content hash diventeranno `q3-*`;
-- `Storage.recordSchema` passerà a 3;
-- il database SavedVariables passerà da schema 3 a schema 4 per evitare di mescolare record q2 e q3 senza una migrazione esplicita.
+- `RecordFormat.schema` è passato da 2 a 3;
+- i nuovi fingerprint sono `f3-*`;
+- i nuovi content hash sono `q3-*`;
+- `Storage.recordSchema` è passato a 3;
+- il database SavedVariables è passato da schema 3 a schema 4 per evitare di mescolare record q2 e q3 senza una migrazione esplicita.
 
 Durante questa fase Alpha il cambio schema può inizializzare un nuovo collector DB. I SavedVariables di test importanti già raccolti sono stati archiviati e usati per verificare il primo dataset Mulgore.
 
-Gli `_sourceHashes` dei record Mulgore attuali devono essere ricalcolati con schema 3 nello stesso commit che introduce la normalizzazione. Non lasciare hash f2 insieme a `RecordFormat.schema = 3`.
+Gli `_sourceHashes` dei record Mulgore attuali sono stati ricalcolati con schema 3 nello stesso passaggio che ha introdotto la normalizzazione.
 
 Valori di riferimento già ricontrollati sui sorgenti Classic raccolti:
 
