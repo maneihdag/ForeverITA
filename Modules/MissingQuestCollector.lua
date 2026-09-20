@@ -44,7 +44,7 @@ local BUCKETS = {
 }
 
 local function hasText(value)
-    return type(value) == "string" and value ~= ""
+    return type(value) == "string" and value:match("%S") ~= nil
 end
 
 local function copySnapshot(snapshot)
@@ -97,7 +97,17 @@ local function observedContent(snapshot)
     if not FIT.RecordFormat or not FIT.RecordFormat.BuildContent then
         return {}
     end
-    return FIT.RecordFormat:BuildContent(snapshot)
+
+    local raw = FIT.RecordFormat:BuildContent(snapshot)
+    local filtered = {}
+
+    for field, value in pairs(raw) do
+        if hasText(value) then
+            filtered[field] = value
+        end
+    end
+
+    return filtered
 end
 
 local function missingTranslationFields(snapshot, translated)
