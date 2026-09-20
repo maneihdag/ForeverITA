@@ -355,7 +355,7 @@ La v0.1 genera stringhe Lua quotate ed escapate; non usa long string costruite c
 
 ## File destinazione
 
-Il file di output è sempre esplicito.
+Il file di output è sempre esplicito e non può coincidere con il file JSON di input.
 
 Esempio:
 
