@@ -38,3 +38,6 @@ jobs:
 
       - name: Run offline collector tests
         run: lua5.1 tools/test_lua_collector.lua
+
+      - name: Run offline storage migration tests
+        run: lua5.1 tools/test_lua_storage.lua
