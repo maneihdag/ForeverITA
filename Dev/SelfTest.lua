@@ -48,9 +48,9 @@ function SelfTest:Run()
         "Hash Forever sovrascrive solo il campo fornito",
         forever
             and forever._sourceHashes
-            and forever._sourceHashes.title == "f2-2001"
-            and forever._sourceHashes.description == "f2-1002"
-            and forever._sourceHashes.objectives == "f2-1003"
+            and forever._sourceHashes.title == "f3-2001"
+            and forever._sourceHashes.description == "f3-1002"
+            and forever._sourceHashes.objectives == "f3-1003"
     )
     check(
         "Metadati campi dinamici vengono uniti per campo",
@@ -152,6 +152,15 @@ function SelfTest:Run()
 
         check("Hash uguale se cambia solo la zona", hashA == hashB)
         check("Hash cambia se cambia il testo", hashA ~= hashC)
+
+        local normalizedA = FIT.RecordFormat:FingerprintField("description", "Riga uno\r\nRiga due\r\n")
+        local normalizedB = FIT.RecordFormat:FingerprintField("description", "Riga uno\nRiga due")
+        local internalSpaceA = FIT.RecordFormat:FingerprintField("description", "A  B")
+        local internalSpaceB = FIT.RecordFormat:FingerprintField("description", "A B")
+
+        check("Normalizzazione CRLF/LF stabile", normalizedA == normalizedB)
+        check("Trim esterno non cambia hash", FIT.RecordFormat:FingerprintField("title", "  Test  ") == FIT.RecordFormat:FingerprintField("title", "Test"))
+        check("Spazi interni restano significativi", internalSpaceA ~= internalSpaceB)
 
         local firstEvent = FIT.RecordFormat:BuildRecord({
             id = 990000011,
