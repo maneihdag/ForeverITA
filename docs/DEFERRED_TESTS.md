@@ -57,4 +57,6 @@ Tutto ciò che dipende dal client reale Forever resta **DA TESTARE SU FOREVER**,
 - fallback Classic;
 - override Forever;
 - collector;
-- confronto hash.
+- confronto hash;
+- usare Quest 755 come primo caso `modified`: la fonte pubblica Forever suggerisce `<class>` dove il Classic raccolto contiene `shaman`;
+- confrontare anche 750, 757 e 3093, che pubblicamente risultano coerenti con la base Classic.
