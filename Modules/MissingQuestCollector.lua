@@ -191,6 +191,13 @@ function Collector:Observe(snapshot)
         return
     end
 
+    if snapshot.privacySafe == false then
+        if FIT.Compat.Storage and FIT.Compat.Storage.RecordDiagnostic then
+            FIT.Compat.Storage:RecordDiagnostic("collector_privacy_alias_unavailable")
+        end
+        return
+    end
+
     if not FIT.RecordFormat then
         return
     end
