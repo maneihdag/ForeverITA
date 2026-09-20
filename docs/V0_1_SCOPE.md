@@ -172,3 +172,20 @@ Classic e Forever possono naturalmente usare lo stesso Quest ID perché sono lay
 Questa protezione è necessaria prima di iniziare a generare molti file dati.
 
 Stato: **DA PASSARE A CODEX DOMANI**.
+
+## Implementato oggi, ancora da testare
+
+Il 20 settembre sono stati implementati anche:
+
+- `/fit datatest` e `Dev/TranslationDataValidator.lua`;
+- iterazione deterministica e read-only del DataRegistry;
+- normalizzazione hash schema 3 / SavedVariables schema 4;
+- merge sicuro `_sourceHashes` / `_dynamicFields` negli override Forever;
+- bucket collector `incomplete`;
+- persistenza dell'evidenza `modified` tra eventi diversi;
+- gestione conservativa dei campi sorgente dinamici;
+- privacy scrubber con confini di parola;
+- importer di sviluppo JSON → Lua;
+- fixture sintetiche per l'importer.
+
+Queste funzioni NON diventano automaticamente `TESTATO SU CLASSIC`: restano nel batch differito finché non vengono eseguite e osservate in gioco o nel tool di sviluppo.
