@@ -35,3 +35,6 @@ jobs:
 
       - name: Run offline core/data tests
         run: lua5.1 tools/test_lua_core.lua
+
+      - name: Run offline collector tests
+        run: lua5.1 tools/test_lua_collector.lua
