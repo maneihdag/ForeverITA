@@ -204,6 +204,18 @@ def validate_batch(raw: Any) -> dict[str, Any]:
         dynamic_fields = validate_dynamic_fields(quest.get("dynamicFields"), quest_id)
         meta = validate_meta(quest.get("meta"), defaults, quest_id)
 
+        status = meta.get("status")
+        if layer == "classic" and status == "verified_forever":
+            fail(f"quest {quest_id}: verified_forever non è valido nel layer classic")
+        if layer == "forever" and status == "verified_classic":
+            fail(f"quest {quest_id}: verified_classic non è valido nel layer forever")
+        if status == "verified_forever":
+            for required in ("sourceClient", "sourceBuild"):
+                if not nonempty_string(meta.get(required)):
+                    fail(
+                        f"quest {quest_id}: verified_forever richiede meta.{required}"
+                    )
+
         if operation == "remove":
             if layer != "forever":
                 fail(f"quest {quest_id}: remove è ammesso soltanto nel layer forever")
