@@ -402,3 +402,11 @@ Dopo l'implementazione:
 **DA TESTARE COME TOOL DI SVILUPPO**
 
 La parte runtime generata resta inoltre soggetta ai normali test Classic e Forever.
+
+## Duplicati
+
+Il validator/importer deve rifiutare Quest ID duplicati nello stesso batch JSON.
+
+Il runtime DataRegistry deve inoltre rifiutare una seconda registrazione dello stesso Quest ID nello stesso layer, così vengono intercettati anche duplicati distribuiti tra file differenti.
+
+Un Quest ID presente sia in `classic` sia in `forever` NON è un duplicato: è il normale meccanismo di override.
