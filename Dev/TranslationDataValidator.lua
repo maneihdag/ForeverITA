@@ -350,6 +350,8 @@ local function validateClassicReal(layer, questID, record, errors)
     for _, field in ipairs(TEXT_FIELDS) do
         if record[field] ~= nil and record._sourceHashes[field] == nil then
             addIssue(errors, layer, questID, "_sourceHashes." .. field .. " mancante")
+        elseif record._sourceHashes[field] ~= nil and not isNonEmptyString(record[field]) then
+            addIssue(errors, layer, questID, "_sourceHashes." .. field .. " senza campo tradotto")
         end
     end
 end
@@ -408,6 +410,19 @@ local function validateResolvedForever(questID, record, errors)
 
     if not hasResolvedText then
         addIssue(errors, "forever", questID, "override Forever non-remove senza testo tradotto risolto")
+    end
+
+    if type(resolved._sourceHashes) == "table" then
+        for field in pairs(resolved._sourceHashes) do
+            if TEXT_FIELD_SET[field] and not isNonEmptyString(resolved[field]) then
+                addIssue(
+                    errors,
+                    "forever",
+                    questID,
+                    "_sourceHashes." .. tostring(field) .. " non ha un campo tradotto dopo il fallback"
+                )
+            end
+        end
     end
 
     if type(resolved._dynamicFields) == "table" then
