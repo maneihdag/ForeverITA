@@ -41,6 +41,24 @@ local function isValidQuestID(questID)
         and math.floor(questID) == questID
 end
 
+local function mergeMap(base, override)
+    local merged = {}
+
+    if type(base) == "table" then
+        for key, value in pairs(base) do
+            merged[key] = deepCopy(value)
+        end
+    end
+
+    if type(override) == "table" then
+        for key, value in pairs(override) do
+            merged[key] = deepCopy(value)
+        end
+    end
+
+    return merged
+end
+
 function Data:RegisterQuest(layer, questID, record)
     if layer ~= "classic" and layer ~= "forever" then
         error("ForeverITA: layer dati non valido: " .. tostring(layer))
@@ -64,6 +82,28 @@ function Data:RegisterQuest(layer, questID, record)
     end
 
     self[layer].quests[questID] = record
+end
+
+function Data:ForEachQuest(layer, callback)
+    if layer ~= "classic" and layer ~= "forever" then
+        return false, "invalid_layer"
+    end
+
+    if type(callback) ~= "function" then
+        return false, "invalid_callback"
+    end
+
+    local ids = {}
+    for questID in pairs(self[layer].quests) do
+        ids[#ids + 1] = questID
+    end
+    table.sort(ids)
+
+    for _, questID in ipairs(ids) do
+        callback(questID, deepCopy(self[layer].quests[questID]))
+    end
+
+    return true
 end
 
 function Data:ResolveQuest(questID, flavor)
@@ -105,7 +145,11 @@ function Data:ResolveQuest(questID, flavor)
     local merged = deepCopy(base)
     for key, value in pairs(override) do
         if key ~= "_mode" then
-            merged[key] = deepCopy(value)
+            if key == "_sourceHashes" or key == "_dynamicFields" then
+                merged[key] = mergeMap(base[key], value)
+            else
+                merged[key] = deepCopy(value)
+            end
         end
     end
 
