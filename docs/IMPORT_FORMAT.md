@@ -192,6 +192,12 @@ Stati ammessi per nuovi record:
 - `verified_classic`;
 - `verified_forever`.
 
+Vincoli:
+
+- `verified_classic` è ammesso soltanto per `layer = classic`;
+- `verified_forever` è ammesso soltanto per `layer = forever`;
+- `verified_forever` richiede `sourceClient` e `sourceBuild`.
+
 Per un record Classic reale, dopo i defaults devono esistere almeno:
 
 - `status`;
