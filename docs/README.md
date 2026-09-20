@@ -26,6 +26,7 @@ Questo file serve a evitare che la cartella `docs/` diventi disordinata.
 ## Test
 
 - `V0_1_TEST_PLAN.md` — piano batch per la v0.1;
+- `AUTOMATED_TEST_RESULTS.md` — risultati realmente ottenuti dalle GitHub Actions;
 - `CLASSIC_TEST_PLAN.md` — piano test Classic;
 - `CLASSIC_TEST_RESULTS.md` — risultati realmente ottenuti;
 - `DEFERRED_TESTS.md` — controlli accumulati da eseguire insieme;
