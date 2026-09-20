@@ -18,7 +18,7 @@ VALID_STATUSES = {"draft", "reviewed", "verified_classic", "verified_forever"}
 VALID_DYNAMIC_TOKENS = {"class", "race"}
 CURRENT_HASH_SCHEMA = 3
 GROUP_RE = re.compile(r"^[A-Za-z0-9_-]+$")
-HASH_RE = re.compile(r"^f\d+-\d+$")
+HASH_RE = re.compile(rf"^f{CURRENT_HASH_SCHEMA}-\\d+$")
 
 
 class ValidationError(ValueError):
