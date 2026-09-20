@@ -123,3 +123,15 @@ Il nome giocatore resta gestito separatamente dal placeholder `<PLAYER>` perché
 Un campo marcato dinamico non deve generare automaticamente `modified` soltanto perché un altro personaggio vede una sostituzione diversa.
 
 Non fare sostituzioni globali ingenue di parole come `shaman` o `tauren`: potrebbero essere testo narrativo reale e non placeholder.
+
+## Qualità della fonte terminologica
+
+Per i nomi propri e i termini di Warcraft:
+
+1. fonte Blizzard italiana ufficiale;
+2. altra fonte di localizzazione affidabile, chiaramente indicata come secondaria;
+3. se non verificabile, mantenere temporaneamente l'inglese.
+
+Una pagina italiana di un database esterno che mostra ancora il testo inglese non dimostra che l'inglese sia la localizzazione italiana ufficiale.
+
+Prima di promuovere una traduzione da `draft` a `reviewed`, eseguire il controllo terminologico descritto in `docs/GLOSSARY_IT.md`.
