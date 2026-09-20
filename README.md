@@ -244,8 +244,9 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 * [ ] Creare database dei dialoghi
 * [x] Creare sistema di fallback Classic → Forever override
 * [x] Gestire le quest non ancora tradotte tramite collector
-* [ ] Aggiungere validator del database traduzioni
-* [ ] Aggiungere importer di sviluppo JSON → Lua
+* [x] Gestire traduzioni parziali tramite bucket `incomplete` (DA TESTARE SU CLASSIC)
+* [x] Aggiungere validator del database traduzioni (`/fit datatest`, DA TESTARE SU CLASSIC)
+* [x] Aggiungere importer di sviluppo JSON → Lua (DA REVISIONARE/TESTARE)
 
 ### Fase 4 — Espansione
 
