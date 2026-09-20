@@ -232,6 +232,9 @@ def validate_batch(raw: Any) -> dict[str, Any]:
             for field in translation:
                 if field not in hashes:
                     fail(f"quest {quest_id}: sourceHashes.{field} mancante")
+            for field in hashes:
+                if field not in translation:
+                    fail(f"quest {quest_id}: sourceHashes.{field} senza translation.{field}")
         else:
             if operation == "replace" and not translation:
                 fail(
