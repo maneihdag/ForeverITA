@@ -229,3 +229,28 @@ Il record `modified` può essere rimosso soltanto quando i campi già registrati
 L'implementazione può riutilizzare il contenuto già conservato nel record `modified` per rivalutare i campi; non è necessario introdurre un nuovo formato se non serve.
 
 Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
+
+### Versionamento della normalizzazione
+
+La normalizzazione cambia il significato dell'hash. Non va quindi introdotta mantenendo lo stesso prefisso `f2/q2`.
+
+Decisione:
+
+- `RecordFormat.schema` passerà da 2 a 3;
+- i nuovi fingerprint diventeranno `f3-*`;
+- i nuovi content hash diventeranno `q3-*`;
+- `Storage.recordSchema` passerà a 3;
+- il database SavedVariables passerà da schema 3 a schema 4 per evitare di mescolare record q2 e q3 senza una migrazione esplicita.
+
+Durante questa fase Alpha il cambio schema può inizializzare un nuovo collector DB. I SavedVariables di test importanti già raccolti sono stati archiviati e usati per verificare il primo dataset Mulgore.
+
+Gli `_sourceHashes` dei record Mulgore attuali devono essere ricalcolati con schema 3 nello stesso commit che introduce la normalizzazione. Non lasciare hash f2 insieme a `RecordFormat.schema = 3`.
+
+Valori di riferimento già ricontrollati sui sorgenti Classic raccolti:
+
+- Quest 750: title `f3-58031097`, description `f3-1819721703`, objectives `f3-1712647064`;
+- Quest 755: title `f3-1993634989`, description `f3-940745371`, objectives `f3-1480327953`, completion `f3-1805373569`;
+- Quest 757: title `f3-1309580852`, description `f3-517983166`, objectives `f3-1315568635`;
+- Quest 3093: title `f3-1615236429`, description `f3-2076480885`, objectives `f3-2027092750`, progress `f3-2085786229`, completion `f3-528183461`.
+
+La description della Quest 3093 è un buon test perché il sorgente raccolto terminava con CRLF: lo schema 3 deve normalizzarlo prima del fingerprint.
