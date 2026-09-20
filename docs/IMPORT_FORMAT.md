@@ -164,9 +164,177 @@ Chiavi ammesse:
 - `progress`
 - `completion`
 
-Formato:
+Formato attuale:
 
-`^f%d+%-%d+$`
+`^f3%-%d+# Formato di importazione traduzioni
+
+Aggiornato: 2026-09-20.
+
+## Scopo
+
+Questo documento definisce il formato che userà il futuro importer di sviluppo di ForeverITA.
+
+L'importer NON farà parte dell'addon in gioco.
+
+Flusso previsto:
+
+```text
+file JSON temporaneo
+        ↓
+validator/importer di sviluppo
+        ↓
+Data/Classic_it/*.lua
+oppure
+Data/Forever_it/*.lua
+        ↓
+ForeverITA
+```
+
+Il file JSON serve soltanto come formato di scambio per preparare grandi quantità di traduzioni in modo controllato.
+
+Non è una dipendenza runtime.
+
+## Perché JSON
+
+Per la prima versione scegliamo JSON perché:
+
+- è semplice da generare con strumenti automatici;
+- supporta testi lunghi e multilinea tramite escaping standard;
+- è facile da validare;
+- Python può leggerlo con la libreria standard, senza dipendenze esterne;
+- non richiede parser dentro WoW.
+
+Non introduciamo YAML o altre librerie.
+
+## Schema batch v1
+
+Esempio:
+
+```json
+{
+  "schema": 1,
+  "layer": "classic",
+  "group": "Mulgore",
+  "defaults": {
+    "status": "draft",
+    "sourceClient": "Classic Era 1.15.9",
+    "sourceBuild": "69722"
+  },
+  "quests": [
+    {
+      "id": 757,
+      "translation": {
+        "title": "Rito della Forza",
+        "description": "Testo italiano...",
+        "objectives": "Obiettivi italiani..."
+      },
+      "sourceHashes": {
+        "title": "f2-583207982",
+        "description": "f2-1605805047",
+        "objectives": "f2-41009017"
+      },
+      "meta": {
+        "terminologyNote": "Nota facoltativa"
+      }
+    }
+  ]
+}
+```
+
+## Campi del batch
+
+### schema
+
+Obbligatorio.
+
+Per la prima versione:
+
+`1`
+
+Un importer deve rifiutare schema sconosciuti invece di interpretarli liberamente.
+
+### layer
+
+Obbligatorio.
+
+Valori ammessi:
+
+- `classic`
+- `forever`
+
+Determina il livello destinazione di DataRegistry.
+
+### group
+
+Obbligatorio.
+
+Serve soltanto a organizzare i file dati.
+
+Esempi:
+
+- `Mulgore`
+- `Elwynn`
+- `ForeverIntro`
+
+Deve usare soltanto lettere ASCII, numeri, trattino o underscore.
+
+Non deve essere usato come identità della quest.
+
+L'identità resta sempre il Quest ID.
+
+### defaults
+
+Facoltativo ma raccomandato.
+
+Può fornire valori condivisi dal batch:
+
+- `status`
+- `sourceClient`
+- `sourceBuild`
+
+Un valore definito nel singolo record può sovrascrivere il default.
+
+## Record quest
+
+Ogni elemento di `quests` contiene:
+
+### id
+
+Obbligatorio.
+
+Deve essere un numero intero positivo.
+
+### translation
+
+Per una quest tradotta contiene soltanto questi campi:
+
+- `title`
+- `description`
+- `objectives`
+- `progress`
+- `completion`
+
+Ogni campo presente deve essere una stringa non vuota.
+
+Campi assenti significano "non fornito".
+
+Non usare stringhe vuote per rappresentare campi mancanti.
+
+### sourceHashes
+
+Contiene gli hash dei testi sorgente osservati dal collector.
+
+Chiavi ammesse:
+
+- `title`
+- `description`
+- `objectives`
+- `progress`
+- `completion`
+
+
+
+L'importer v0.1 rifiuta hash di schema precedente per evitare di generare file dati misti.
 
 Per i record Classic reali, ogni campo presente in `translation` deve avere il corrispondente hash.
 
@@ -322,6 +490,7 @@ Regole:
    - completion
    - _mode
    - _sourceHashes
+   - _dynamicFields
    - _meta
 3. ordine hash uguale all'ordine dei campi testuali;
 4. newline del file: LF;
