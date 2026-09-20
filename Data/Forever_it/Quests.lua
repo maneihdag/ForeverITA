@@ -13,6 +13,12 @@ end
 FIT.Data:RegisterQuest("forever", 990000001, {
     title = "[TEST] Override Forever",
     description = "Record sintetico usato per verificare la precedenza Forever.",
+    _sourceHashes = {
+        title = "f2-2001",
+    },
+    _dynamicFields = {
+        title = { "class" },
+    },
     _meta = {
         synthetic = true,
         provenance = "ForeverITA internal test fixture",
