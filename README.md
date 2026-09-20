@@ -35,7 +35,7 @@ La copertura effettiva dipenderà da ciò che il client di WoW Forever permette 
 
 ## 🚧 Stato del progetto
 
-**Fase attuale: ricerca e prototipo iniziale.**
+**Fase attuale: prototipo quest e preparazione della v0.1 Alpha.**
 
 Prima di iniziare una traduzione su larga scala dobbiamo verificare:
 
@@ -231,18 +231,20 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 * [x] Creare un primo piccolo gruppo di 4 quest reali di Mulgore
 * [x] Separare i dati reali per zona (`Data/Classic_it/Mulgore.lua`)
 * [x] Verificare in gioco il pannello italiano della Quest 757
-* [ ] Sostituire titolo e descrizione
-* [ ] Tradurre obiettivi e testo narrativo
+* [x] Mostrare titolo, descrizione e obiettivi italiani nel pannello di prova
+* [x] Tradurre un primo piccolo campione reale di testo narrativo
 * [x] Testare apertura/chiusura automatica dell'interfaccia
 * [ ] Testare in batch dettaglio/progresso/completamento e le nuove quest
 
 ### Fase 3 — Sistema di localizzazione
 
-* [ ] Separare codice e database
-* [ ] Creare database delle missioni
+* [x] Separare codice e database
+* [x] Creare il primo database delle missioni
 * [ ] Creare database dei dialoghi
-* [ ] Creare sistema di fallback
-* [ ] Gestire testi non ancora tradotti
+* [x] Creare sistema di fallback Classic → Forever override
+* [x] Gestire le quest non ancora tradotte tramite collector
+* [ ] Aggiungere validator del database traduzioni
+* [ ] Aggiungere importer di sviluppo JSON → Lua
 
 ### Fase 4 — Espansione
 
