@@ -35,7 +35,7 @@ Risultato verificato il 20 settembre 2026:
 
 Le workflow run iniziali sul commit `71dcf68f7066984e5d2f221ee89ea1e5cb118a87` sono concluse con `success`.
 
-Successivamente sono stati aggiunti gli harness Lua offline. La run `35503099944` ha concluso con `success` tutti questi step:
+Successivamente sono stati aggiunti gli harness Lua offline. Le run successive hanno continuato a passare. La run `35503204060` ha concluso con `success` tutti questi step:
 
 - **Check Lua syntax**;
 - **Run offline core/data tests**;
