@@ -146,7 +146,7 @@ Tutto ciò che dipende dal client reale Forever resta **DA TESTARE SU FOREVER**.
 
 ## Sicurezza del resolver
 
-**Decisione di progetto — da implementare.**
+**IMPLEMENTATO — DA TESTARE.**
 
 Il resolver deve accettare esplicitamente soltanto:
 
@@ -157,11 +157,11 @@ Se il flavor è `unknown` o un valore non riconosciuto, deve restituire un risul
 
 Motivo: se una futura build Forever non viene riconosciuta da `Compat/Client.lua`, ForeverITA non deve mostrare silenziosamente dati Classic senza l'avviso Forever.
 
-Stato: **DA PASSARE A CODEX DOMANI**.
+Stato: **DA TESTARE SU CLASSIC** per regressioni; comportamento reale Forever ancora **DA TESTARE SU FOREVER**.
 
 ## Integrità del DataRegistry
 
-**Decisione di progetto — da implementare.**
+**IMPLEMENTATO — DA TESTARE.**
 
 Due file dello stesso layer non devono poter registrare silenziosamente lo stesso Quest ID.
 
@@ -171,7 +171,7 @@ Classic e Forever possono naturalmente usare lo stesso Quest ID perché sono lay
 
 Questa protezione è necessaria prima di iniziare a generare molti file dati.
 
-Stato: **DA PASSARE A CODEX DOMANI**.
+Stato: **DA TESTARE SU CLASSIC**.
 
 ## Implementato oggi, ancora da testare
 
