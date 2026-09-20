@@ -9,7 +9,7 @@ if type(FIT) ~= "table" then
 end
 
 local RecordFormat = {
-    schema = 2,
+    schema = 3,
 }
 
 FIT.RecordFormat = RecordFormat
@@ -31,12 +31,23 @@ local CONTEXT_FIELDS = {
     "category",
 }
 
+function RecordFormat:NormalizeText(value)
+    if value == nil then
+        return nil
+    end
+
+    value = tostring(value)
+    value = value:gsub("\r\n", "\n"):gsub("\r", "\n")
+    value = value:match("^%s*(.-)%s*$") or value
+    return value
+end
+
 local function appendPart(parts, name, value)
     if value == nil then
         return
     end
 
-    value = tostring(value)
+    value = RecordFormat:NormalizeText(value)
     parts[#parts + 1] = name
     parts[#parts + 1] = ":"
     parts[#parts + 1] = tostring(#value)
@@ -75,7 +86,7 @@ function RecordFormat:FingerprintField(field, value)
         return nil
     end
 
-    value = tostring(value)
+    value = self:NormalizeText(value)
 
     local canonical =
         "ForeverITAQuestField|schema:" .. tostring(self.schema) ..
