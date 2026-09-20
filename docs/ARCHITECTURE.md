@@ -43,9 +43,13 @@ ForeverITA/
 │   │   └── Mulgore.lua
 │   └── Forever_it/
 │       └── Quests.lua
-└── Dev/
-    ├── SelfTest.lua
-    └── ClassicSmokeTest.lua
+├── Dev/
+│   ├── SelfTest.lua
+│   ├── ClassicSmokeTest.lua
+│   └── TranslationDataValidator.lua
+└── tools/
+    ├── import_quests.py
+    └── test_import_quests.py
 ```
 
 ## A cosa serve Compat
@@ -61,6 +65,10 @@ Esempi:
 - creare UI.
 
 Il resto dell'addon non deve sapere come Classic o Forever implementano queste cose.
+
+### Eccezione bootstrap
+
+`Core.lua` resta il piccolo punto di avvio dell'addon e può registrare slash command e `ADDON_LOADED`. Questa è un'eccezione intenzionale per il bootstrap, non un posto dove aggiungere logica client-specifica. Le differenze di API, flavor, quest, privacy, storage e UI restano in `Compat/`.
 
 ## Dati
 
@@ -88,11 +96,12 @@ Una traduzione Classic usata come fallback su Forever resta **da verificare**.
 
 Il collector lavora in background senza messaggi automatici in chat.
 
-Mantiene tre gruppi:
+Mantiene quattro gruppi:
 
 - `missing`: quest senza traduzione;
-- `verifyClassic`: quest Forever che stanno usando solo dati Classic e devono essere confrontate;
-- `modified`: quest conosciute il cui testo osservato non corrisponde più all'hash sorgente disponibile.
+- `modified`: quest conosciute il cui testo osservato non corrisponde più all'hash sorgente disponibile;
+- `incomplete`: quest tradotte solo in parte rispetto ai campi osservati;
+- `verifyClassic`: quest Forever che stanno usando solo dati Classic e devono essere confrontate.
 
 Quando le API lo permettono può raccogliere:
 
@@ -106,7 +115,8 @@ Quando le API lo permettono può raccogliere:
 - build/versione client;
 - versione addon;
 - schema record;
-- content hash.
+- `contentHash`;
+- `fieldHashes` per i singoli campi sorgente osservati.
 
 Il collector non salva nome personaggio, account/BattleTag, chat, inventario o lista amici.
 
