@@ -6,6 +6,7 @@ from __future__ import annotations
 import copy
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -209,6 +210,26 @@ class ImportQuestTests(unittest.TestCase):
 
         with self.assertRaises(importer.ValidationError):
             importer.validate_batch(raw)
+
+    def test_load_json_rejects_duplicate_keys(self):
+        payload = '{"schema": 1, "schema": 1, "layer": "classic", "group": "X", "quests": []}'
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "duplicate.json"
+            path.write_text(payload, encoding="utf-8")
+
+            with self.assertRaises(importer.ValidationError):
+                importer.load_json(path)
+
+    def test_load_json_accepts_utf8_bom(self):
+        payload = '{"schema": 1, "layer": "classic", "group": "X", "quests": []}'
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "bom.json"
+            path.write_text("\ufeff" + payload, encoding="utf-8")
+
+            loaded = importer.load_json(path)
+            self.assertEqual(loaded["schema"], 1)
 
     def test_lua_string_escapes_control_characters(self):
         rendered = importer.lua_string('A"\\B\nC\tD')
