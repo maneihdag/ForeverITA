@@ -27,6 +27,7 @@ Il progetto deve separare sempre:
 8. Una traduzione Classic usata su Forever non è considerata automaticamente verificata.
 9. Le nuove funzionalità devono degradare in modo sicuro quando una API manca.
 10. ForeverITA deve restare un normale addon WoW: niente DLL, injection, lettura memoria, modifica del client, bot, automazione gameplay o aggiramento delle protezioni Blizzard.
+11. Un flavor client sconosciuto deve fallire in modo sicuro: non deve essere trattato automaticamente come Classic e non deve mostrare traduzioni Classic come se il client fosse riconosciuto.
 
 ## Ricerca e verifica
 
