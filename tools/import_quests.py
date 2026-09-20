@@ -233,8 +233,12 @@ def validate_batch(raw: Any) -> dict[str, Any]:
                 if field not in hashes:
                     fail(f"quest {quest_id}: sourceHashes.{field} mancante")
         else:
-            if operation != "remove" and not translation:
-                fail(f"quest {quest_id}: un override Forever non-remove deve contenere almeno una traduzione")
+            meaningful_override = bool(translation or hashes or dynamic_fields)
+            verified_metadata_only = meta.get("status") == "verified_forever"
+            if operation != "remove" and not meaningful_override and not verified_metadata_only:
+                fail(
+                    f"quest {quest_id}: override Forever non-remove senza contenuto utile"
+                )
 
         for field in dynamic_fields:
             if field not in translation:
