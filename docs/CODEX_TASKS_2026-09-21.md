@@ -36,7 +36,9 @@ Domani Codex Sol medio va usato soprattutto come reviewer/esecutore di correzion
 - importer `tools/import_quests.py`;
 - fixture JSON sintetiche;
 - test offline `tools/test_import_quests.py`;
-- offline Lua core/data harness `tools/test_lua_core.lua`, con SelfTest + TranslationDataValidator PASS in GitHub Actions.
+- offline Lua core/data harness `tools/test_lua_core.lua`, con SelfTest + TranslationDataValidator PASS in GitHub Actions;
+- `tools/test_lua_collector.lua`, collector logic PASS;
+- `tools/test_lua_storage.lua`, migrazione SavedVariables 3→4 PASS.
 
 Tutto questo resta **DA REVISIONARE** e, dove applicabile, **DA TESTARE SU CLASSIC**.
 
@@ -85,7 +87,8 @@ Controllare in particolare:
 - nessun output automatico in chat del collector;
 - schema 3/f3/q3 coerente ovunque;
 - `fieldHashes` presenti e coerenti nei nuovi record collector;
-- DB schema 4 coerente.
+- DB schema 4 coerente;
+- migrazione DB schema 3 / record schema 2 verso DB4/record3 senza perdita dei record compatibili.
 
 Se trovi un errore, applica una correzione piccola e aggiungi/aggiorna un test logico quando possibile.
 
