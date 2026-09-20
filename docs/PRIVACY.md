@@ -67,3 +67,18 @@ Esempio sintetico:
 La sostituzione continua a funzionare accanto a punteggiatura e forme possessive, inclusa punteggiatura UTF-8 comune come il trattino lungo. Gli alias vengono provati dal più lungo al più corto per evitare sostituzioni parziali quando è disponibile anche la forma `Nome-Reame`.
 
 Stato: **DA TESTARE SU CLASSIC**.
+
+## Fail-closed del collector
+
+La lettura del nome del giocatore può essere limitata da API/Secret Values su alcuni client.
+
+Per evitare che un testo personalizzato venga salvato senza poter rimuovere il nome:
+
+- ogni snapshot quest parte come `privacySafe = false`;
+- il privacy layer lo marca sicuro soltanto dopo aver ottenuto almeno un alias del giocatore tramite le normali API addon;
+- se l'alias non è disponibile, il collector NON salva il testo e registra soltanto il contatore diagnostico `collector_privacy_alias_unavailable`;
+- nessun tentativo di bypassare Secret Values viene effettuato.
+
+Questo comportamento privilegia la privacy rispetto alla completezza del collector.
+
+Stato: **DA TESTARE SU CLASSIC** e **DA TESTARE SU FOREVER**.
