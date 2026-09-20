@@ -103,6 +103,18 @@ function RecordFormat:FingerprintField(field, value)
     return "f" .. tostring(self.schema) .. "-" .. tostring(hash)
 end
 
+function RecordFormat:BuildFieldHashes(content)
+    local hashes = {}
+
+    for _, field in ipairs(CONTENT_FIELDS) do
+        if content[field] ~= nil then
+            hashes[field] = self:FingerprintField(field, content[field])
+        end
+    end
+
+    return hashes
+end
+
 function RecordFormat:Fingerprint(questID, content)
     local parts = {
         "ForeverITAQuestRecord|schema:",
@@ -159,6 +171,7 @@ function RecordFormat:BuildRecord(snapshot, reason, sourceAtCapture, previous)
         sourceAtCapture = sourceAtCapture,
         content = content,
         context = context,
+        fieldHashes = self:BuildFieldHashes(content),
         contentHash = self:Fingerprint(snapshot.id, content),
         addonVersion = FIT.version,
         client = snapshot.build or (previous and previous.client),
