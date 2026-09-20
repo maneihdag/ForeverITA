@@ -11,7 +11,7 @@ end
 FIT.Compat = FIT.Compat or {}
 
 local Storage = {
-    schema = 3,
+    schema = 4,
     ready = false,
 }
 
@@ -20,7 +20,7 @@ FIT.Compat.Storage = Storage
 local function newDatabase()
     return {
         schema = Storage.schema,
-        recordSchema = 2,
+        recordSchema = 3,
         addonVersion = FIT.version,
         missing = {},
         verifyClassic = {},
@@ -38,7 +38,7 @@ function Storage:Initialize()
         db = newDatabase()
     end
 
-    db.recordSchema = 2
+    db.recordSchema = 3
     db.addonVersion = FIT.version
     db.missing = type(db.missing) == "table" and db.missing or {}
     db.verifyClassic = type(db.verifyClassic) == "table" and db.verifyClassic or {}
