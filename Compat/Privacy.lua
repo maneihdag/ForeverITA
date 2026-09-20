@@ -92,24 +92,31 @@ function Privacy:GetPlayerAliases()
     return aliases
 end
 
-function Privacy:SanitizeText(text)
+local function sanitizeWithAliases(text, aliases)
     if type(text) ~= "string" or text == "" then
         return text
     end
 
     local sanitized = text
 
-    for _, alias in ipairs(self:GetPlayerAliases()) do
+    for _, alias in ipairs(aliases or {}) do
         sanitized = replaceAliasToken(sanitized, alias)
     end
 
     return sanitized
 end
 
+function Privacy:SanitizeText(text)
+    return sanitizeWithAliases(text, self:GetPlayerAliases())
+end
+
 function Privacy:SanitizeSnapshot(snapshot)
     if type(snapshot) ~= "table" then
-        return snapshot
+        return snapshot, false
     end
+
+    local aliases = self:GetPlayerAliases()
+    local privacySafe = #aliases > 0
 
     for _, field in ipairs({
         "title",
@@ -121,11 +128,12 @@ function Privacy:SanitizeSnapshot(snapshot)
         "category",
     }) do
         if snapshot[field] ~= nil then
-            snapshot[field] = self:SanitizeText(snapshot[field])
+            snapshot[field] = sanitizeWithAliases(snapshot[field], aliases)
         end
     end
 
-    return snapshot
+    snapshot.privacySafe = privacySafe
+    return snapshot, privacySafe
 end
 
 
