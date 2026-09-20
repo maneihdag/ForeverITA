@@ -33,7 +33,7 @@ function Translation:ShowByID(questID)
 end
 
 local function hasText(value)
-    return type(value) == "string" and value ~= ""
+    return type(value) == "string" and value:match("%S") ~= nil
 end
 
 local function hasBodyForEvent(record, event)
@@ -60,7 +60,13 @@ function Translation:HandleSnapshot(event, snapshot)
         return
     end
 
-    if type(snapshot) ~= "table" or type(snapshot.id) ~= "number" or snapshot.id <= 0 then
+    if type(snapshot) ~= "table"
+        or type(snapshot.id) ~= "number"
+        or snapshot.id <= 0
+        or math.floor(snapshot.id) ~= snapshot.id then
+        if FIT.Compat.TranslationUI then
+            FIT.Compat.TranslationUI:Hide()
+        end
         return
     end
 
