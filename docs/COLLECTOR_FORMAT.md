@@ -124,9 +124,9 @@ Il Companion e qualunque invio Internet non fanno parte della prima versione.
 
 ## Nota sul rilevamento dei testi modificati
 
-Il gruppo `modified` può essere usato quando un record di traduzione contiene un hash del testo originale noto (`_sourceHash`).
+Il gruppo `modified` può essere usato quando un record di traduzione contiene hash affidabili dei singoli campi originali (`_sourceHashes`).
 
-Se non abbiamo ancora un hash sorgente affidabile, ForeverITA non deve inventare che una quest sia modificata: la registra come missing oppure, su Forever quando usa solo la base Classic, come `verifyClassic`.
+Il confronto avviene per campo: title, description, objectives, progress e completion vengono confrontati soltanto quando esiste il relativo hash dentro `_sourceHashes`. Se non abbiamo un hash sorgente affidabile per il campo osservato, ForeverITA non deve inventare che quel campo sia modificato.
 
 ## Privacy nei testi personalizzati
 
