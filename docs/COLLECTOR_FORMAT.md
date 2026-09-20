@@ -8,6 +8,8 @@ Il collector lavora in background e salva in SavedVariables solo i testi di ques
 
 Durante il normale gioco non deve mostrare messaggi in chat.
 
+Se il privacy layer non riesce a ottenere in modo sicuro almeno un alias del giocatore, il collector non salva il testo dello snapshot e registra soltanto una diagnostica locale. La raccolta dati è quindi fail-closed rispetto alla privacy.
+
 ## Cosa raccoglie
 
 Quando disponibile:
@@ -22,7 +24,8 @@ Quando disponibile:
 - versione del client;
 - versione di ForeverITA;
 - versione del formato record;
-- hash del contenuto.
+- hash del contenuto;
+- `fieldHashes` dei singoli campi sorgente osservati.
 
 ## Cosa non raccoglie
 
@@ -42,7 +45,8 @@ Solo se la quest è:
 
 - senza traduzione;
 - una traduzione Classic che su Forever deve ancora essere verificata;
-- già conosciuta ma con testo originale diverso rispetto all'hash sorgente disponibile.
+- già conosciuta ma con testo originale diverso rispetto all'hash sorgente disponibile;
+- tradotta solo in parte rispetto ai campi effettivamente osservati.
 
 ## Formato
 
