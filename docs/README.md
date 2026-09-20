@@ -20,6 +20,7 @@ Questo file serve a evitare che la cartella `docs/` diventi disordinata.
 - `IMPORT_FORMAT.md` — formato JSON → Lua dell'importer;
 - `tools/README.md` — comandi e requisiti degli strumenti di sviluppo;
 - `TRANSLATION_WORKFLOW.md` — percorso completo collector → traduzione → JSON → Lua → test;
+- `SCALING_PLAN.md` — strategia per passare dal prototipo a batch di quest senza perdere controllo;
 - `COLLECTOR_FORMAT.md` — formato e classificazione del collector.
 
 ## Test
