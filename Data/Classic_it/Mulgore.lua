@@ -36,7 +36,7 @@ Dimostra il tuo valore eliminando questi nemici e torna da Chief Hawkwind a Camp
 
     _meta = {
         synthetic = false,
-        status = "manual_test_translation",
+        status = "draft",
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
         provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
@@ -77,7 +77,7 @@ Troverai la dimora del veggente direttamente a sud di Campo Narache, nascosta tr
 
     _meta = {
         synthetic = false,
-        status = "manual_test_translation",
+        status = "draft",
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
         provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
@@ -104,7 +104,7 @@ I nostri bambini hanno bisogno di vestiti e le nostre tende devono essere ripara
 
     _meta = {
         synthetic = false,
-        status = "manual_test_translation",
+        status = "draft",
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
         provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
@@ -139,7 +139,7 @@ Ora va', <PLAYER>. Mettiti alla prova. Io sarò qui quando avrai bisogno di me.]
 
     _meta = {
         synthetic = false,
-        status = "manual_test_translation",
+        status = "draft",
         sourceClient = "Classic Era 1.15.9",
         sourceBuild = "69722",
         provenance = "ForeverITA collector SavedVariables, Classic Era test in Mulgore",
