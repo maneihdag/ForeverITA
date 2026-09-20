@@ -394,6 +394,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         parser.error("--output è obbligatorio quando non si usa --check")
     if args.check and args.output is not None:
         parser.error("--check non può essere combinato con --output")
+    if args.output is not None and args.input.resolve() == args.output.resolve():
+        parser.error("input e output non possono essere lo stesso file")
     return args
 
 
