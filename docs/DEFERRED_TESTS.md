@@ -11,7 +11,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 ## Già testato su Classic
 
 - caricamento addon;
-- SavedVariables: verificare sia `/reload` sia chiusura completa + riavvio del client, perché sul build 69913 esistono report di file scritti ma non riletti;
+- SavedVariables su Classic;
 - collector silenzioso;
 - raccolta quest;
 - merge multi-evento del collector;
@@ -35,6 +35,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - Quest 3093 con detail + progress + completion;
 - sostituzione `<PLAYER>` con il nome solo a schermo, senza salvarlo;
 - pannello nascosto quando manca la traduzione della fase corrente;
+- verificare che il pannello precedente venga nascosto se una nuova quest non produce un QuestID valido;
 - verificare che campi vuoti non vengano trattati come tradotti;
 - verificare che la label Forever rispetti `_meta.status` e non dichiari verificati record draft;
 - caricamento dati da `Data/Classic_it/Mulgore.lua`;
@@ -55,7 +56,7 @@ Tutto ciò che dipende dal client reale Forever resta **DA TESTARE SU FOREVER**,
 - caricamento TOC;
 - API/eventi;
 - Secret Values;
-- SavedVariables;
+- SavedVariables: verificare `/reload` e anche chiusura completa + riavvio del client, perché sul build 69913 esistono report pubblici di file scritti ma non riletti;
 - QuestFrame e pannello ForeverITA;
 - fallback Classic;
 - override Forever;
