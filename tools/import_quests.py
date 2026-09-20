@@ -90,7 +90,10 @@ def validate_hashes(value: Any, quest_id: int) -> dict[str, str]:
         if field in value:
             hash_value = value[field]
             if not isinstance(hash_value, str) or not HASH_RE.fullmatch(hash_value):
-                fail(\n                    f"quest {quest_id}: sourceHashes.{field} deve usare " \n                    f"lo schema f{CURRENT_HASH_SCHEMA}-*"\n                )
+                fail(
+                    f"quest {quest_id}: sourceHashes.{field} deve usare "
+                    f"lo schema f{CURRENT_HASH_SCHEMA}-*"
+                )
             out[field] = hash_value
     return out
 
