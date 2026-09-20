@@ -78,6 +78,7 @@ Controllare in particolare:
 - nessun `incomplete` perso per un evento successivo non correlato;
 - caso simultaneo `modified` + `incomplete`: `modified` deve avere precedenza senza perdere stabilità tra eventi;
 - campi dinamici esclusi dal confronto hash;
+- confermare che il limite conservativo `_dynamicFields` (salta il confronto dell'intero campo) sia documentato e non introdurre normalizzazioni class/race ingenue;
 - nessun dato personale aggiuntivo;
 - privacy con punteggiatura UTF-8/possessivi e nessuna sostituzione dentro parole più lunghe;
 - nessun output automatico in chat del collector;
