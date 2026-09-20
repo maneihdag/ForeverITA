@@ -11,7 +11,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 ## Già testato su Classic
 
 - caricamento addon;
-- SavedVariables;
+- SavedVariables: verificare sia `/reload` sia chiusura completa + riavvio del client, perché sul build 69913 esistono report di file scritti ma non riletti;
 - collector silenzioso;
 - raccolta quest;
 - merge multi-evento del collector;
