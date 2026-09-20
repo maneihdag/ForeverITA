@@ -172,7 +172,12 @@ Prima versione:
 - non importare repository esterni;
 - non tradurre automaticamente.
 
-Il tool deve poter essere testato con fixture sintetiche create apposta, senza copiare dati Blizzard o repository esterni.
+Il tool deve essere testato con le fixture sintetiche già preparate:
+
+- `tools/fixtures/import_classic_sample.json`;
+- `tools/fixtures/import_forever_sample.json`.
+
+Non copiare dati Blizzard o repository esterni nei test dell'importer.
 
 ## Già sistemato il 20 settembre
 
