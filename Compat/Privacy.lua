@@ -57,6 +57,10 @@ local function addAlias(list, seen, value)
         return
     end
 
+    if type(_G.UNKNOWNOBJECT) == "string" and value == _G.UNKNOWNOBJECT then
+        return
+    end
+
     if seen[value] then
         return
     end
