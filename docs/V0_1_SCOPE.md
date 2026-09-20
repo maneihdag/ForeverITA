@@ -143,3 +143,32 @@ Ancora da testare in batch su Classic:
 - modifiche recenti elencate in `DEFERRED_TESTS.md`.
 
 Tutto ciò che dipende dal client reale Forever resta **DA TESTARE SU FOREVER**.
+
+## Sicurezza del resolver
+
+**Decisione di progetto — da implementare.**
+
+Il resolver deve accettare esplicitamente soltanto:
+
+- `classic`;
+- `forever`.
+
+Se il flavor è `unknown` o un valore non riconosciuto, deve restituire un risultato non risolto e NON fare fallback automatico a Classic.
+
+Motivo: se una futura build Forever non viene riconosciuta da `Compat/Client.lua`, ForeverITA non deve mostrare silenziosamente dati Classic senza l'avviso Forever.
+
+Stato: **DA PASSARE A CODEX DOMANI**.
+
+## Integrità del DataRegistry
+
+**Decisione di progetto — da implementare.**
+
+Due file dello stesso layer non devono poter registrare silenziosamente lo stesso Quest ID.
+
+`RegisterQuest(layer, questID, record)` deve rilevare una registrazione duplicata nello stesso layer e segnalarla chiaramente invece di sovrascrivere il record precedente.
+
+Classic e Forever possono naturalmente usare lo stesso Quest ID perché sono layer diversi.
+
+Questa protezione è necessaria prima di iniziare a generare molti file dati.
+
+Stato: **DA PASSARE A CODEX DOMANI**.
