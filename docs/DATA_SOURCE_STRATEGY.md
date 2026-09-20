@@ -174,3 +174,17 @@ Le pagine Classic/Forever di Wowhead sono utili per confrontare:
 Non vengono usate come prova primaria della terminologia italiana: nelle pagine italiane Classic/Forever consultate, molti testi quest restano infatti in inglese.
 
 Per la terminologia italiana stabile resta prioritario il materiale Blizzard italiano verificabile.
+
+## Fonti ufficiali esterne valutate
+
+### Battle.net Game Data API
+
+Il Game Data API Blizzard Retail possiede endpoint quest, ma al 20 settembre 2026 non abbiamo verificato un equivalente Quest API funzionante per Classic Era.
+
+I namespace `static-classic1x-*` esistono, ma questo non implica che tutti gli endpoint Retail siano disponibili anche su Classic Era. Una discussione Blizzard specifica sul Quest API Classic riporta 404 e il package corrente `@blizzard-api/classic-wow` non espone un modulo quest.
+
+**Decisione v0.1:** non dipendere dal Battle.net Quest API per popolare il database.
+
+Un eventuale test futuro con credenziali Blizzard Developer resta uno strumento di ricerca esterno e non deve inserire token/segreti nel repository.
+
+Dettagli e fonti: `docs/RESEARCH_2026-09-20.md`.
