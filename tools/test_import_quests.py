@@ -141,6 +141,36 @@ class ImportQuestTests(unittest.TestCase):
         self.assertIn('status = "verified_forever"', rendered)
         self.assertNotIn('_mode = "merge"', rendered)
 
+    def test_forever_dynamic_field_can_target_inherited_translation(self):
+        raw = {
+            "schema": 1,
+            "layer": "forever",
+            "group": "InheritedDynamicField",
+            "defaults": {
+                "status": "draft",
+                "sourceClient": "Forever synthetic",
+                "sourceBuild": "0",
+            },
+            "quests": [
+                {
+                    "id": 990000101,
+                    "operation": "merge",
+                    "dynamicFields": {
+                        "description": ["class"],
+                    },
+                    "meta": {
+                        "provenance": "ForeverITA synthetic importer fixture",
+                    },
+                }
+            ],
+        }
+
+        batch = importer.validate_batch(raw)
+        rendered = importer.render_lua(batch)
+
+        self.assertIn("_dynamicFields = {", rendered)
+        self.assertIn('description = { "class" },', rendered)
+
     def test_lua_string_escapes_control_characters(self):
         rendered = importer.lua_string('A"\\B\nC\tD')
         self.assertTrue(rendered.startswith('"') and rendered.endswith('"'))
