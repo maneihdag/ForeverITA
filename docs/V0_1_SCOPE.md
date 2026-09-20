@@ -17,9 +17,10 @@ La prima Alpha comprende:
 - protezione dai valori non accessibili tramite `Compat/API.lua`;
 - SavedVariables tramite `Compat/Storage.lua`;
 - anonimizzazione del nome giocatore tramite `Compat/Privacy.lua`;
+- privacy fail-closed: se il nome non è accessibile in modo sicuro, il collector non salva il testo;
 - pannello italiano separato dalla UI Blizzard tramite `Compat/TranslationUI.lua`;
 - motore dati Classic + override Forever in `Core/DataRegistry.lua`;
-- formato record e hash in `Core/RecordFormat.lua`;
+- formato record e hash in `Core/RecordFormat.lua`, inclusi `contentHash` e `fieldHashes`;
 - traduzione delle fasi QUEST_DETAIL / QUEST_PROGRESS / QUEST_COMPLETE;
 - collector silenzioso delle quest mancanti o da verificare;
 - separazione dati `Data/Classic_it` e `Data/Forever_it`;
@@ -93,7 +94,8 @@ Usano Core e Compat per implementare funzioni:
 
 - override di campi modificati;
 - record Forever-only;
-- eventuali record rimossi tramite modalità esplicita.
+- eventuali record rimossi tramite modalità esplicita;
+- override metadata-only per registrare una verifica Forever reale senza duplicare la traduzione Classic, quando il fallback resta valido.
 
 ## Regola Forever
 
@@ -186,6 +188,8 @@ Il 20 settembre sono stati implementati anche:
 - gestione conservativa dei campi sorgente dinamici;
 - privacy scrubber con confini di parola;
 - importer di sviluppo JSON → Lua;
-- fixture sintetiche per l'importer.
+- fixture sintetiche per l'importer;
+- tracciabilità `verified_forever` tramite layer corretto, sourceClient/sourceBuild e source hash dei campi tradotti;
+- `fieldHashes` nei record collector per riutilizzare i fingerprint senza ricalcolo manuale.
 
 Queste funzioni NON diventano automaticamente `TESTATO SU CLASSIC`: restano nel batch differito finché non vengono eseguite e osservate in gioco o nel tool di sviluppo.
