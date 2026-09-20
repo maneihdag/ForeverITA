@@ -32,6 +32,9 @@ Stato dopo implementazione:
 Obiettivo:
 
 - aggiungere a `Core/RecordFormat.lua` una normalizzazione unica del testo usata dagli hash;
+- bump `RecordFormat.schema` 2 → 3;
+- bump `Storage.recordSchema` 2 → 3 e SavedVariables DB schema 3 → 4;
+- aggiornare tutti gli `_sourceHashes` reali attuali da f2 a f3 usando i valori documentati in `docs/COLLECTOR_FORMAT.md`;
 - convertire CRLF e CR in LF;
 - togliere solo whitespace iniziale/finale del campo;
 - non modificare whitespace interno;
@@ -39,6 +42,8 @@ Obiettivo:
 - aggiungere self-test specifici.
 
 Non cambiare il testo memorizzato o mostrato: la normalizzazione serve agli hash.
+
+Non mantenere lo stesso schema hash dopo il cambio di algoritmo. Il reset del collector DB è accettabile in questa Alpha; non introdurre una migrazione complessa in questo task.
 
 Stato dopo implementazione:
 
