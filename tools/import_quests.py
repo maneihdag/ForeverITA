@@ -25,6 +25,15 @@ class ValidationError(ValueError):
     pass
 
 
+def reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            fail(f"chiave JSON duplicata: {key}")
+        result[key] = value
+    return result
+
+
 def fail(message: str) -> None:
     raise ValidationError(message)
 
@@ -364,8 +373,8 @@ def render_lua(batch: dict[str, Any]) -> str:
 
 def load_json(path: Path) -> Any:
     try:
-        with path.open("r", encoding="utf-8") as handle:
-            return json.load(handle)
+        with path.open("r", encoding="utf-8-sig") as handle:
+            return json.load(handle, object_pairs_hook=reject_duplicate_json_keys)
     except FileNotFoundError:
         fail(f"file non trovato: {path}")
     except json.JSONDecodeError as exc:
