@@ -49,17 +49,16 @@ function SelfTest:Run()
         forever
             and forever._sourceHashes
             and forever._sourceHashes.title == "f3-2001"
-            and forever._sourceHashes.description == "f3-1002"
+            and forever._sourceHashes.description == nil
             and forever._sourceHashes.objectives == "f3-1003"
     )
     check(
-        "Metadati campi dinamici vengono uniti per campo",
+        "Metadati dinamici obsoleti vengono rimossi dai campi sovrascritti",
         forever
             and forever._dynamicFields
             and forever._dynamicFields.title
-            and forever._dynamicFields.description
             and forever._dynamicFields.title[1] == "class"
-            and forever._dynamicFields.description[1] == "race"
+            and forever._dynamicFields.description == nil
     )
 
     local foreverOnly, foreverOnlySource = FIT.Data:ResolveQuest(990000002, "forever")
