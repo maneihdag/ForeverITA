@@ -34,6 +34,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - Quest 750;
 - Quest 3093 con detail + progress + completion;
 - sostituzione `<PLAYER>` con il nome solo a schermo, senza salvarlo;
+- privacy scrubber: nome separato da apostrofo/trattino lungo e nessuna sostituzione dentro parole più lunghe;
 - pannello nascosto quando manca la traduzione della fase corrente;
 - verificare che il pannello precedente venga nascosto se una nuova quest non produce un QuestID valido;
 - verificare che campi vuoti non vengano trattati come tradotti;
@@ -41,6 +42,7 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - caricamento dati da `Data/Classic_it/Mulgore.lua`;
 - rimozione dal bucket missing quando una traduzione entra nel database;
 - rilevamento modified tramite hash per campo;
+- presenza e coerenza di `fieldHashes` nei record collector nuovi e in quelli incontrati di nuovo;
 - nessun messaggio automatico indesiderato in chat;
 - self-test dopo tutte le modifiche;
 - verificare che un flavor sconosciuto non faccia fallback silenzioso a Classic;
