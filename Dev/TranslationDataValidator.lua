@@ -363,6 +363,11 @@ local function validateForeverReal(layer, questID, record, errors)
         end
     end
 
+    if record._mode == "replace" and not hasTranslation then
+        addIssue(errors, layer, questID, "_mode replace richiede almeno un campo tradotto")
+        return
+    end
+
     local hasSourceHashes = type(record._sourceHashes) == "table"
         and next(record._sourceHashes) ~= nil
     local hasDynamicFields = type(record._dynamicFields) == "table"
