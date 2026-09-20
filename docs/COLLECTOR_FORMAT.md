@@ -139,3 +139,20 @@ Prima di salvare il record, ForeverITA sostituisce gli alias del personaggio ott
 Il nome viene usato solo temporaneamente in memoria per la pulizia e non viene scritto nel database collector.
 
 Il record schema 2 conserva inoltre i campi raccolti in eventi diversi della stessa quest: per esempio descrizione/obiettivi letti all'apertura non vengono persi quando più tardi arriva il testo di completion.
+
+## Normalizzazione testo sorgente
+
+**Decisione di progetto — da implementare.**
+
+Prima di calcolare gli hash dei testi sorgente, ForeverITA dovrà usare una forma canonica per evitare falsi `modified` causati soltanto da differenze di formattazione.
+
+Regola prevista:
+
+- convertire `\r\n` e `\r` in `\n`;
+- rimuovere solo gli spazi bianchi iniziali e finali dell'intero campo;
+- preservare interamente spazi e ritorni a capo interni;
+- applicare la stessa normalizzazione sia quando viene creato `_sourceHashes`, sia quando il collector confronta il testo osservato.
+
+Non vanno compattati gli spazi interni e non vanno riscritti i paragrafi: l'obiettivo è eliminare differenze tecniche di newline/bordi, non alterare il contenuto.
+
+Stato: **DA PASSARE A CODEX DOMANI** e poi **DA TESTARE SU CLASSIC**.
