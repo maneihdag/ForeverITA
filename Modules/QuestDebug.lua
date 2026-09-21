@@ -1,88 +1,130 @@
-local addonName, FIT = ...
+local addonName, private = ...
 
-local frame = CreateFrame("Frame")
+local FIT = private
+if type(FIT) ~= "table" then
+    FIT = _G.ForeverITA_NS
+end
+if type(FIT) ~= "table" then
+    return
+end
 
-local events = {
-    "QUEST_DETAIL",
-    "QUEST_PROGRESS",
-    "QUEST_COMPLETE",
+local QuestDebug = {
+    lastSnapshot = nil,
+    seenEvents = 0,
+    autoPrint = false,
 }
 
-for _, eventName in ipairs(events) do
-    frame:RegisterEvent(eventName)
-end
+FIT.QuestDebug = QuestDebug
 
-local function SafeCall(apiName)
-    local func = _G[apiName]
-
-    if type(func) ~= "function" then
-        return nil, "API non disponibile: " .. apiName
-    end
-
-    local success, result = pcall(func)
-
-    if not success then
-        return nil, "Errore " .. apiName .. ": " .. tostring(result)
-    end
-
-    return result, nil
-end
-
-local function CleanText(text)
+local function compact(text, limit)
     if text == nil then
         return "<nessun dato>"
     end
 
-    text = tostring(text)
-    text = text:gsub("\r", "")
-    text = text:gsub("\n", " ")
+    text = tostring(text):gsub("\r", ""):gsub("\n", " ")
+    limit = limit or 240
 
-    if #text > 400 then
-        text = text:sub(1, 400) .. "..."
+    if #text > limit then
+        return text:sub(1, limit) .. "..."
     end
 
     return text
 end
 
-function FIT:DumpCurrentQuest(source)
+function QuestDebug:PrintSnapshot(snapshot)
     FIT:Print("----- QUEST DEBUG -----")
+    FIT:Print("Evento: " .. tostring(snapshot.event))
 
-    if source then
-        FIT:Print("Evento: " .. tostring(source))
+    if snapshot.id then
+        FIT:Print("QuestID: " .. tostring(snapshot.id))
+    else
+        FIT:Print("QuestID: <non disponibile>")
     end
 
-    local questID, questIDError = SafeCall("GetQuestID")
-    local title, titleError = SafeCall("GetTitleText")
-    local description, descriptionError = SafeCall("GetQuestText")
-    local objectives, objectivesError = SafeCall("GetObjectiveText")
-
-    if questIDError then
-        FIT:Print(questIDError)
+    if snapshot.privacySafe == false then
+        FIT:Print("Testo quest non mostrato: privacy alias non disponibile.")
     else
-        FIT:Print("QuestID: " .. tostring(questID))
+        if snapshot.title then
+            FIT:Print("Titolo: " .. compact(snapshot.title))
+        end
+        if snapshot.description then
+            FIT:Print("Descrizione: " .. compact(snapshot.description))
+        end
+        if snapshot.objectives then
+            FIT:Print("Obiettivi: " .. compact(snapshot.objectives))
+        end
+        if snapshot.progress then
+            FIT:Print("Progress: " .. compact(snapshot.progress))
+        end
+        if snapshot.completion then
+            FIT:Print("Completion: " .. compact(snapshot.completion))
+        end
     end
 
-    if titleError then
-        FIT:Print(titleError)
-    else
-        FIT:Print("Titolo: " .. CleanText(title))
+    if snapshot.id and FIT.Data then
+        local flavor = "unknown"
+        if FIT.Compat.Client and FIT.Compat.Client.GetDataFlavor then
+            flavor = FIT.Compat.Client:GetDataFlavor()
+        end
+
+        local _, source = FIT.Data:ResolveQuest(snapshot.id, flavor)
+        FIT:Print("Traduzione: " .. tostring(source))
     end
 
-    if descriptionError then
-        FIT:Print(descriptionError)
-    else
-        FIT:Print("Descrizione: " .. CleanText(description))
+    local errorCount = 0
+    for field, err in pairs(snapshot.errors or {}) do
+        errorCount = errorCount + 1
+        FIT:Print("API " .. tostring(field) .. ": " .. tostring(err))
     end
 
-    if objectivesError then
-        FIT:Print(objectivesError)
-    else
-        FIT:Print("Obiettivi: " .. CleanText(objectives))
+    if errorCount == 0 then
+        FIT:Print("API richieste: nessun errore rilevato.")
     end
 
     FIT:Print("-----------------------")
 end
 
-frame:SetScript("OnEvent", function(self, event)
-    FIT:DumpCurrentQuest(event)
-end)
+function QuestDebug:Capture(eventName, snapshot)
+    local Quest = FIT.Compat.Quest
+    if not Quest or not Quest.Read then
+        if FIT.Compat.Storage and FIT.Compat.Storage.RecordDiagnostic then
+            FIT.Compat.Storage:RecordDiagnostic("quest_compat_missing")
+        end
+        return nil
+    end
+
+    snapshot = snapshot or Quest:Read(eventName)
+    self.lastSnapshot = snapshot
+    self.seenEvents = self.seenEvents + 1
+
+    if self.autoPrint then
+        self:PrintSnapshot(snapshot)
+    end
+
+    return snapshot
+end
+
+function QuestDebug:DumpCurrent()
+    if self.lastSnapshot then
+        self:PrintSnapshot(self.lastSnapshot)
+        return
+    end
+
+    local Quest = FIT.Compat.Quest
+    local snapshot = Quest and Quest:Read(nil)
+
+    if snapshot then
+        self.lastSnapshot = snapshot
+        self:PrintSnapshot(snapshot)
+    else
+        FIT:Print("Nessuna quest letta finora.")
+    end
+end
+
+if FIT.Compat.Quest and FIT.Compat.Quest.RegisterListener then
+    FIT.Compat.Quest:RegisterListener(function(event, snapshot)
+        if event ~= "QUEST_FINISHED" then
+            QuestDebug:Capture(event, snapshot)
+        end
+    end)
+end

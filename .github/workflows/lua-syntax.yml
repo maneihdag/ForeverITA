@@ -1,0 +1,38 @@
+name: Lua syntax checks
+
+on:
+  pull_request:
+    paths:
+      - "**/*.lua"
+      - ".github/workflows/lua-syntax.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lua51-syntax:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Lua 5.1
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.1
+
+      - name: Check Lua syntax
+        run: |
+          find . -type f -name "*.lua" -not -path "./.git/*" -print0 |
+            xargs -0 -n1 luac5.1 -p
+
+      - name: Run offline core/data tests
+        run: lua5.1 tools/test_lua_core.lua
+
+      - name: Run offline collector tests
+        run: lua5.1 tools/test_lua_collector.lua
+
+      - name: Run offline storage migration tests
+        run: lua5.1 tools/test_lua_storage.lua

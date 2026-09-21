@@ -35,7 +35,7 @@ La copertura effettiva dipenderà da ciò che il client di WoW Forever permette 
 
 ## 🚧 Stato del progetto
 
-**Fase attuale: ricerca e prototipo iniziale.**
+**Fase attuale: prototipo quest e preparazione della v0.1 Alpha.**
 
 Prima di iniziare una traduzione su larga scala dobbiamo verificare:
 
@@ -59,14 +59,48 @@ Potrebbero esserci:
 
 ### Stato tecnico attuale
 
-Dati rilevati sul client beta al 17 settembre 2026:
+Dati pubblici verificati online al 20 settembre 2026:
 
 * WoW Forever Beta: 1.60.1
-* Build: 69893
+* build iniziale documentata: 69893
+* build segnalata nei test pubblici più recenti: 69913
 * Interface: 16001
 * ForeverITA: prototipo diagnostico non ancora validato direttamente sul client Forever
 
-La disponibilità delle singole API e il comportamento dell’interfaccia devono ancora essere verificati direttamente in gioco.
+La disponibilità delle singole API e il comportamento dell’interfaccia devono ancora essere verificati direttamente in gioco. I report pubblici sul build 69913 indicano inoltre un problema di ripristino delle SavedVariables tra sessioni; per ForeverITA resta **DA TESTARE SU FOREVER**.
+
+
+### Modalità di sviluppo attuale
+
+Per non interrompere continuamente lo sviluppo, i test manuali vengono ora accumulati e svolti in una sessione dedicata.
+
+Le funzioni non ancora provate restano marcate **DA TESTARE SU CLASSIC** o **DA TESTARE SU FOREVER** e non vengono considerate verificate solo perché il codice è stato scritto.
+
+Il backlog dei controlli è in `docs/DEFERRED_TESTS.md`.
+
+### Ambiente di sviluppo temporaneo: WoW Classic Era
+
+Finché non avremo accesso diretto a WoW Forever, useremo **WoW Classic Era** come banco di prova reale.
+
+Su Classic possiamo verificare:
+
+* caricamento dell'addon e del file `.toc`;
+* errori Lua;
+* SavedVariables;
+* UI di base;
+* eventi e lettura delle quest Vanilla;
+* collector delle quest mancanti;
+* funzionamento del motore dati.
+
+Questo **non significa** che Classic e Forever siano equivalenti.
+
+Ogni risultato sarà distinto in:
+
+* **TESTATO SU CLASSIC**;
+* **DA TESTARE SU FOREVER**;
+* **VERIFICATO SU FOREVER**, solo dopo un test reale sul client Forever.
+
+Tutto ciò che può cambiare tra Classic e Forever viene isolato nella cartella `Compat/`.
 
 
 ---
@@ -85,20 +119,35 @@ Un possibile esempio:
 
 ```text
 ForeverITA/
-│
 ├── ForeverITA.toc
 ├── Core.lua
-│
+├── Compat/
+│   ├── API.lua
+│   ├── Client.lua
+│   ├── Privacy.lua
+│   ├── Storage.lua
+│   ├── Quest.lua
+│   ├── UI.lua
+│   └── TranslationUI.lua
+├── Core/
+│   ├── DataRegistry.lua
+│   └── RecordFormat.lua
+├── Modules/
+│   ├── MissingQuestCollector.lua
+│   ├── QuestTranslation.lua
+│   └── QuestDebug.lua
 ├── Data/
-│   ├── Quests.lua
-│   ├── NPC.lua
-│   ├── Dialogues.lua
-│   └── UI.lua
-│
-├── Localization/
-│   └── itIT.lua
-│
-└── README.md
+│   ├── Classic_it/
+│   │   ├── Quests.lua
+│   │   └── Mulgore.lua
+│   └── Forever_it/
+├── Dev/
+│   ├── SelfTest.lua
+│   ├── ClassicSmokeTest.lua
+│   └── TranslationDataValidator.lua
+└── tools/
+    ├── import_quests.py
+    └── test_import_quests.py
 ```
 
 La struttura definitiva verrà decisa durante lo sviluppo e potrà cambiare man mano che comprenderemo meglio il funzionamento di WoW Forever.
@@ -166,27 +215,42 @@ Questi aspetti verranno verificati progressivamente attraverso test direttamente
 
 ### Fase 1 — Prototipo
 
-* [ ] Creare struttura base di ForeverITA
-* [ ] Creare `ForeverITA.toc`
-* [ ] Creare il core Lua
-* [ ] Verificare il caricamento dell'addon
-* [ ] Visualizzare un messaggio di conferma in gioco
+* [x] Creare struttura base di ForeverITA
+* [x] Creare `ForeverITA.toc`
+* [x] Creare il core Lua
+* [x] Separare il livello `Compat`
+* [x] Preparare collector e SavedVariables
+* [x] Rendere il collector silenzioso e versionare i record
+* [x] Preparare hash/deduplicazione per un futuro Companion
+* [x] Verificare il caricamento reale su Classic Era
+* [x] Verificare una piccola UI su Classic Era
+* [x] Verificare SavedVariables su Classic Era
+* [x] Leggere 2-3 quest Vanilla reali su Classic Era
+* [ ] Ripetere i test principali su WoW Forever
 
 ### Fase 2 — Prima traduzione
 
-* [ ] Intercettare una missione
-* [ ] Identificare la missione tramite ID
-* [ ] Sostituire titolo e descrizione
-* [ ] Tradurre obiettivi e testo narrativo
-* [ ] Testare il comportamento dell'interfaccia
+* [x] Intercettare una missione su Classic Era
+* [x] Identificare la missione tramite ID
+* [x] Preparare la prima traduzione reale di prova (Quest 757)
+* [x] Creare un primo piccolo gruppo di 4 quest reali di Mulgore
+* [x] Separare i dati reali per zona (`Data/Classic_it/Mulgore.lua`)
+* [x] Verificare in gioco il pannello italiano della Quest 757
+* [x] Mostrare titolo, descrizione e obiettivi italiani nel pannello di prova
+* [x] Tradurre un primo piccolo campione reale di testo narrativo
+* [x] Testare apertura/chiusura automatica dell'interfaccia
+* [ ] Testare in batch dettaglio/progresso/completamento e le nuove quest
 
 ### Fase 3 — Sistema di localizzazione
 
-* [ ] Separare codice e database
-* [ ] Creare database delle missioni
+* [x] Separare codice e database
+* [x] Creare il primo database delle missioni
 * [ ] Creare database dei dialoghi
-* [ ] Creare sistema di fallback
-* [ ] Gestire testi non ancora tradotti
+* [x] Creare sistema di fallback Classic → Forever override
+* [x] Gestire le quest non ancora tradotte tramite collector
+* [x] Gestire traduzioni parziali tramite bucket `incomplete` (DA TESTARE SU CLASSIC)
+* [x] Aggiungere validator del database traduzioni (`/fit datatest`; test logico offline PASS, esecuzione dentro WoW ancora DA TESTARE SU CLASSIC)
+* [x] Aggiungere importer di sviluppo JSON → Lua (test automatici offline PASS; review Codex ancora prevista)
 
 ### Fase 4 — Espansione
 
@@ -274,19 +338,75 @@ Una buona segnalazione dovrebbe includere, quando possibile:
 
 ---
 
-## 🔐 Modifiche al client
+## 🔐 Perimetro tecnico
 
-Uno degli obiettivi del progetto è lavorare, quando possibile, esclusivamente attraverso il normale sistema addon di World of Warcraft.
+ForeverITA deve restare **sempre un normale addon World of Warcraft**.
 
-ForeverITA non nasce con l'obiettivo di:
+Il progetto usa soltanto:
 
-* modificare gli eseguibili del gioco;
-* alterare direttamente il client;
-* aggirare sistemi di protezione;
-* automatizzare il gameplay;
-* fornire vantaggi di gioco.
+* file `.lua`, `.toc` e, quando necessario, `.xml`;
+* API esposte dal client agli addon;
+* eventi dell'interfaccia;
+* SavedVariables;
+* UI addon;
+* database locali.
 
-Il progetto riguarda esclusivamente la **localizzazione e visualizzazione dei contenuti testuali** accessibili attraverso le funzionalità consentite agli addon.
+ForeverITA non usa e non deve dipendere da:
+
+* DLL esterne;
+* injection nel processo di WoW;
+* lettura diretta della memoria;
+* modifica dell'eseguibile o di file protetti;
+* bot o automazione del gameplay;
+* strumenti esterni che estraggono dati aggirando le API addon;
+* tecniche per aggirare protezioni o limitazioni imposte dal client.
+
+Se una soluzione esterna usa metodi poco chiari o invasivi, non viene integrata automaticamente: viene prima analizzata e confrontata con le regole Blizzard aggiornate.
+
+Il progetto riguarda esclusivamente la **localizzazione e visualizzazione dei contenuti testuali** accessibili attraverso il normale sistema addon.
+
+---
+
+## 🗃️ Raccolta dati e privacy
+
+ForeverITA può raccogliere **in locale e in silenzio** i testi di quest mancanti o modificati incontrati durante il gioco.
+
+Il collector usa soltanto API/eventi dell'addon e SavedVariables.
+
+Può salvare, quando disponibili:
+
+* Quest ID;
+* titolo, descrizione, obiettivi, progress e completion/reward text;
+* zona/map ID come contesto;
+* versione client e addon;
+* hash/versione del record per evitare duplicati.
+
+Se il gioco inserisce il nome del personaggio dentro il testo di una quest, ForeverITA lo sostituisce con `<PLAYER>` prima di salvarlo. Non raccoglie intenzionalmente nome del personaggio, account/BattleTag, chat, inventario, lista amici o altri dati personali non necessari.
+
+Durante il normale gioco il collector **non mostra messaggi in chat**.
+
+### Companion futuro
+
+In futuro potrà esistere un Companion esterno **opzionale** per condividere automaticamente i record utili con il database ForeverITA.
+
+L'addon WoW non comunica direttamente con Internet.
+
+Il Companion:
+
+* non sarà necessario per usare le traduzioni;
+* richiederà consenso esplicito alla prima configurazione;
+* potrà essere disattivato in seguito;
+* invierà soltanto record nuovi o modificati;
+* leggerà esclusivamente i file ForeverITA necessari;
+* non dovrà leggere memoria di WoW, traffico di rete del gioco o altri dati non necessari.
+
+Il Companion **non è implementato nella prima fase**. Prima viene completato e testato il collector locale.
+
+Vedi `docs/COLLECTOR_FORMAT.md`, `docs/COMPANION_DESIGN.md` e `docs/PRIVACY.md`.
+
+Per il perimetro della prima Alpha e la strategia dei dati: `docs/V0_1_SCOPE.md` e `docs/DATA_SOURCE_STRATEGY.md`.
+
+Indice completo della documentazione: `docs/README.md`.
 
 ---
 
@@ -294,7 +414,9 @@ Il progetto riguarda esclusivamente la **localizzazione e visualizzazione dei co
 
 Il codice sorgente di ForeverITA è disponibile pubblicamente per permettere trasparenza, studio e collaborazione.
 
-Una licenza open source definitiva verrà scelta prima della distribuzione delle prime versioni utilizzabili.
+Il codice originale di ForeverITA è distribuito con licenza **MIT**.
+
+La licenza del codice non concede diritti sui marchi o sui contenuti di World of Warcraft appartenenti a Blizzard Entertainment o ad altri titolari. Dettagli: `LICENSE` e `docs/LICENSING.md`.
 
 ---
 
@@ -324,7 +446,7 @@ Non è affiliato, sponsorizzato, approvato o supportato da Blizzard Entertainmen
 
 World of Warcraft, Warcraft, Blizzard Entertainment e tutti i relativi nomi, marchi, immagini, personaggi e contenuti appartengono ai rispettivi proprietari.
 
-ForeverITA non distribuisce il client di gioco né contenuti proprietari del gioco.
+ForeverITA non distribuisce il client di gioco né file originali del client Blizzard. Il repository può contenere traduzioni originali, identificatori tecnici e riferimenti necessari alla localizzazione; i diritti sui contenuti e sui marchi di World of Warcraft restano dei rispettivi titolari.
 
 ---
 

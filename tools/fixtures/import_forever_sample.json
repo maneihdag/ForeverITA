@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "layer": "forever",
+  "group": "SyntheticForeverImportTest",
+  "defaults": {
+    "status": "draft",
+    "sourceClient": "Forever synthetic",
+    "sourceBuild": "0"
+  },
+  "quests": [
+    {
+      "id": 990000101,
+      "operation": "merge",
+      "translation": {
+        "title": "[TEST] Override Forever parziale"
+      },
+      "sourceHashes": {
+        "title": "f3-2001"
+      },
+      "meta": {
+        "provenance": "ForeverITA synthetic importer fixture"
+      }
+    },
+    {
+      "id": 990000103,
+      "operation": "replace",
+      "translation": {
+        "title": "[TEST] Solo Forever",
+        "description": "Record sintetico sostitutivo."
+      },
+      "sourceHashes": {
+        "title": "f3-2101",
+        "description": "f3-2102"
+      },
+      "meta": {
+        "provenance": "ForeverITA synthetic importer fixture"
+      }
+    },
+    {
+      "id": 990000104,
+      "operation": "remove",
+      "meta": {
+        "provenance": "ForeverITA synthetic importer fixture"
+      }
+    }
+  ]
+}

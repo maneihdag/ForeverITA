@@ -1,9 +1,33 @@
-## Interface: 16001
+## Interface: 11509, 16001
 ## Title: ForeverITA
 ## Notes: Traduzione italiana sperimentale per World of Warcraft: Forever
 ## Author: Maneihdag
-## Version: 0.0.1-alpha
+## Version: 0.0.2-alpha
+## X-License: MIT
 ## DefaultState: Enabled
+## SavedVariables: ForeverITA_CollectorDB
 
 Core.lua
+
+Compat\API.lua
+Compat\Client.lua
+Compat\Privacy.lua
+Compat\Storage.lua
+Compat\Quest.lua
+Compat\UI.lua
+Compat\TranslationUI.lua
+
+Core\DataRegistry.lua
+Core\RecordFormat.lua
+
+Data\Classic_it\Quests.lua
+Data\Classic_it\Mulgore.lua
+Data\Forever_it\Quests.lua
+
+Modules\MissingQuestCollector.lua
+Modules\QuestTranslation.lua
 Modules\QuestDebug.lua
+
+Dev\SelfTest.lua
+Dev\ClassicSmokeTest.lua
+Dev\TranslationDataValidator.lua
