@@ -1,6 +1,6 @@
 # Risultati test WoW Classic Era
 
-Aggiornato: 2026-09-20.
+Aggiornato: 2026-09-21.
 
 Questi risultati dimostrano soltanto il funzionamento osservato su WoW Classic Era. Non provano compatibilità con WoW Forever.
 
@@ -10,6 +10,29 @@ Questi risultati dimostrano soltanto il funzionamento osservato su WoW Classic E
 - Build 69722
 - Interface 11509
 - ForeverITA 0.0.2-alpha
+
+## Sessione v0.1 engine freeze — 2026-09-21
+
+**TESTATO SU CLASSIC**
+
+Nel client WoW Classic Era reale è stato osservato quanto segue:
+
+- l'addon corrente si è caricato correttamente;
+- non sono comparsi errori Lua durante la sessione;
+- `/fit selftest`: **28 PASS, 0 FAIL**;
+- `/fit datatest`: **7 quest controllate, 0 errori, 0 warning, PASS**;
+- la quest 757 è stata aperta realmente in gioco;
+- il pannello ForeverITA è comparso correttamente accanto alla QuestFrame;
+- titolo, descrizione e obiettivi italiani sono stati visualizzati correttamente;
+- sono stati osservati correttamente i termini `Campo Narache`, `Verrospino`, `Madre Terra` e `Picco del Tuono`.
+
+Questa sessione non prova la migrazione SavedVariables DB3 → DB4, tutti i bucket del collector, i casi `modified`/`incomplete`, il privacy fail-closed, tutte le fasi progress/completion o tutti i casi `_dynamicFields`. I relativi PASS offline restano separati dalle verifiche runtime.
+
+## Decisione v0.1
+
+**v0.1 ENGINE FREEZE CANDIDATE APPROVATO**
+
+Non verranno introdotte nuove modifiche architetturali preventive. Il motore verrà modificato soltanto in presenza di bug reali o bloccanti; il lavoro passa ora alla crescita del database delle traduzioni.
 
 ## Test confermati
 

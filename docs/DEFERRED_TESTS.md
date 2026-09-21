@@ -1,6 +1,6 @@
 # Test rimandati — batch di verifica
 
-Decisione: 2026-09-20.
+Decisione: 2026-09-20. Ultimo aggiornamento: 2026-09-21.
 
 Per velocizzare lo sviluppo, i nuovi cambiamenti non vengono testati uno per uno dal giocatore.
 
@@ -20,11 +20,12 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - apertura automatica pannello;
 - chiusura automatica pannello;
 - Quest 757 nel pannello italiano.
+- addon corrente caricato senza errori Lua osservati nella sessione del 21/09/2026;
+- `/fit selftest`: 28 PASS, 0 FAIL;
+- `/fit datatest`: 7 quest controllate, 0 errori, 0 warning, PASS;
+- termini osservati nella quest 757: `Campo Narache`, `Verrospino`, `Madre Terra`, `Picco del Tuono`.
 
 ## Da testare nel prossimo batch Classic
-
-- eseguire `/fit datatest` e verificare che il dataset attuale passi senza errori;
-- verificare che i quattro record Mulgore `draft` non producano warning/errori inattesi nel validator;
 
 - UI compatta/adattiva dopo il restyling;
 - visualizzazione diversa per QUEST_DETAIL;
@@ -33,7 +34,6 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - Quest 755 con completion;
 - Quest 750;
 - Quest 3093 con detail + progress + completion;
-- resa delle nuove forme terminologiche verificate (`Campo Narache`, `Verrospino`, `Madre Terra`, `Picco del Tuono`);
 - sostituzione `<PLAYER>` con il nome solo a schermo, senza salvarlo;
 - privacy scrubber: nome separato da apostrofo/trattino lungo e nessuna sostituzione dentro parole più lunghe;
 - verificare che il collector salti la persistenza quando `privacySafe = false` e registri solo la diagnostica prevista;
@@ -46,11 +46,9 @@ Questo non trasforma le funzioni non provate in funzioni verificate.
 - rilevamento modified tramite hash per campo;
 - presenza e coerenza di `fieldHashes` nei record collector nuovi e in quelli incontrati di nuovo;
 - nessun messaggio automatico indesiderato in chat;
-- self-test dopo tutte le modifiche;
 - verificare che un flavor sconosciuto non faccia fallback silenzioso a Classic;
 - verificare che il collector non raccolga dati quando il flavor client non è riconosciuto;
 - verificare il rifiuto di QuestID duplicati nello stesso layer;
-- assenza di errori Lua;
 - lettura mapID tramite il controllo Compat senza errori o valori non accessibili.
 
 ## Da testare su Forever
